@@ -39,3 +39,52 @@ footer {
   justify-content: center;
   border-radius: 8px;
 }
+
+/* Trouble below */
+
+/* Search Overaly */
+.search-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 9000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.live-search-field {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  outline: none;
+  flex: 1;
+  color: #007bff;
+  padding: 0 1rem;
+}
+
+.live-search-results {
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  transform: scale(1.07);
+}
+
+.live-search-results--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.search-overlay-top {
+  background-color: #fff;
+  /* background-color: rgba(0, 0, 0, .79); */
+}
+
+.search-overlay-top .container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
