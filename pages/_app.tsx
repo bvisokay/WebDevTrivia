@@ -7,13 +7,13 @@ import { useState, useReducer } from "react"
 import DispatchContext from "../store/DispatchContext"
 import StateContext from "../store/StateContext"
 
+export type ACTIONTYPES = { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: any }
+
 function MyApp({ Component, pageProps }: AppProps) {
   const initialState = {
     loggedIn: false,
     flashMessages: []
   }
-
-  type ACTIONTYPES = { type: "login"; value: boolean } | { type: "logout"; value: boolean } | { type: "flashMessage"; value: any | [] }
 
   function ourReducer(state: typeof initialState, action: ACTIONTYPES): typeof initialState {
     switch (action.type) {
