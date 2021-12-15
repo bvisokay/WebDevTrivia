@@ -2,33 +2,37 @@ import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import Layout from "../components/Layout"
 import { useState, useReducer } from "react"
+import { useImmerReducer } from "use-immer"
 
 // Context Files
 import DispatchContext from "../store/DispatchContext"
 import StateContext from "../store/StateContext"
 
-export type ACTIONTYPES = { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: any }
+export type ACTIONTYPES = { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string }
 
 function MyApp({ Component, pageProps }: AppProps) {
   const initialState = {
     loggedIn: false,
-    flashMessages: []
+    flashMessages: [] as any
   }
 
-  function ourReducer(state: typeof initialState, action: ACTIONTYPES): typeof initialState {
+  function ourReducer(draft: typeof initialState, action: ACTIONTYPES): void {
     switch (action.type) {
       case "login":
-        return { loggedIn: true, flashMessages: state.flashMessages }
+        draft.loggedIn = true
+        return
       case "logout":
-        return { loggedIn: false, flashMessages: state.flashMessages }
+        draft.loggedIn = false
+        return
       case "flashMessage":
-        return { loggedIn: state.loggedIn, flashMessages: state.flashMessages.concat(action.value) }
+        draft.flashMessages.push(action.value)
+        return
       default:
         throw new Error("Bad action")
     }
   }
 
-  const [state, dispatch] = useReducer(ourReducer, initialState)
+  const [state, dispatch] = useImmerReducer(ourReducer, initialState)
 
   return (
     <StateContext.Provider value={state}>
