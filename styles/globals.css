@@ -61,30 +61,6 @@ footer {
   font-size: 1.5rem;
   outline: none;
   flex: 1;
-  color: #007bff;
+  color: #fff;
   padding: 0 1rem;
-}
-
-.live-search-results {
-  opacity: 0;
-  transition: all 0.3s ease-out;
-  transform: scale(1.07);
-}
-
-.live-search-results--visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.search-overlay-top {
-  background-color: #fff;
-  /* background-color: rgba(0, 0, 0, .79); */
-}
-
-.search-overlay-top .container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
