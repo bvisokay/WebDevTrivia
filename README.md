@@ -1,34 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project - Code Comprendo
 
-## Getting Started
+-cloned from private github repo star
+ter-next-ts-context
 
-First, run the development server:
+## Goals
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+-Database of trivia questions (coding related to start)
+-Take quizzes with random questions to test knowledge
+-Convert Anki export to
+-Customize Quiz by category
+-Share quiz/game and results with others
+-See Team Leaderboard
+-Api for others to get random question
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Reason
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+-I love notecards and trivia to a fault
+-turn waste into gold
+-continue learning difficult concepts
+-demonstrate knowledge
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 3 Types of Questions
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+-multiple choice
+-fill in the blank
+-true or false
 
-## Learn More
+## Properties of a Question
 
-To learn more about Next.js, take a look at the following resources:
+-question
+-all answers
+-correct answer
+-type
+-difficulty
+-category
+-author
+-created-date
+-modified-date
+-id
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Properties of a Quiz
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-category
+-difficulty
+-type
+-number of questions
+-results
 
-## Deploy on Vercel
+## Users Can
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-Take quiz by category and question-type and how many
+-Share results with others
+-Invite others to also take quiz
+-See quiz results?
+-Create Read Edit Delete their own pool of questions
+-Become a trivia director to submit/review/approve questions submitted by others
+-Request a question is incorect
+-See who created the question "Editorial Team" or other user
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## What This Is Not
+
+-An alternative to leet code
+-This is not about writing code
+-This is Q&A that could be on a playing card (verbal reasoning)
+
+## Project Organization
+
+Production Branch (main)
+Development Branch (dev)
+Feature Branches
+
+## Inspiration
+
+The first video game I ever played https://youtu.be/lb5Im7lwc6g
+
+## Growth
+
+Doesn't have to be a monolithic DB
+Could replicate this across fields
+
+## Domain Name Ideas
+
+codecomprendo.com
+codingdingding.com
+codivialpursuit.com
+
+## In Domain Name Search I Found These Comps
+
+https://www.codingtrivia.com/

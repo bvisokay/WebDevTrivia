@@ -1,17 +1,21 @@
 import { useContext } from "react"
 import { GlobalStateContext } from "../store/GlobalContext"
-import { GlobalDispatchContext } from "../store/GlobalContext"
+import Container, { HeaderContainer } from "./HeaderStyles"
 
-const Header = () => {
+//comps
+import LogInOutBtns from "./LogInOutBtns"
+
+const Header: React.FC = () => {
   const appState = useContext(GlobalStateContext)
-  const appDispatch = useContext(GlobalDispatchContext)
 
   return (
-    <header>
-      <h2>Header</h2>
-      <br />
-      <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p>
-    </header>
+    <HeaderContainer>
+      <Container>
+        <h2>Code Comprendo</h2>
+        <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p>
+        <LogInOutBtns />
+      </Container>
+    </HeaderContainer>
   )
 }
 

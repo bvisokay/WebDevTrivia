@@ -1,7 +1,13 @@
-import styles from "./Layout.module.css"
+import styled from "styled-components"
+
+const Container = styled.div`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+`
 
 const Layout: React.FC = props => {
-  return <div className={styles.container}>{props.children}</div>
+  return <Container>{props.children}</Container>
 }
 
 export default Layout

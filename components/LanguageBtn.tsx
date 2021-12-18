@@ -1,32 +1,33 @@
 import { useContext } from "react"
 import { GlobalDispatchContext } from "../store/GlobalContext"
+import { BtnSecondary } from "../styles/GlobalComponents/Button"
 
 export default function LanguageBtn() {
   const GlobalAppDispatch = useContext(GlobalDispatchContext)
   return (
     <>
       <p>Set Language Preference:</p>
-      <button
+      <BtnSecondary
         onClick={() => {
           GlobalAppDispatch({ type: "setEnglish" })
         }}
       >
         English
-      </button>
-      <button
+      </BtnSecondary>
+      <BtnSecondary
         onClick={() => {
           GlobalAppDispatch({ type: "setSpanish" })
         }}
       >
         Spanish
-      </button>
-      <button
+      </BtnSecondary>
+      <BtnSecondary
         onClick={() => {
           GlobalAppDispatch({ type: "setLatin" })
         }}
       >
         Latin
-      </button>
+      </BtnSecondary>
     </>
   )
 }
