@@ -1,8 +1,10 @@
 import { useContext } from "react"
-import StateContext from "../store/StateContext"
+import { GlobalStateContext } from "../store/GlobalContext"
+import { GlobalDispatchContext } from "../store/GlobalContext"
 
 const Header = () => {
-  const appState = useContext(StateContext)
+  const appState = useContext(GlobalStateContext)
+  const appDispatch = useContext(GlobalDispatchContext)
 
   return (
     <header>

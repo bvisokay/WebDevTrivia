@@ -1,17 +1,17 @@
 import type { NextPage } from "next"
-import Head from "next/head"
-import Image from "next/image"
 import { useContext } from "react"
 
 //context
-import DispatchContext from "../store/DispatchContext"
+import { GlobalDispatchContext } from "../store/GlobalContext"
 
 //comps
 import Search from "../components/Search"
 import Header from "../components/Header"
+import LanguagePreference from "../components/Language"
+import LanguageBtn from "../components/LanguageBtn"
 
 const Home: NextPage = () => {
-  const appDispatch = useContext(DispatchContext)
+  const appDispatch = useContext(GlobalDispatchContext)
 
   return (
     <>
@@ -33,6 +33,11 @@ const Home: NextPage = () => {
         >
           LogOut
         </button>
+        <br />
+        <hr />
+        <br />
+        <LanguagePreference />
+        <LanguageBtn />
       </main>
       <footer>Footer</footer>
     </>
