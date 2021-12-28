@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useSession } from "next-auth/client"
+import { useSession, signOut } from "next-auth/client"
 import styled from "styled-components"
 
 // use context to say only if you are logged in can you see the admin link
@@ -23,6 +23,10 @@ const NavContainer = styled.nav`
 const MainNav = () => {
   const [session, isLoading] = useSession()
 
+  function logoutHandler() {
+    signOut()
+  }
+
   return (
     <NavContainer>
       <ul>
@@ -41,17 +45,25 @@ const MainNav = () => {
             <a>About</a>
           </Link>
         </li>
-        <li>
-          <Link href="/auth">
-            <a>Auth</a>
-          </Link>
-        </li>
+        {!session && !isLoading && (
+          <li>
+            <Link href="/auth">
+              <a>Login</a>
+            </Link>
+          </li>
+        )}
 
         {session && (
           <li>
             <Link href="/addQuestion">
               <a>Admin</a>
             </Link>
+          </li>
+        )}
+
+        {session && (
+          <li>
+            <button onClick={logoutHandler}>Logout</button>
           </li>
         )}
       </ul>
