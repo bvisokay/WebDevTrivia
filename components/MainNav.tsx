@@ -36,12 +36,12 @@ const MainNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/support">
             <a>Support</a>
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/about">
             <a>About</a>
           </Link>
         </li>
