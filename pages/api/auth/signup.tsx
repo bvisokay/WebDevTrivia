@@ -20,6 +20,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const db = client.db()
 
+  const existingUser = await db.collection("users").findOne({ email: email })
+
+  if (existingUser) {
+    res.status(422).json({ message: "A user with that email already exists" })
+    client.close()
+    // user already exists
+    return
+  }
+
   const hashedPassword = await hashPassword(password)
 
   const result = await db.collection("users").insertOne({
@@ -28,6 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   })
 
   res.status(201).json({ message: "Created User!" })
-  // Should have some error handling here...
+  client.close()
+  // Should have some error handling above...
 }
 export default handler
