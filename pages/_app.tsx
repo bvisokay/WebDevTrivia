@@ -7,6 +7,8 @@ import { GlobalStyles } from "../styles/globalstyles"
 // Context Files
 import { GlobalContextProvider } from "../store/GlobalContext"
 
+export const SITENAME: string = "WebDev Trivia"
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GlobalContextProvider>
