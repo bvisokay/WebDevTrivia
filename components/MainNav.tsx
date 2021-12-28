@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { useSession } from "next-auth/client"
 import styled from "styled-components"
 
 // use context to say only if you are logged in can you see the admin link
@@ -20,6 +21,8 @@ const NavContainer = styled.nav`
 `
 
 const MainNav = () => {
+  const [session, isLoading] = useSession()
+
   return (
     <NavContainer>
       <ul>
@@ -39,25 +42,18 @@ const MainNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="/">
-            <a>Login</a>
+          <Link href="/auth">
+            <a>Auth</a>
           </Link>
         </li>
-        <li>
-          <Link href="/">
-            <a>Logout</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/">
-            <a>Register</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/addQuestion">
-            <a>Admin</a>
-          </Link>
-        </li>
+
+        {session && (
+          <li>
+            <Link href="/addQuestion">
+              <a>Admin</a>
+            </Link>
+          </li>
+        )}
       </ul>
     </NavContainer>
   )
