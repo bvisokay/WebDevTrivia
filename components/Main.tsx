@@ -6,7 +6,6 @@ import { GlobalDispatchContext } from "../store/GlobalContext"
 //comps
 import LanguagePreference from "./Language"
 import styled from "styled-components"
-import { SITENAME } from "../pages/_app"
 
 const Container = styled.div`
   flex: 1;

@@ -14,6 +14,10 @@ const Container = styled.div`
   padding: 1rem;
   max-width: var(--wrapper-width);
   margin: 0 auto;
+
+  a {
+    color: white;
+  }
 `
 
 export default Container

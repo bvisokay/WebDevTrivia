@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { GlobalStateContext } from "../store/GlobalContext"
 import Container, { HeaderContainer } from "./HeaderStyles"
 import { SITENAME } from "../pages/_app"
+import Link from "next/link"
 
 //comps
 import LogInOutBtns from "./LogInOutBtns"
@@ -12,7 +13,9 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <Container>
-        <h2>{SITENAME}</h2>
+        <Link href="/">
+          <a>{SITENAME}</a>
+        </Link>
         <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p>
         <LogInOutBtns />
       </Container>
