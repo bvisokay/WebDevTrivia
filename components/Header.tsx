@@ -6,6 +6,7 @@ import Link from "next/link"
 
 //comps
 import LogInOutBtns from "./LogInOutBtns"
+import MainNav from "./MainNav"
 
 const Header: React.FC = () => {
   const appState = useContext(GlobalStateContext)
@@ -16,8 +17,9 @@ const Header: React.FC = () => {
         <Link href="/">
           <a>{SITENAME}</a>
         </Link>
-        <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p>
-        <LogInOutBtns />
+        <MainNav />
+        {/* <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p> */}
+        {/*  <LogInOutBtns /> */}
       </Container>
     </HeaderContainer>
   )
