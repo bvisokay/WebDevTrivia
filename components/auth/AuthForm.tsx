@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react"
 import { signIn } from "next-auth/client"
+import { useRouter } from "next/router"
 
 async function createUser(email: string, password: string) {
   const response = await fetch("/api/auth/signup", {
@@ -25,6 +26,8 @@ const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true)
 
+  const router = useRouter()
+
   function switchAuthModeHandler() {
     setIsLogin(prevState => !prevState)
   }
@@ -40,7 +43,9 @@ const AuthForm = () => {
     if (isLogin) {
       // log user in with redirect to prevent redirect on login error
       const result = await signIn("credentials", { redirect: false, email: enteredEmail, password: enteredPassword })
-      console.log(result)
+      if (!result!.error) {
+        router.replace("/addQuestion")
+      }
     } else {
       try {
         const result = await createUser(enteredEmail, enteredPassword)
