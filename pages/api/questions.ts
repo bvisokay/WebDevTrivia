@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { MongoClient } from "mongodb"
+import { getSession } from "next-auth/client"
 
 export type Message = {
   message: string
@@ -7,7 +8,14 @@ export type Message = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    // add server-side validation validation
+    // api-route protection from non-logged in users
+    const session = await getSession({ req: req })
+    if (!session) {
+      res.status(401).json({ message: "Not authenticated" })
+      return
+    }
+
+    // add server-side validation to prevent empty fields
     /*  if (newQuestion.category === "") {
       res.status(422).json({ message: "Invalid category. " })
     } */
@@ -33,7 +41,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "GET") {
-    // add validation
+    // restrict with key or limit number of requests?
+    // how to make route dynamic to get certain difficulty or type?
+    // is there a way to prevent a user from seeing...
+    // ...same question twice before all questions seen?
+    // AT A MINIUMUM: connect to database and grab 3 random questions
+
     res.status(200).json({
       category: "Sports",
       correct_answer: "Dallas Cowboys",

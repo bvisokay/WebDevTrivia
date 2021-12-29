@@ -13,6 +13,7 @@ const addQuestion = () => {
   )
 }
 
+// redirect away if not logged in - server-side page guard
 export const getServerSideProps: GetServerSideProps = async context => {
   const session = await getSession({ req: context.req })
   if (!session) {
