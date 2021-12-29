@@ -60,6 +60,13 @@ const NewQuestionForm: React.FC = () => {
       .then(data => {
         console.log(data)
       })
+
+    // clear form inputs
+    questionInputRef.current!.value = ""
+    correctAnswerInputRef.current!.value = ""
+    incorrectAnswer1InputRef.current!.value = ""
+    incorrectAnswer2InputRef.current!.value = ""
+    incorrectAnswer3InputRef.current!.value = ""
   }
 
   return (
