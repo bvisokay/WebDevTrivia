@@ -47,15 +47,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // ...same question twice before all questions seen?
     // AT A MINIUMUM: connect to database and grab 3 random questions
 
-    res.status(200).json({
-      category: "Sports",
-      correct_answer: "Dallas Cowboys",
-      difficulty: "easy",
-      incorrect_answers: ["New York Giants", "Washington Redskins", "Philadelphia Eagles"],
-      answers: ["New York Giants", "Dallas Cowboys", "Washington Redskins", "Philadelphia Eagles"],
-      question: "Which NFL team won the NFC East title in 2021?",
-      type: "multiple"
-    })
+    const client = await MongoClient.connect(`${process.env.ENV_LOCAL_CONNECTION_STRING}`)
+
+    const db = client.db()
+
+    // narrow down instead of using find() which gets all
+    // should we bother to cleanup _id in json results?
+    // could do .find().toArray()
+    // .aggregate([{$sample: {size: 3}}])
+    const results = await db
+      .collection("questions")
+      .aggregate([{ $sample: { size: 5 } }])
+      .toArray()
+
+    console.log(results)
+
+    client.close()
+
+    //console.log(newQuestion)
+
+    res.status(200).json(results)
+
+    /*     [
+      {
+        category: "Sports",
+        correct_answer: "Dallas Cowboys",
+        difficulty: "easy",
+        incorrect_answers: ["New York Giants", "Washington Redskins", "Philadelphia Eagles"],
+        answers: ["New York Giants", "Dallas Cowboys", "Washington Redskins", "Philadelphia Eagles"],
+        question: "Which NFL team won the NFC East title in 2021?",
+        type: "multiple"
+      },
+      {
+        category: "test",
+        correct_answer: "test",
+        difficulty: "test",
+        incorrect_answers: ["test", "Test", "Test"],
+        answers: ["Test", "Test", "Test", "Test"],
+        question: "Test?",
+        type: "Test"
+      }
+    ] */
   }
   // end handler function
 }
