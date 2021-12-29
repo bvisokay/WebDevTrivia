@@ -1,60 +1,48 @@
-import { FormEvent, useRef } from "react"
-import { shuffleArray } from "../../utils"
+import { useRef } from "react"
 
 export type Question = {
   category: string
-  correct_answer: string
-  difficulty: string
-  incorrect_answers: string[]
-  answers: string[]
-  question: string
   type: string
+  difficulty: string
+  question: string
+  correct_answer: string
+  incorrect_answers: string[]
 }
 
 const NewQuestionForm: React.FC = () => {
-  /*   const hardCodedQuestion = {
-    type: "multiple",
-    category: "Sports",
-    difficulty: "easy",
-    question: "Which NFL team won the NFC East title in 2021?",
-    correct_answer: "Dallas Cowboys",
-    incorrect_answers: ["New York Giants", "Washington Redskins", "Philadelphia Eagles"]
-  } */
-
   const categoryInputRef = useRef<HTMLInputElement>(null)
+  const typeInputRef = useRef<HTMLInputElement>(null)
+  const difficultyInputRef = useRef<HTMLInputElement>(null)
   const questionInputRef = useRef<HTMLInputElement>(null)
   const correctAnswerInputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer1InputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer2InputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer3InputRef = useRef<HTMLInputElement>(null)
-  const difficultyInputRef = useRef<HTMLInputElement>(null)
-  const typeInputRef = useRef<HTMLInputElement>(null)
 
-  function newQuestionHandler(e: FormEvent) {
+  function newQuestionHandler(e: React.FormEvent) {
     e.preventDefault()
 
     // fetch user input
     const enteredCategory = categoryInputRef.current!.value
+    const enteredType = typeInputRef.current!.value
+    const enteredDifficulty = difficultyInputRef.current!.value
     const enteredQuestion = questionInputRef.current!.value
     const enteredCorrectAnswer = correctAnswerInputRef.current!.value
     const enteredIncorrectAnswer1 = incorrectAnswer1InputRef.current!.value
     const enteredIncorrectAnswer2 = incorrectAnswer2InputRef.current!.value
     const enteredIncorrectAnswer3 = incorrectAnswer3InputRef.current!.value
-    const enteredDifficulty = difficultyInputRef.current!.value
-    const enteredType = typeInputRef.current!.value
 
     // format user input into object
     const newQuestion: Question = {
-      type: enteredType,
       category: enteredCategory,
+      type: enteredType,
       difficulty: enteredDifficulty,
       question: enteredQuestion,
       correct_answer: enteredCorrectAnswer,
-      incorrect_answers: [enteredIncorrectAnswer1, enteredIncorrectAnswer2, enteredIncorrectAnswer3],
-      answers: shuffleArray([enteredIncorrectAnswer1, enteredIncorrectAnswer2, enteredIncorrectAnswer3, enteredCorrectAnswer])
+      incorrect_answers: [enteredIncorrectAnswer1, enteredIncorrectAnswer2, enteredIncorrectAnswer3]
     }
 
-    console.log(newQuestion)
+    //console.log(newQuestion)
 
     // add front-end validation
 
@@ -81,6 +69,14 @@ const NewQuestionForm: React.FC = () => {
         <input aria-label="Category" type="text" ref={categoryInputRef} placeholder="Category" />
       </div>
       <div className="form-control">
+        <label htmlFor="">Type</label>
+        <input aria-label="Type" type="text" ref={typeInputRef} placeholder="Type" />
+      </div>
+      <div className="form-control">
+        <label htmlFor="">Difficulty</label>
+        <input aria-label="Difficulty" type="text" ref={difficultyInputRef} placeholder="Difficulty" />
+      </div>
+      <div className="form-control">
         <label htmlFor="">Question</label>
         <input aria-label="Question" type="text" ref={questionInputRef} placeholder="Question" />
       </div>
@@ -99,14 +95,6 @@ const NewQuestionForm: React.FC = () => {
       <div className="form-control">
         <label htmlFor="">Incorrect Answer 3</label>
         <input aria-label="Incorrect Answer 3" type="text" ref={incorrectAnswer3InputRef} placeholder="Incorrect Answer 3" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Difficulty</label>
-        <input aria-label="Difficulty" type="text" ref={difficultyInputRef} placeholder="Difficulty" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Type</label>
-        <input aria-label="Type" type="text" ref={typeInputRef} placeholder="Type" />
       </div>
       <button type="submit">Submit</button>
     </form>

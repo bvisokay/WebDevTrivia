@@ -25,13 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = client.db()
 
     await db.collection("questions").insertOne({
-      type: req.body.type,
       category: req.body.category,
+      type: req.body.type,
       difficulty: req.body.difficulty,
       question: req.body.question,
       correct_answer: req.body.correct_answer,
-      incorrect_answers: req.body.incorrect_answers,
-      answers: req.body.answers
+      incorrect_answers: req.body.incorrect_answers
     })
 
     client.close()
