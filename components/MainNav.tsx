@@ -16,6 +16,10 @@ const NavContainer = styled.nav`
       //border: 1px solid red;
       margin: 0 0.5rem;
       padding: 0.25rem;
+
+      a:hover {
+        cursor: pointer;
+      }
     }
   }
 `
@@ -30,21 +34,12 @@ const MainNav = () => {
   return (
     <NavContainer>
       <ul>
-        <li>
+        {/*  <li>
           <Link href="/">
             <a>Home</a>
           </Link>
-        </li>
-        <li>
-          <Link href="/support">
-            <a>Support</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/about">
-            <a>About</a>
-          </Link>
-        </li>
+        </li> */}
+
         {!session && !isLoading && (
           <li>
             <Link href="/auth">
@@ -63,7 +58,7 @@ const MainNav = () => {
 
         {session && (
           <li>
-            <button onClick={logoutHandler}>Logout</button>
+            <a onClick={logoutHandler}>Logout</a>
           </li>
         )}
       </ul>

@@ -1,3 +1,16 @@
+// API all about handling HTTP requests
+// to send and receive data in JSON format
+// to the server and/or the database
+// behind the scenes requests
+// res.status(200).json({}), also req.method() and req.body()
+// open up network tab in the dev tools and reload
+// Click on the route in the name column
+// Can see reponse and headers
+// The data in this routes are not exposed to the front-end
+// Store in database, file, or array (for developement)
+// Can import fs and path since this is node code & runs on the server
+// use this to write to a file (actually read, and overwrite)
+
 import type { NextApiRequest, NextApiResponse } from "next"
 import { MongoClient } from "mongodb"
 import { getSession } from "next-auth/client"
