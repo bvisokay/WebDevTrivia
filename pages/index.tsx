@@ -1,10 +1,14 @@
 import type { NextPage } from "next"
 import React, { useState } from "react"
 import Head from "next/head"
-import { MongoClient } from "mongodb"
+import { shuffleArray } from "../utils"
 
 //comps
 import StartBtns from "../components/StartBtns"
+import ResultsCard from "../components/ResultsCard"
+import LoadingError from "../components/LoadingError"
+import QuestionCard from "../components/QuestionCard/QuestionCard"
+import OptionsModal from "../components/OptionsModal"
 
 export type AnswerObject = {
   question: string
@@ -29,7 +33,7 @@ export type QuestionsState = Question & {
 const TOTAL_QUESTIONS = 5
 
 // Home: NextPage =
-const Home: React.FC = (props: any) => {
+const Home: NextPage = () => {
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<QuestionsState[]>([])
   const [number, setNumber] = useState(0)
@@ -41,25 +45,79 @@ const Home: React.FC = (props: any) => {
   const [selectedTotalQs, setSelectedTotalQs] = useState(TOTAL_QUESTIONS)
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
 
+  const fetchQuizQuestions = async () => {
+    const response = await fetch("/api/questions")
+    const data = await response.json()
+
+    return data.map((question: Question) => {
+      return { ...question, answers: shuffleArray([...question.incorrect_answers, question.correct_answer]) }
+    })
+  }
+
   const startTrivia = async () => {
     // this function needs error handling
 
     try {
-      //setLoadingError(false)
-      //setLoading(true)
-      //const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY)
-      //const newQuestions = await fetchQuizQuestions(selectedTotalQs, selectedDifficulty)
-      //setQuestions(newQuestions)
-      //setScore(0)
-      //setUserAnswers([])
-      //setNumber(0)
-      //setLoading(false)
-      //setGameOver(false)
+      setLoadingError(false)
+      setLoading(true)
+      const newQuestions = await fetchQuizQuestions()
+      setQuestions(newQuestions)
+      setScore(0)
+      setUserAnswers([])
+      setNumber(0)
+      setLoading(false)
+      setGameOver(false)
     } catch (e) {
-      //setLoadingError(true)
-      //setLoading(false)
+      setLoadingError(true)
+      setLoading(false)
       return
     }
+  }
+
+  const checkAnswer = (e: any) => {
+    if (!gameOver) {
+      // User's answer
+      const answer = e.currentTarget.value
+      // Check answer against correct answer
+      const correct = questions[number].correct_answer === answer
+      // Add score if answer is correct
+      if (correct) setScore(prev => prev + 1)
+      // Save the answer in the array for user answers
+      const answerObject = {
+        question: questions[number].question,
+        answer,
+        correct,
+        correctAnswer: questions[number].correct_answer
+      }
+      setUserAnswers(prev => {
+        return [...prev, answerObject]
+      })
+    }
+  }
+
+  const nextQuestion = () => {
+    // move on to the next question if not the last question
+    const nextQuestion = number + 1
+    if (nextQuestion === selectedTotalQs) {
+      setGameOver(true)
+    } else {
+      setNumber(nextQuestion)
+    }
+  }
+
+  const saveSettingsHandler = (event: React.FormEvent) => {
+    event.preventDefault()
+    setSettingsOpen(false)
+    setGameOver(true)
+    startTrivia()
+  }
+
+  const closeSettingsHandler = () => {
+    setSettingsOpen(false)
+    setGameOver(true)
+    //reset defaults if cancel button is hit
+    setSelectedTotalQs(TOTAL_QUESTIONS)
+    setSelectedDifficulty("easy")
   }
 
   return (
@@ -69,67 +127,20 @@ const Home: React.FC = (props: any) => {
         <meta name="description" content="yea yea yea yea" />
         <link rel="icon" href="favicon.png" />
       </Head>
+      <h1>RANDOM QUIZ</h1>
       {gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
-      <ul>
-        {props.items.map((item: any) => {
-          return <li key={item.index}>{item.question}</li>
-        })}
-      </ul>
+      {!gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
+      {loadingError && <LoadingError />}
+      {loading && <p>Loading Questions...</p>}
+      {!loading && !gameOver && <QuestionCard score={score} questionNr={number + 1} totalQuestions={selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
+      {!gameOver && !loading && userAnswers.length === number + 1 && number !== selectedTotalQs - 1 && (
+        <button className="next" onClick={nextQuestion}>
+          Next Question
+        </button>
+      )}
+      {settingsOpen && <OptionsModal setSelectedTotalQs={setSelectedTotalQs} setSelectedDifficulty={setSelectedDifficulty} saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
     </>
   )
-}
-
-// reach out to db for question data on the server?
-// the api runs on the same server
-// not doing it this way creates unnecessary http request
-// how do we handle the loading state/time
-// getStaticProps outside of the component to call internal API
-// getStaticProps is about getting the data needed for the Home comp
-// alernative to using fetch/axios inside
-// could do fetch("/api/questions")
-// do not talk to db from front-end of application
-// send props to this Home component
-// the questions data, including the answer,
-// will still end up on the client, viewable in source code
-// maybe better for SEO
-
-export async function getStaticProps() {
-  // server side code runs when the page is pre-rendered
-  // make the code in api route available in an export so it can be
-  // import these functions and run directly here.
-  // dont send a response data code
-  // about producing the data for the page component
-
-  const client = await MongoClient.connect(`${process.env.ENV_LOCAL_CONNECTION_STRING}`)
-
-  const db = client.db()
-
-  const results = await db
-    .collection("questions")
-    .aggregate([{ $sample: { size: 5 } }])
-    .toArray()
-
-  // removes _id from each question object
-  const cleanedResults = results.map(questionObj => {
-    return {
-      category: questionObj.category,
-      type: questionObj.type,
-      difficulty: questionObj.difficulty,
-      question: questionObj.question,
-      correct_answer: questionObj.correct_answer,
-      incorrect_answers: questionObj.incorrect_answers
-    }
-  })
-
-  client.close()
-
-  const data = cleanedResults
-
-  return {
-    props: {
-      items: data
-    }
-  }
 }
 
 export default Home

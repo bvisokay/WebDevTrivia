@@ -5,11 +5,13 @@ type StartBtnsProps = {
 
 const StartBtns: React.FC<StartBtnsProps> = ({ startTrivia, setSettingsOpen }) => {
   return (
-    <div>
-      <button aria-label="Start Quiz" onClick={startTrivia}>
+    <div className="btn-container">
+      <button className="start" aria-label="Start Quiz" onClick={startTrivia}>
         Start
       </button>
-      <button onClick={() => setSettingsOpen(true)}>Settings</button>
+      <button className="options" onClick={() => setSettingsOpen(true)}>
+        Settings
+      </button>
     </div>
   )
 }
