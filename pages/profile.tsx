@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 
-import UserProfile from "../components/Profile/UserProfile"
+import UserProfileComp from "../components/Profile/UserProfileComp"
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -22,7 +22,7 @@ const Profile = () => {
     return <p>Loading...</p>
   }
 
-  return <UserProfile />
+  return <UserProfileComp />
 }
 
 export default Profile
