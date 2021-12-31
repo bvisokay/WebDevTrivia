@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { GlobalStateContext } from "../store/GlobalContext"
 import Container, { HeaderContainer } from "./HeaderStyles"
+import Link from "next/link"
 import { SITENAME } from "../pages/_app"
 
 //comps
@@ -13,7 +14,9 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <Container>
-        <a href="/">{SITENAME}</a>
+        <Link href="/">
+          <a>{SITENAME}</a>
+        </Link>
 
         <MainNav />
         {/* <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p> */}

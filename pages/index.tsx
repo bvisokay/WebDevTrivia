@@ -128,7 +128,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Web Dev Trivia</title>
-        <meta name="description" content="yea yea yea yea" />
+        <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
       <h1>RANDOM QUIZ</h1>
