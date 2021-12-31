@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
-    const client = await MongoClient.connect(`${process.env.ENV_LOCAL_CONNECTION_STRING}`)
+    const client = await MongoClient.connect(process.env.CONNECTION_STRING!)
 
     const db = client.db()
 
@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // is there a way to prevent a user from seeing...
     // ...same question twice before all questions seen?
 
-    const client = await MongoClient.connect(`${process.env.ENV_LOCAL_CONNECTION_STRING}`)
+    const client = await MongoClient.connect(process.env.CONNECTION_STRING!)
 
     const db = client.db()
 
