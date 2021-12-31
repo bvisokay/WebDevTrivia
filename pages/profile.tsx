@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 
-import UserProfile from "../components/profile/UserProfile"
+import UserProfile from "../components/Profile/UserProfile"
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true)

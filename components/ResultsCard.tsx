@@ -13,7 +13,7 @@ const Wrapper = styled.div<Percentage>`
   padding: 0.5rem;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
-  margin: 2rem 0;
+  margin: 2rem auto;
 
   h2,
   h3,

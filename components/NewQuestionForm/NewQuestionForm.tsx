@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { Wrapper } from "./NewQFormStyles"
 
 export type Question = {
   category: string
@@ -70,41 +71,46 @@ const NewQuestionForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={newQuestionHandler}>
-      <div className="form-control">
-        <label htmlFor="">Category</label>
-        <input aria-label="Category" type="text" ref={categoryInputRef} placeholder="Category" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Type</label>
-        <input aria-label="Type" type="text" ref={typeInputRef} placeholder="Type" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Difficulty</label>
-        <input aria-label="Difficulty" type="text" ref={difficultyInputRef} placeholder="Difficulty" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Question</label>
-        <input aria-label="Question" type="text" ref={questionInputRef} placeholder="Question" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Correct Answer</label>
-        <input aria-label="Correct Answer" type="text" ref={correctAnswerInputRef} placeholder="Correct Answer" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Incorrect Answer 1</label>
-        <input aria-label="Incorrect Answer 1" type="text" ref={incorrectAnswer1InputRef} placeholder="Incorrect Answer 1" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Incorrect Answer 2</label>
-        <input aria-label="Incorrect Answer 2" type="text" ref={incorrectAnswer2InputRef} placeholder="Incorrect Answer 2" />
-      </div>
-      <div className="form-control">
-        <label htmlFor="">Incorrect Answer 3</label>
-        <input aria-label="Incorrect Answer 3" type="text" ref={incorrectAnswer3InputRef} placeholder="Incorrect Answer 3" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <Wrapper>
+      <h1>Add New Q</h1>
+      <form onSubmit={newQuestionHandler}>
+        <div className="form-control">
+          <label htmlFor="">Category</label>
+          <input aria-label="Category" type="text" ref={categoryInputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Type</label>
+          <input aria-label="Type" type="text" ref={typeInputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Difficulty</label>
+          <input aria-label="Difficulty" type="text" ref={difficultyInputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Question</label>
+          <input aria-label="Question" type="text" ref={questionInputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Correct Answer</label>
+          <input aria-label="Correct Answer" type="text" ref={correctAnswerInputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Incorrect Answer 1</label>
+          <input aria-label="Incorrect Answer 1" type="text" ref={incorrectAnswer1InputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Incorrect Answer 2</label>
+          <input aria-label="Incorrect Answer 2" type="text" ref={incorrectAnswer2InputRef} />
+        </div>
+        <div className="form-control">
+          <label htmlFor="">Incorrect Answer 3</label>
+          <input aria-label="Incorrect Answer 3" type="text" ref={incorrectAnswer3InputRef} />
+        </div>
+        <button className="addQSubmit" type="submit">
+          Submit
+        </button>
+      </form>
+    </Wrapper>
   )
 }
 

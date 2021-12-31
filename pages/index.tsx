@@ -46,12 +46,16 @@ const Home: NextPage = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
 
   const fetchQuizQuestions = async () => {
-    const response = await fetch("/api/questions")
-    const data = await response.json()
+    try {
+      const response = await fetch("/api/questions")
+      const data = await response.json()
 
-    return data.map((question: Question) => {
-      return { ...question, answers: shuffleArray([...question.incorrect_answers, question.correct_answer]) }
-    })
+      return data.map((question: Question) => {
+        return { ...question, answers: shuffleArray([...question.incorrect_answers, question.correct_answer]) }
+      })
+    } catch (error) {
+      throw new Error()
+    }
   }
 
   const startTrivia = async () => {
@@ -131,7 +135,7 @@ const Home: NextPage = () => {
       {gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
       {!gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
       {loadingError && <LoadingError />}
-      {loading && <p>Loading Questions...</p>}
+      {loading && <div className="loading">Loading Questions...</div>}
       {!loading && !gameOver && <QuestionCard score={score} questionNr={number + 1} totalQuestions={selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
       {!gameOver && !loading && userAnswers.length === number + 1 && number !== selectedTotalQs - 1 && (
         <button className="next" onClick={nextQuestion}>

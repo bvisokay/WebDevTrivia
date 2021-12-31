@@ -29,7 +29,7 @@ const ProfileForm = (props: userProfileProps) => {
         <label htmlFor="old-password">Old Password</label>
         <input aria-label="Old Password" type="password" ref={oldPasswordRef} placeholder="Old password" />
       </div>
-      <button>Change Password</button>
+      <button className="changePW">Change Password</button>
     </form>
   )
 }

@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
   padding: 20px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
-  margin: 4rem auto;
+  margin: 1rem auto;
 `
 
 type ProgressBarProps = {

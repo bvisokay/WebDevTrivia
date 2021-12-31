@@ -1,4 +1,4 @@
-import SupportForm from "../components/input/SupportForm"
+import SupportForm from "../components/SupportForm"
 
 const support = () => {
   return (

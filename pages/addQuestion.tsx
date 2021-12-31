@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { getSession } from "next-auth/client"
 import { GetServerSideProps, GetServerSidePropsContext } from "next"
 // comps
-import NewQuestionForm from "../components/input/NewQuestionForm"
+import NewQuestionForm from "../components/NewQuestionForm/NewQuestionForm"
 
 const addQuestion = () => {
   // redirect away if not logged in

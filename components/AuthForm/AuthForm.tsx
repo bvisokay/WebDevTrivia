@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react"
 import { signIn } from "next-auth/client"
 import { useRouter } from "next/router"
 
+// styles
+import { Wrapper } from "./AuthFormStyles"
+
 async function createUser(email: string, password: string) {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
@@ -57,25 +60,25 @@ const AuthForm = () => {
   }
 
   return (
-    <section>
+    <Wrapper>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
         <div className="formControl">
-          <label htmlFor="email">Your Email</label>
+          <label htmlFor="email">Email</label>
           <input type="email" id="email" required ref={emailInputRef} />
         </div>
         <div className="formControl">
-          <label htmlFor="password">Your Password</label>
+          <label htmlFor="password">Password</label>
           <input type="password" id="password" required ref={passwordInputRef} />
         </div>
         <div>
-          <button>{isLogin ? "Login" : "Create Account"}</button>
+          <button className="login">{isLogin ? "Login" : "Create Account"}</button>
           <button type="button" className="toggle" onClick={switchAuthModeHandler}>
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>
         </div>
       </form>
-    </section>
+    </Wrapper>
   )
 }
 

@@ -17,11 +17,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ score, question, answers, c
 
   return (
     <Wrapper>
-      <p className="score">Score: {score}</p>
+      <div className="score">Score: {score}</div>
       <ProgressBar percentComplete={percentComplete} />
-      <p className="number">
+      <div className="number">
         Question: {questionNr} / {totalQuestions}
-      </p>
+      </div>
       <p dangerouslySetInnerHTML={{ __html: question }} />
       <div>
         {answers.map(answer => (
