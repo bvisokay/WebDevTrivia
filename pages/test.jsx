@@ -1,7 +1,8 @@
 import Head from "next/head"
+import React from "react"
 import clientPromise from "../lib/mongodb"
 
-const test: React.FC = ({ isConnected }) => {
+const test = ({ isConnected }) => {
   return (
     <div className="container">
       <Head>
