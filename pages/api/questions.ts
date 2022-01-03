@@ -62,11 +62,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const client = await MongoClient.connect(uri!)
 
+    // grab query parameters
+    //console.log(newQuestion)
+
+    //let category = req.query.category
+    //console.log(category)
+    //console.log(`Query category: ${req.query.category}`)
+
+    // set a default for amount
+    // if a query parameter is passed then use that
+    let amount: any = 5
+    if (req.query.amount) {
+      amount = parseInt(`${req.query.amount}`)
+      //console.log(`amount`, amount)
+    } else {
+      //console.log("No Amount Specified")
+      //console.log(`Amount`, req.query.category)
+    }
+
+    // set a default for categoryMatch
+    // if a query parameter is passed then use that
+    let category: string | string[]
+    let categoryMatch = {}
+    if (req.query.category) {
+      category = req.query.category
+      categoryMatch = { category: `${category}` }
+      //console.log(`category`, category)
+    } else {
+      //console.log(`No category specified`)
+      //console.log(`category`, req.query.category)
+    }
+
+    //console.log(req.query)
+
     const db = client.db()
 
     const results = await db
       .collection("questions")
-      .aggregate([{ $sample: { size: 5 } }])
+      .aggregate([{ $match: categoryMatch }, { $sample: { size: amount } }])
       .toArray()
 
     // removes _id from each question object
@@ -82,8 +115,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
 
     client.close()
-
-    //console.log(newQuestion)
 
     res.status(200).json(cleanedResults)
   }
