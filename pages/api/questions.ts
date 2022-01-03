@@ -12,14 +12,12 @@
 // use this to write to a file (actually read, and overwrite)
 
 import type { NextApiRequest, NextApiResponse } from "next"
-import { MongoClient } from "mongodb"
 import { getSession } from "next-auth/client"
+import { connectToDatabase } from "../../lib/db"
 
 export type Message = {
   message: string
 }
-
-const uri = process.env.MONGODB_URI
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -35,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
-    const client = await MongoClient.connect(uri!)
+    const client = await connectToDatabase()
 
     const db = client.db()
 
@@ -60,37 +58,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // is there a way to prevent a user from seeing...
     // ...same question twice before all questions seen?
 
-    const client = await MongoClient.connect(uri!)
+    const client = await connectToDatabase()
 
-    // grab query parameters
-    //console.log(newQuestion)
-
-    //let category = req.query.category
-    //console.log(category)
-    //console.log(`Query category: ${req.query.category}`)
-
-    // set a default for amount
-    // if a query parameter is passed then use that
     let amount: any = 5
     if (req.query.amount) {
       amount = parseInt(`${req.query.amount}`)
-      //console.log(`amount`, amount)
-    } else {
-      //console.log("No Amount Specified")
-      //console.log(`Amount`, req.query.category)
     }
 
-    // set a default for categoryMatch
-    // if a query parameter is passed then use that
     let category: string | string[]
     let categoryMatch = {}
     if (req.query.category) {
       category = req.query.category
       categoryMatch = { category: `${category}` }
-      //console.log(`category`, category)
-    } else {
-      //console.log(`No category specified`)
-      //console.log(`category`, req.query.category)
     }
 
     //console.log(req.query)
