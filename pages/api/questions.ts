@@ -1,23 +1,6 @@
-// API all about handling HTTP requests
-// to send and receive data in JSON format
-// to the server and/or the database
-// behind the scenes requests
-// res.status(200).json({}), also req.method() and req.body()
-// open up network tab in the dev tools and reload
-// Click on the route in the name column
-// Can see reponse and headers
-// The data in this routes are not exposed to the front-end
-// Store in database, file, or array (for developement)
-// Can import fs and path since this is node code & runs on the server
-// use this to write to a file (actually read, and overwrite)
-
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
-import { connectToDatabase } from "../../lib/db"
-
-export type Message = {
-  message: string
-}
+import { connectToDatabase, addQuestionDocument, getQuestions } from "../../lib/db"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -33,69 +16,52 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
-    const client = await connectToDatabase()
+    let client
+    //error handling for connection to database
+    try {
+      client = await connectToDatabase()
+    } catch (error) {
+      res.status(500).json({ message: "There was an error connecting to the data." })
+      return
+    }
 
-    const db = client.db()
-
-    await db.collection("questions").insertOne({
-      category: req.body.category,
-      type: req.body.type,
-      difficulty: req.body.difficulty,
-      question: req.body.question,
-      correct_answer: req.body.correct_answer,
-      incorrect_answers: req.body.incorrect_answers
-    })
+    //error handling for adding a new question
+    try {
+      await addQuestionDocument(client, {
+        category: req.body.category,
+        type: req.body.type,
+        difficulty: req.body.difficulty,
+        question: req.body.question,
+        correct_answer: req.body.correct_answer,
+        incorrect_answers: req.body.incorrect_answers
+      })
+      res.status(201).json({ message: "New question added!" })
+    } catch (error) {
+      res.status(500).json({ message: "Inserting data failed." })
+    }
 
     client.close()
-
-    //console.log(newQuestion)
-    res.status(201).json({ message: "New question added!" })
-  }
+  } // end post request
 
   if (req.method === "GET") {
-    // restrict by requiring api key or limit number of requests?
-    // how to make route dynamic to get certain difficulty or type?
-    // is there a way to prevent a user from seeing...
-    // ...same question twice before all questions seen?
-
-    const client = await connectToDatabase()
-
-    let amount: any = 5
-    if (req.query.amount) {
-      amount = parseInt(`${req.query.amount}`)
+    let client
+    //error handling for connection to database
+    try {
+      client = await connectToDatabase()
+    } catch (error) {
+      res.status(500).json({ message: "There was an error connecting to the data." })
+      return
     }
 
-    let category: string | string[]
-    let categoryMatch = {}
-    if (req.query.category) {
-      category = req.query.category
-      categoryMatch = { category: `${category}` }
+    // error handling for getting questions
+    let cleanedResults
+    try {
+      cleanedResults = await getQuestions(client, req)
+      res.status(200).json(cleanedResults)
+    } catch (error) {
+      res.status(500).json({ message: "There was an error retrieving the questions" })
     }
-
-    //console.log(req.query)
-
-    const db = client.db()
-
-    const results = await db
-      .collection("questions")
-      .aggregate([{ $match: categoryMatch }, { $sample: { size: amount } }])
-      .toArray()
-
-    // removes _id from each question object
-    const cleanedResults = results.map(questionObj => {
-      return {
-        category: questionObj.category,
-        type: questionObj.type,
-        difficulty: questionObj.difficulty,
-        question: questionObj.question,
-        correct_answer: questionObj.correct_answer,
-        incorrect_answers: questionObj.incorrect_answers
-      }
-    })
 
     client.close()
-
-    res.status(200).json(cleanedResults)
-  }
-  // end handler function
-}
+  } // end GET request
+} // end handler function

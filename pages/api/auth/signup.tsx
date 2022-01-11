@@ -4,6 +4,8 @@ import { hashPassword } from "../../../lib/auth"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
+    console.log("Not a POST request")
+    res.status(500).json({ message: "There was an error." })
     return
   }
 
@@ -16,28 +18,41 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return
   }
 
-  const client = await connectToDatabase()
-
-  const db = client.db()
-
-  const existingUser = await db.collection("users").findOne({ email: email })
-
-  if (existingUser) {
-    res.status(422).json({ message: "A user with that email already exists" })
-    client.close()
-    // user already exists
+  let client
+  //error handling for connection to database
+  try {
+    client = await connectToDatabase()
+  } catch (error) {
+    res.status(500).json({ message: "There was an error connecting to the data." })
     return
   }
 
-  const hashedPassword = await hashPassword(password)
+  //error handling for actually signing up
+  try {
+    const db = client.db()
 
-  const result = await db.collection("users").insertOne({
-    email: email,
-    password: hashedPassword
-  })
+    // check if user already exists
+    const existingUser = await db.collection("users").findOne({ email: email })
+    if (existingUser) {
+      res.status(422).json({ message: "A user with that email already exists." })
+      client.close()
+      return
+    }
 
-  res.status(201).json({ message: "Created User!" })
+    // hash password only if unique user
+    const hashedPassword = await hashPassword(password)
+
+    // store new unique user in the database
+    const result = await db.collection("users").insertOne({
+      email: email,
+      password: hashedPassword
+    })
+
+    res.status(201).json({ message: "Created user." })
+  } catch (error) {
+    res.status(500).json({ message: "There was an error creating the user." })
+  }
   client.close()
-  // Should have some error handling above...
+  res.status(201).json({ message: "Created user." })
 }
 export default handler

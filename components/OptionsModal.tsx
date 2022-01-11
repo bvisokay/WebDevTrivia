@@ -96,6 +96,22 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, setSele
       <SettingsPanel>
         <form onSubmit={saveSettingsHandler}>
           <FormGroup>
+            <label htmlFor="">Category</label>
+            <select
+              name="Category"
+              id="category"
+              onChange={e => {
+                const selectedCategory = e.target.value
+                setSelectedDifficulty(selectedCategory)
+              }}
+            >
+              <option value="">All</option>
+              <option value="">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </FormGroup>
+
+          <FormGroup>
             <label htmlFor="">Number of Questions</label>
             <select
               name="Number of Questions"

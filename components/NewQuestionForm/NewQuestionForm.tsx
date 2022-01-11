@@ -20,6 +20,12 @@ const NewQuestionForm: React.FC = () => {
   const incorrectAnswer2InputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer3InputRef = useRef<HTMLInputElement>(null)
 
+  // define validation logic
+
+  function validateQuestion() {
+    console.log("Validate function ran.")
+  }
+
   function newQuestionHandler(e: React.FormEvent) {
     e.preventDefault()
 
@@ -43,9 +49,7 @@ const NewQuestionForm: React.FC = () => {
       incorrect_answers: [enteredIncorrectAnswer1, enteredIncorrectAnswer2, enteredIncorrectAnswer3]
     }
 
-    //console.log(newQuestion)
-
-    // add front-end validation
+    // run validation
 
     //send valid data
     fetch("/api/questions", {

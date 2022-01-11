@@ -12,6 +12,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!session) {
     res.status(401).json({ message: "Not authenticated" })
+
+    //need to redirect to the auth page
     return
   }
 
@@ -19,34 +21,45 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const oldPassword = req.body.oldPassword
   const newPassword = req.body.newPassword
 
-  const client = await connectToDatabase()
-  const usersCollection = client.db().collection("users")
-  const user = await usersCollection.findOne({ email: userEmail })
-
-  if (!user) {
-    res.status(404).json({ message: "User not found" })
-    client.close()
+  let client
+  //error handling for connection to database
+  try {
+    client = await connectToDatabase()
+  } catch (error) {
+    res.status(500).json({ message: "There was an error connecting to the data." })
     return
   }
 
-  const currentPassword = user.password
+  //error handling for updating
 
-  const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword)
+  try {
+    const usersCollection = client.db().collection("users")
+    const user = await usersCollection.findOne({ email: userEmail })
+    // cannot find user
+    if (!user) {
+      res.status(404).json({ message: "User not found" })
+      client.close()
+      return
+    }
+    const currentPassword = user.password
 
-  if (!passwordsAreEqual) {
-    res.status(422).json({ message: "Could not update the password" })
-    client.close()
-    return
+    const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword)
+
+    if (!passwordsAreEqual) {
+      res.status(422).json({ message: "Could not update the password" })
+      client.close()
+      return
+    }
+
+    const hashedPassword = await hashPassword(newPassword)
+
+    const result = await usersCollection.updateOne({ email: userEmail }, { $set: { password: hashedPassword } })
+
+    res.status(200).json({ message: "password updated" })
+  } catch (error) {
+    res.status(500).json({ message: "There was an error updating the password." })
   }
-
-  const hashedPassword = await hashPassword(newPassword)
-
-  const result = await usersCollection.updateOne({ email: userEmail }, { $set: { password: hashedPassword } })
-
-  // this function needs error handling
-
   client.close()
-  res.status(200).json({ message: "password updated" })
 }
 
 export default handler

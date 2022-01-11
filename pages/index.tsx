@@ -44,6 +44,7 @@ const Home: NextPage = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [selectedTotalQs, setSelectedTotalQs] = useState(TOTAL_QUESTIONS)
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
+  const [selectedCategory, setSelectedCategory] = useState("")
 
   const fetchQuizQuestions = async () => {
     try {
