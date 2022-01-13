@@ -49,11 +49,18 @@ const MainNav = () => {
         )}
 
         {session && (
-          <li>
-            <Link href="/addQuestion">
-              <a>Admin</a>
-            </Link>
-          </li>
+          <>
+            <li>
+              <Link href="/addQuestion">
+                <a>Add Question</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/addCategory">
+                <a>Add Category</a>
+              </Link>
+            </li>
+          </>
         )}
 
         {session && (
