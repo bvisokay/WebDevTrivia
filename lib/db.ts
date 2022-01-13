@@ -15,6 +15,24 @@ export async function addQuestionDocument(client: MongoClient, document: Questio
   return result
 }
 
+export async function addCategoryDocument(client: MongoClient, document: {}) {
+  const db = client.db()
+  const result = await db.collection("categories").insertOne(document)
+  return result
+}
+
+export async function getCategories(client: MongoClient) {
+  const db = client.db()
+  const results = await db.collection("categories").find().toArray()
+  const cleanedResults = results.map(categoryObj => {
+    return categoryObj.name
+  })
+  client.close()
+
+  const data = cleanedResults
+  return data
+}
+
 export async function getQuestions(client: MongoClient, req: NextApiRequest) {
   const db = client.db()
 

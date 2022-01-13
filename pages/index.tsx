@@ -8,7 +8,7 @@ import StartBtns from "../components/StartBtns"
 import ResultsCard from "../components/ResultsCard"
 import LoadingError from "../components/LoadingError"
 import QuestionCard from "../components/QuestionCard/QuestionCard"
-import OptionsModal from "../components/OptionsModal"
+import OptionsModal from "../components/OptionsModal/OptionsModal"
 
 export type AnswerObject = {
   question: string
@@ -43,12 +43,24 @@ const Home: NextPage = () => {
   const [loadingError, setLoadingError] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [selectedTotalQs, setSelectedTotalQs] = useState(TOTAL_QUESTIONS)
-  const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
-  const [selectedCategory, setSelectedCategory] = useState("")
+  /* temporarily not implementating difficulty feature */
+  /*   const [selectedDifficulty, setSelectedDifficulty] = useState("easy") */
+  const [selectedCategory, setSelectedCategory] = useState("all")
 
-  const fetchQuizQuestions = async () => {
+  const fetchQuizQuestions = async (selectedCategory: string, selectedTotalQs: number) => {
+    const trimmedCategory = selectedCategory.trim().replace(/ /g, "")
+    // handle
+
     try {
-      const response = await fetch("/api/questions")
+      let endpoint
+      if (trimmedCategory === "all") {
+        endpoint = `/api/questions?amount=${selectedTotalQs}`
+      } else {
+        endpoint = `/api/questions?category=${trimmedCategory}&amount=${selectedTotalQs}`
+      }
+      console.log(endpoint)
+
+      const response = await fetch(endpoint)
       const data = await response.json()
 
       return data.map((question: Question) => {
@@ -60,13 +72,15 @@ const Home: NextPage = () => {
   }
 
   const startTrivia = async () => {
-    // this function needs error handling
-
     try {
       setLoadingError(false)
       setLoading(true)
-      const newQuestions = await fetchQuizQuestions()
+      const newQuestions = await fetchQuizQuestions(selectedCategory, selectedTotalQs)
       setQuestions(newQuestions)
+      // handle the case if there are not enough questions for selected amount
+      if (selectedTotalQs > questions.length) {
+        setSelectedTotalQs(newQuestions.length)
+      }
       setScore(0)
       setUserAnswers([])
       setNumber(0)
@@ -122,7 +136,8 @@ const Home: NextPage = () => {
     setGameOver(true)
     //reset defaults if cancel button is hit
     setSelectedTotalQs(TOTAL_QUESTIONS)
-    setSelectedDifficulty("easy")
+    setSelectedCategory("all")
+    /* setSelectedDifficulty("easy") */
   }
 
   return (
@@ -143,7 +158,7 @@ const Home: NextPage = () => {
           Next Question
         </button>
       )}
-      {settingsOpen && <OptionsModal setSelectedTotalQs={setSelectedTotalQs} setSelectedDifficulty={setSelectedDifficulty} saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
+      {settingsOpen && <OptionsModal setSelectedTotalQs={setSelectedTotalQs} /* setSelectedDifficulty={setSelectedDifficulty} */ setSelectedCategory={setSelectedCategory} saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
     </>
   )
 }
