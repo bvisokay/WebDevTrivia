@@ -32,7 +32,7 @@ const FooterContainer = styled.div`
   @media ${breakpoints.xs} {
     font-size: 1rem;
   }
-  @media ${breakpoints.sm} {
+  @media ${breakpoints.md} {
     font-size: 1rem;
   }
 `

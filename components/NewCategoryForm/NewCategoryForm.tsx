@@ -1,4 +1,5 @@
 import React, { useRef } from "react"
+import { SectionNarrow } from "../../styles/GlobalComponents"
 
 const NewQuestionForm: React.FC = () => {
   const categoryInputRef = useRef<HTMLInputElement>(null)
@@ -33,7 +34,7 @@ const NewQuestionForm: React.FC = () => {
   }
 
   return (
-    <>
+    <SectionNarrow>
       <h1>Add New Category</h1>
       <form onSubmit={newCategoryHandler}>
         <div className="form-control">
@@ -44,7 +45,7 @@ const NewQuestionForm: React.FC = () => {
           Submit
         </button>
       </form>
-    </>
+    </SectionNarrow>
   )
 }
 

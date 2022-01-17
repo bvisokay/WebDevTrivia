@@ -3,10 +3,15 @@ import { GlobalStateContext } from "../store/GlobalContext"
 import Container, { HeaderContainer } from "./HeaderStyles"
 import Link from "next/link"
 import { SITENAME } from "../pages/_app"
+import styled from "styled-components"
 
 //comps
-
 import MainNav from "./MainNav"
+
+const LogoText = styled.div`
+  font-size: 1.75rem;
+  padding: 0.5rem 0;
+`
 
 const Header: React.FC = () => {
   const appState = useContext(GlobalStateContext)
@@ -15,7 +20,9 @@ const Header: React.FC = () => {
     <HeaderContainer>
       <Container>
         <Link href="/">
-          <a>{SITENAME}</a>
+          <LogoText>
+            <a>{SITENAME}</a>
+          </LogoText>
         </Link>
 
         <MainNav />

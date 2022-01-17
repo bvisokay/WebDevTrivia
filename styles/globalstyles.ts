@@ -38,7 +38,7 @@ export const GlobalStyles = createGlobalStyle`
     -moz-text-fill-color: transparent;
     filter: drop-shadow(2px 2px var(--secondary));
     //filter: drop-shadow(2px 2px #0085a3);
-    font-size: 2.75rem;
+    font-size: 1rem;
     font-weight: 400;
     text-align: center;
     margin: 20px 0 0 0;
@@ -46,10 +46,10 @@ export const GlobalStyles = createGlobalStyle`
     padding-bottom: 1rem;
 
     @media ${breakpoints.xs} {
-      font-size: 3.75rem;
+      font-size: 2rem;
     }
     @media ${breakpoints.sm} {
-      font-size: 4.375rem;
+      font-size: 2.75rem;
     }
   }
 
@@ -80,6 +80,8 @@ export const GlobalStyles = createGlobalStyle`
   input {
     padding: 0.5rem;
   }
+
+
 
 
   .score,
