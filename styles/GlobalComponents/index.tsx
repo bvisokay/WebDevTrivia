@@ -17,6 +17,14 @@ export const Section = styled.section`
   //border: 3px solid var(--tertiary);
 `
 
+export const SectionNarrow = styled.section`
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: var(--wrapper-width-narrow);
+  //border: 3px solid var(--tertiary);
+`
+
 export const SectionTitle = styled.h2`
   font-weight: 700;
   margin-bottom: 16px;

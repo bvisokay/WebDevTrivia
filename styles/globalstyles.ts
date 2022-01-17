@@ -9,6 +9,7 @@ export const GlobalStyles = createGlobalStyle`
   --tertiary: #041E42;
   --cuatro: #0085a3;
   --wrapper-width: 1015px;
+  --wrapper-width-narrow: 400px;
 }
 
   * {
