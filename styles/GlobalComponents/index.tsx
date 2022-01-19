@@ -44,3 +44,48 @@ export const SectionDivider = styled.div`
   background-color: #fff;
   background: linear-gradient(270deg, var(--secondary) 0%, var(--primary) 100%);
 `
+
+export const ListItem = styled.div`
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+`
+
+export const QuestionCardEl = styled.div`
+  font-size: 0.75rem;
+  font-family: arial, sans-serif;
+  color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin: 1rem 0;
+  padding: 0.5rem;
+`
+
+export const FormControl = styled.div`
+  //border: 1px solid var(--secondary);
+  border-radius: 0.25rem;
+  margin: 0.2rem auto;
+  padding: 0.2rem 0.25rem;
+  color: var(--primary);
+  font-weight: bold;
+
+  input {
+    border: 2px solid var(--secondary);
+    border-radius: 0.25rem;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.5rem 0;
+    border: 2px solid var(--secondary);
+    border-radius: 0.25rem;
+  }
+`

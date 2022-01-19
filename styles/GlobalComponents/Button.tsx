@@ -24,3 +24,30 @@ export const BtnSecondary = styled.button`
     color: white;
   }
 `
+
+export const BtnTertiary = styled.button`
+  cursor: pointer;
+  background: linear-gradient(180deg, #fff, #ffcc91);
+  border: 2px solid #d38558;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  height: 40px;
+  margin: 20px 4px;
+  padding: 0 20px;
+  min-width: 100px;
+  color: orangered;
+`
+
+export const BtnSmall = styled.button`
+  margin: 4px 2px;
+  padding: 4px;
+  font-family: var(--font-primary)
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: var(--primary);
+  border: none;
+  border-radius: .25rem;
+  
+`

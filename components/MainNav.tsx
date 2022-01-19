@@ -81,6 +81,11 @@ const MainNav = () => {
               </Link>
             </li>
             <li>
+              <Link href="/admin">
+                <a>Admin</a>
+              </Link>
+            </li>
+            <li>
               <Link href="/profile">
                 <a>Profile</a>
               </Link>

@@ -10,6 +10,9 @@ export const GlobalStyles = createGlobalStyle`
   --cuatro: #0085a3;
   --wrapper-width: 1015px;
   --wrapper-width-narrow: 400px;
+  --font-primary: monospace, sans-serif;
+  --font-secondary: "Fascinate Inline", Arial, Helvetica, sans-serif;
+  --font-tertiary: "Bungee", sans-serif;
 }
 
   * {
@@ -65,6 +68,24 @@ export const GlobalStyles = createGlobalStyle`
     list-style: none;
   }
 
+  li.dotted {
+    margin: 2rem 0;
+    list-style-type: square;
+    color: var(--primary);
+    padding: 0;
+
+  }
+
+
+  hr {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid var(--primary);
+    color: orangered;
+    border-radius: 8px;
+  }
+
   label,
   input {
     display: block;
@@ -80,6 +101,21 @@ export const GlobalStyles = createGlobalStyle`
   input {
     padding: 0.5rem;
   }
+
+  .modal {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 30rem;
+  z-index: 10;
+  position: fixed;
+  top: 1rem;
+  left: calc(50% - 15rem);
+  font-size: 1rem;
+  overflow-y: auto;
+}
 
 
 
@@ -132,6 +168,16 @@ export const GlobalStyles = createGlobalStyle`
 
   .start {
     max-width: 200px;
+  }
+
+  .categoryList, .questionList {
+    display: block;
+    margin: 2rem auto;
+    max-width: 400px;
+  }
+
+  .categoryItem, .questionItem {
+    font-weight: bold;
   }
 
 `
