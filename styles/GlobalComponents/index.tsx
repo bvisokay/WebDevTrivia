@@ -93,12 +93,16 @@ export const FormControl = styled.div`
   padding: 0.2rem 0.25rem;
   color: var(--primary);
   font-weight: bold;
+  position: relative;
+  z-index: 2;
 
   input {
     border: 2px solid var(--secondary);
     border-radius: 0.25rem;
     display: block;
     min-width: 30px;
+    position: relative;
+    z-index: 2;
   }
 
   textarea {
@@ -107,6 +111,8 @@ export const FormControl = styled.div`
     border-radius: 0.25rem;
     line-height: 1.75;
     padding: 0.25rem;
+    position: relative;
+    z-index: 2;
   }
 
   select {

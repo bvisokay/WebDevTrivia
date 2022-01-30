@@ -205,4 +205,46 @@ export const GlobalStyles = createGlobalStyle`
     padding: 1rem 0;
   }
 
+  .liveValidateMessage {
+  font-size: .75rem;
+  top: -.75rem;
+  position: absolute;
+  z-index: 1;
+  padding-top: 10px;
+  padding-bottom: 16px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  background: #ffd7d4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: crimson;
+}
+
+.liveValidateMessage--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.liveValidateMessage-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.liveValidateMessage-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: 0.33s opacity ease-in-out, 0.33s transform ease-in-out;
+}
+
+.liveValidateMessage-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.liveValidateMessage-exit-active {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: 0.33s opacity ease-in-out, 0.33s transform ease-in-out;
+}
+
 `

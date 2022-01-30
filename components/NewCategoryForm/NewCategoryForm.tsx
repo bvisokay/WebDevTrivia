@@ -1,37 +1,86 @@
-import React, { useRef } from "react"
+import { DRAFT_STATE } from "immer/dist/internal"
+import React, { useEffect, useRef, useState } from "react"
+import { useImmerReducer } from "use-immer"
 import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
 const NewQuestionForm: React.FC = () => {
-  const categoryInputRef = useRef<HTMLInputElement>(null)
+  const originalState = {
+    name: {
+      value: "",
+      hasErrors: false,
+      message: ""
+    },
+    isSaving: false, // to gray out button while processing
+    sendCount: 0
+  }
+
+  function ourReducer(draft: any, action: any) {
+    switch (action.type) {
+      case "clearField":
+        draft.name.value = action.value
+        return
+      case "nameChange":
+        draft.name.hasErrors = false
+        draft.name.value = action.value
+        return
+      case "nameRules":
+        if (!action.value.trim()) {
+          draft.name.hasErrors = true
+          draft.name.message = "You must provide a value."
+        }
+        // need only alphanumeric
+        return
+      case "submitRequest":
+        if (!draft.name.hasErrors) {
+          draft.sendCount++
+        }
+        return
+      case "saveRequestStarted":
+        draft.isSaving = true
+        return
+      case "saveRequestFinished":
+        draft.isSaving = false
+        return
+    }
+  }
+
+  const [state, dispatch] = useImmerReducer(ourReducer, originalState)
+
+  useEffect(() => {
+    if (state.sendCount) {
+      dispatch({ type: "saveRequestStarted" })
+      let controller = new AbortController()
+      const addCat = async () => {
+        try {
+          // Trim and replace with dash, category ends up in url
+          const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
+          const response = await fetch("/api/categories", {
+            method: "POST",
+            body: JSON.stringify(trimmedCategory),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            signal: controller.signal
+          })
+          const data = await response.json()
+          console.log(`data: ${data}`)
+          dispatch({ type: "saveRequestFinished" })
+          dispatch({ type: "clearField", value: "" })
+        } catch (e) {
+          console.log("There was a problem or the request was cancelled")
+          // handle fetch error
+        }
+      }
+      addCat()
+      return () => controller?.abort()
+    } // close if state.sendCount
+  }, [state.sendCount])
 
   function newCategoryHandler(e: React.FormEvent) {
     e.preventDefault()
-
-    // fetch user input
-    const enteredCategory = categoryInputRef.current!.value
-
-    // Trim and replace with dash, category ends up in url
-    // How can we unreplace
-    const trimmedCategory = enteredCategory.trim().replace(/ /g, "-")
-
-    //send valid data
-    fetch("/api/categories", {
-      method: "POST",
-      body: JSON.stringify(trimmedCategory),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => {
-        response.json()
-      })
-      .then(data => {
-        console.log(data)
-      })
-
-    // clear form inputs
-    categoryInputRef.current!.value = ""
+    dispatch({ type: "nameRules", value: state.name.value })
+    dispatch({ type: "submitRequest" })
   }
 
   return (
@@ -39,10 +88,13 @@ const NewQuestionForm: React.FC = () => {
       <SectionTitle>Add New Category</SectionTitle>
       <form onSubmit={newCategoryHandler}>
         <FormControl>
-          <label htmlFor="">Category</label>
-          <input aria-label="Category" type="text" ref={categoryInputRef} />
+          <label htmlFor="category-name">Category</label>
+          <input autoFocus aria-label="Category" type="text" value={state.name.value} onBlur={e => dispatch({ type: "nameRules", value: e.target.value })} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
+          {state.name.hasErrors && <div className="liveValidateMessage">{state.name.message}</div>}
         </FormControl>
-        <BtnTertiary>Submit</BtnTertiary>
+        <BtnTertiary type="submit" disabled={state.isSaving}>
+          {state.isSaving ? "Saving..." : "Add"}
+        </BtnTertiary>
       </form>
     </SectionNarrow>
   )
