@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { breakpoints } from "../breakpoints"
 
 export const Wrapper = styled.div`
   max-width: var(--wrapper-width);
@@ -28,7 +29,7 @@ export const SectionNarrow = styled.section`
 export const SectionTitle = styled.h2`
   font-weight: 700;
   margin-bottom: 16px;
-  color: var(--secondary);
+  color: var(--primary);
 `
 
 export const SectionText = styled.p`
@@ -69,6 +70,22 @@ export const QuestionCardEl = styled.div`
   padding: 0.5rem;
 `
 
+export const QuestionCardRow = styled.div`
+  color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+
+  @media ${breakpoints.sm} {
+    flex-direction: row;
+  }
+`
+
 export const FormControl = styled.div`
   //border: 1px solid var(--secondary);
   border-radius: 0.25rem;
@@ -80,6 +97,16 @@ export const FormControl = styled.div`
   input {
     border: 2px solid var(--secondary);
     border-radius: 0.25rem;
+    display: block;
+    min-width: 30px;
+  }
+
+  textarea {
+    width: 100%;
+    border: 2px solid var(--secondary);
+    border-radius: 0.25rem;
+    line-height: 1.75;
+    padding: 0.25rem;
   }
 
   select {

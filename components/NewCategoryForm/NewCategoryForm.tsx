@@ -1,5 +1,6 @@
 import React, { useRef } from "react"
-import { SectionNarrow } from "../../styles/GlobalComponents"
+import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
+import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
 const NewQuestionForm: React.FC = () => {
   const categoryInputRef = useRef<HTMLInputElement>(null)
@@ -35,15 +36,13 @@ const NewQuestionForm: React.FC = () => {
 
   return (
     <SectionNarrow>
-      <h1>Add New Category</h1>
+      <SectionTitle>Add New Category</SectionTitle>
       <form onSubmit={newCategoryHandler}>
-        <div className="form-control">
+        <FormControl>
           <label htmlFor="">Category</label>
           <input aria-label="Category" type="text" ref={categoryInputRef} />
-        </div>
-        <button className="addQSubmit" type="submit">
-          Submit
-        </button>
+        </FormControl>
+        <BtnTertiary>Submit</BtnTertiary>
       </form>
     </SectionNarrow>
   )

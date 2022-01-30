@@ -1,4 +1,5 @@
 import React, { useRef } from "react"
+import { FormControl } from "../../styles/GlobalComponents"
 
 type userProfileProps = {
   onChangePassword: ({}) => void
@@ -21,14 +22,14 @@ const ProfileForm = (props: userProfileProps) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <div className="form-control">
+      <FormControl>
         <label htmlFor="old-password">Old Password</label>
         <input aria-label="Old Password" type="password" ref={oldPasswordRef} placeholder="Old password" />
-      </div>
-      <div className="form-control">
+      </FormControl>
+      <FormControl>
         <label htmlFor="new-password">New Password</label>
         <input aria-label="New Password" type="password" ref={newPasswordRef} placeholder="New password" />
-      </div>
+      </FormControl>
       <button className="changePW">Change Password</button>
     </form>
   )

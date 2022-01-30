@@ -8,6 +8,8 @@ const LayoutContainer = styled.div`
   min-height: 100%;
   min-height: 100vh;
   flex-direction: column;
+  //border: 1px solid red;
+  margin: 0 auto;
 `
 
 const Container = styled.div`
@@ -17,6 +19,7 @@ const Container = styled.div`
   width: 100%;
   max-width: var(--wrapper-width);
   margin: 0 auto;
+  min-width: 100%;
   //display: flex;
   //flex-direction: column;
 `

@@ -21,7 +21,7 @@ const DeleteQuestionModal = (props: any) => {
   }
 
   const deleteHandler = () => {
-    console.log(props.tgtQuestion)
+    //console.log(props.tgtQuestion)
 
     // delete in DB
     // probably don't need to send the entire questionObj

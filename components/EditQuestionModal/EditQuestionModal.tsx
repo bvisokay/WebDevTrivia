@@ -130,7 +130,7 @@ const EditQuestionModal = (props: any) => {
         </FormControl>
         <FormControl>
           <label htmlFor="">Question</label>
-          <input aria-label="Question" type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} />
+          <textarea aria-label="Question" rows={3} value={newQuestion} onChange={e => setNewQuestion(e.target.value)} />
         </FormControl>
         <FormControl>
           <label htmlFor="">Correct Answer</label>

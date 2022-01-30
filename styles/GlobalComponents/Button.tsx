@@ -41,13 +41,16 @@ export const BtnTertiary = styled.button`
 export const BtnSmall = styled.button`
   margin: 4px 2px;
   padding: 4px;
-  font-family: var(--font-primary)
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-family: var(--font-primary);
   color: #fff;
   cursor: pointer;
   background: var(--primary);
   border: none;
-  border-radius: .25rem;
-  
+  border-radius: 0.25rem;
+  font-size: 0.5rem;
+
+  @media ${breakpoints.sm} {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
 `

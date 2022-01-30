@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Wrapper } from "./NewQFormStyles"
+import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
+import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
 export type Question = {
   category: string
@@ -14,7 +16,7 @@ const NewQuestionForm: React.FC = () => {
   const categoryInputRef = useRef<HTMLSelectElement>(null)
   /* const typeInputRef = useRef<HTMLInputElement>(null) */
   /* const difficultyInputRef = useRef<HTMLInputElement>(null) */
-  const questionInputRef = useRef<HTMLInputElement>(null)
+  const questionInputRef = useRef<HTMLTextAreaElement>(null)
   const correctAnswerInputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer1InputRef = useRef<HTMLInputElement>(null)
   const incorrectAnswer2InputRef = useRef<HTMLInputElement>(null)
@@ -119,13 +121,13 @@ const NewQuestionForm: React.FC = () => {
   }
 
   return (
-    <Wrapper>
-      <h1>Add New Q</h1>
+    <SectionNarrow>
+      <SectionTitle>Add New Question</SectionTitle>
       {isCategoriesLoading ? (
         <p>Loading...</p>
       ) : (
         <form onSubmit={newQuestionHandler}>
-          <div className="form-control">
+          <FormControl>
             <label htmlFor="">Category</label>
             <select name="Category" id="category" ref={categoryInputRef} onChange={e => setSelectedCategory(e.target.value)}>
               <option value="">Make a Selection</option>
@@ -137,44 +139,43 @@ const NewQuestionForm: React.FC = () => {
                 )
               })}
             </select>
-          </div>
-          {/* <button onClick={newCategory}>Add New</button>
-       {newCategoryOpen ? <input type="text" /> : ""} */}
-          {/* <p>Selected Category: {selectedCategory}</p> */}
-          {/* <div className="form-control">
+          </FormControl>
+          {/*    <FormControl>
+            {" "}
             <label htmlFor="">Type</label>
             <input aria-label="Type" type="text" ref={typeInputRef} />
-          </div> */}
-          {/* <div className="form-control">
+          </FormControl>
+          <FormControl>
+            {" "}
             <label htmlFor="">Difficulty</label>
             <input aria-label="Difficulty" type="text" ref={difficultyInputRef} />
-          </div> */}
-          <div className="form-control">
+          </FormControl> */}
+
+          <FormControl>
             <label htmlFor="">Question</label>
-            <input aria-label="Question" type="text" ref={questionInputRef} />
-          </div>
-          <div className="form-control">
+            <textarea aria-label="Question" ref={questionInputRef} rows={3} />
+          </FormControl>
+          <FormControl>
             <label htmlFor="">Correct Answer</label>
             <input aria-label="Correct Answer" type="text" ref={correctAnswerInputRef} />
-          </div>
-          <div className="form-control">
+          </FormControl>
+          <FormControl>
             <label htmlFor="">Incorrect Answer 1</label>
             <input aria-label="Incorrect Answer 1" type="text" ref={incorrectAnswer1InputRef} />
-          </div>
-          <div className="form-control">
+          </FormControl>
+          <FormControl>
             <label htmlFor="">Incorrect Answer 2</label>
             <input aria-label="Incorrect Answer 2" type="text" ref={incorrectAnswer2InputRef} />
-          </div>
-          <div className="form-control">
+          </FormControl>
+          <FormControl>
             <label htmlFor="">Incorrect Answer 3</label>
             <input aria-label="Incorrect Answer 3" type="text" ref={incorrectAnswer3InputRef} />
-          </div>
-          <button className="addQSubmit" type="submit">
-            Submit
-          </button>
+          </FormControl>
+
+          <BtnTertiary>Submit</BtnTertiary>
         </form>
       )}
-    </Wrapper>
+    </SectionNarrow>
   )
 }
 

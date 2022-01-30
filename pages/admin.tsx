@@ -12,8 +12,22 @@ import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal
 // styles
 import { Section, SectionNarrow, ListItem } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
-import { QuestionCardEl } from "../styles/GlobalComponents"
-import { updateQuestionDocument } from "../lib/db"
+import { QuestionCardRow, SectionTitle } from "../styles/GlobalComponents"
+
+import styled from "styled-components"
+import { breakpoints } from "../styles/breakpoints"
+
+const BtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 100px;
+  margin: 0 auto;
+
+  @media ${breakpoints.sm} {
+    //border: 1px solid crimson;
+    margin: 0 0 0 0.5rem;
+  }
+`
 
 const Admin: React.FC = () => {
   const router = useRouter()
@@ -26,6 +40,7 @@ const Admin: React.FC = () => {
   const [allQuestions, setAllQuestions] = useState<any>([])
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
+  const [tgtCategory, setTgtCategory] = useState<string>()
   const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
 
   // make sure the user is logged in if so fetch data
@@ -74,16 +89,18 @@ const Admin: React.FC = () => {
   // CATEGORIES
   // not sure of dependency but need to be logged in
 
-  function EditCategoryHandler() {
+  function EditCategoryHandler(catObj: string) {
+    setTgtCategory(catObj)
     setEditCategoryModalIsOpen(true)
     // IF YOU EDIT - need to find all questions with the old name and update it to be the new name
   }
 
-  function DeleteCategoryHandler() {
+  function DeleteCategoryHandler(catObj: string) {
+    setTgtCategory(catObj)
     setDeleteCategoryModalIsOpen(true)
+    // or convert to uncategorized, add uncategorized as categoyr
     // Should questions with this category be deleted?
     // if not they will never been seen
-    // or convert to uncategorized
   }
 
   function EditQuestionHandler(qObj: any) {
@@ -117,25 +134,21 @@ const Admin: React.FC = () => {
 
   return (
     <Section>
-      <SectionNarrow>
-        <h1>Admin</h1>
-        <p style={{ textAlign: "center" }}>This page is meant for admins to be able to CRUD categories and questions.</p>
-        <hr />
-      </SectionNarrow>
+      <SectionTitle>Admin</SectionTitle>
+      <p style={{ textAlign: "center" }}>This page is meant for admins to be able to CRUD categories and questions.</p>
+      <hr />
 
-      <SectionNarrow>
-        <ul>
-          <p>
-            <strong>Features coming soon include:</strong>
-          </p>
-          <li className="dotted">See all the existing questions and categories to make edits if necesssary.</li>
-          <li className="dotted">Totals for categories</li>
-          <li className="dotted">CRUD all questions and categories here? Need to be able to edit existing questions.</li>
-          <li className="dotted">Ability to search</li>
-          <li className="dotted">Ability to sort</li>
-          <li className="dotted">Ability to filter</li>
-        </ul>
-      </SectionNarrow>
+      <ul>
+        <p>
+          <strong>Features coming soon include:</strong>
+        </p>
+        <li className="dotted">See all the existing questions and categories to make edits if necesssary.</li>
+        <li className="dotted">Totals for categories</li>
+        <li className="dotted">CRUD all questions and categories here? Need to be able to edit existing questions.</li>
+        <li className="dotted">Ability to search</li>
+        <li className="dotted">Ability to sort</li>
+        <li className="dotted">Ability to filter</li>
+      </ul>
 
       <ul className="categoryList">
         <p className="categoryItem">Categories ({categories.length})</p>
@@ -147,28 +160,28 @@ const Admin: React.FC = () => {
                 <p className="categoryItem">{category}</p>
               </div>
               <div>
-                <BtnSmall onClick={EditCategoryHandler}>Edit</BtnSmall>
-                <BtnSmall onClick={DeleteCategoryHandler}>Delete</BtnSmall>
+                <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
+                <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
               </div>
             </ListItem>
           )
         })}
       </ul>
 
-      <ul className="questionList">
-        <p className="questionItem">Questions ({allQuestions.length})</p>
+      <ul /* className="questionList" */>
+        <p /* className="questionItem" */>Questions ({allQuestions.length})</p>
         <hr />
         {allQuestions.map((questionObj: any, index: any) => {
           return (
-            <QuestionCardEl key={index}>
+            <QuestionCardRow key={index}>
               <div>
-                <p style={{ textAlign: "right", fontWeight: "700" }}>{questionObj.category}</p>
+                {/* <p style={{ textAlign: "right", fontWeight: "700" }}>{questionObj.category}</p> */}
                 <div>
                   <p>
                     <strong>Q: </strong>
                     {questionObj.question}
                   </p>
-                  <p>
+                  {/*   <p>
                     <strong>Correct A:</strong> {questionObj.correct_answer}
                   </p>
                   <p>
@@ -179,7 +192,7 @@ const Admin: React.FC = () => {
                   </p>
                   <p>
                     <strong>Incorrect 3:</strong> {questionObj.incorrect_answers[2]}
-                  </p>
+                  </p> */}
                 </div>
                 {/*  <p className="categoryItem">Correct Answer: {questionObj.correct_answer}</p>
                 <p className="categoryItem">Incorrect Answer 1: {questionObj.incorrect_answers[0]}</p>
@@ -187,11 +200,11 @@ const Admin: React.FC = () => {
                 <p className="categoryItem">Incorrect Answer 3: {questionObj.incorrect_answers[2]}</p> */}
               </div>
 
-              <div>
+              <BtnContainer>
                 <BtnSmall onClick={EditQuestionHandler.bind(null, questionObj)}>Edit</BtnSmall>
                 <BtnSmall onClick={DeleteQuestionHandler.bind(null, questionObj)}>Delete</BtnSmall>
-              </div>
-            </QuestionCardEl>
+              </BtnContainer>
+            </QuestionCardRow>
           )
         })}
       </ul>
@@ -200,14 +213,14 @@ const Admin: React.FC = () => {
       {deleteCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <DeleteCategoryModal closeModalHandler={closeModalHandler} />
+          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} />
         </>
       )}
 
       {editCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <EditCategoryModal closeModalHandler={closeModalHandler} />
+          <EditCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} />
         </>
       )}
       {deleteQuestionModalIsOpen && (
