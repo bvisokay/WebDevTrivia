@@ -34,12 +34,21 @@ const EditQuestionModal = (props: any) => {
       }
     })
       .then(response => {
-        response.json()
+        return response.json()
       })
       .then(data => {
         // if the db operation is successful then update the UI
         // need to configure data.message == "success"
-        // if (data.message == "success") {}
+        if (data.message == "success") {
+          const updatedQuestions = props.allQuestions.map((item: any) => {
+            if (item.id == updatedQuestion._id) {
+              return updatedQuestion
+            } else {
+              return item
+            }
+          })
+          props.setAllQuestions([...updatedQuestions])
+        }
       })
       .catch(err => console.log(err))
   }
@@ -56,21 +65,6 @@ const EditQuestionModal = (props: any) => {
       console.log(formattedQuestion)
       // Call function to update the database passing it the object
       actuallyUpdateQuestionInDB(formattedQuestion)
-
-      // close the modal without resetting state
-      // should send the new question as an optional parameter to this function
-      // pass the updated Question Object so it can update state/UI on admin page
-      // without a database refresh
-      // only if the update operation was a success
-
-      const updatedQuestions = props.allQuestions.map((item: any) => {
-        if (item.id == formattedQuestion._id) {
-          return formattedQuestion
-        } else {
-          return item
-        }
-      })
-      props.setAllQuestions([...updatedQuestions])
       //close modal
       props.closeModalHandler()
     } else {

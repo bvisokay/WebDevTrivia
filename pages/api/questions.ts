@@ -98,7 +98,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         correct_answer: req.body.correct_answer,
         incorrect_answers: req.body.incorrect_answers
       })
-      res.status(201).json({ message: "Question updated." })
+      res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: "Updating question failed." })
     }
@@ -139,7 +139,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         correct_answer: req.body.correct_answer,
         incorrect_answers: req.body.incorrect_answers
       })
-      res.status(201).json({ message: "Question deleted." })
+      res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: "Deleting question failed." })
     }
