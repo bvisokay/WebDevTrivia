@@ -12,10 +12,19 @@ const DeleteQuestionModal = (props: any) => {
       }
     })
       .then(response => {
-        response.json()
+        return response.json()
       })
       .then(data => {
-        //console.log(data)
+        // only update UI if the db operation was a success
+        if (data.message == "success") {
+          // update the UI
+          const updatedQuestions = props.allQuestions.filter((item: any) => {
+            if (item.id !== props.tgtQuestion.id) {
+              return item
+            }
+          })
+          props.setAllQuestions([...updatedQuestions])
+        }
       })
       .catch(err => console.log(err))
   }
@@ -27,13 +36,6 @@ const DeleteQuestionModal = (props: any) => {
     // probably don't need to send the entire questionObj
     // refactor to just send the id, and maybe the category?
     actuallyDeleteQuestionInDB(props.tgtQuestion)
-    // update the UI
-    const updatedQuestions = props.allQuestions.filter((item: any) => {
-      if (item.id !== props.tgtQuestion.id) {
-        return item
-      }
-    })
-    props.setAllQuestions([...updatedQuestions])
 
     // close the modal after deleting
     props.closeModalHandler()
