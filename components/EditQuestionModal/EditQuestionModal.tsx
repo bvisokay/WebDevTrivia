@@ -37,7 +37,9 @@ const EditQuestionModal = (props: any) => {
         response.json()
       })
       .then(data => {
-        //console.log(data)
+        // if the db operation is successful then update the UI
+        // need to configure data.message == "success"
+        // if (data.message == "success") {}
       })
       .catch(err => console.log(err))
   }
@@ -56,7 +58,7 @@ const EditQuestionModal = (props: any) => {
       actuallyUpdateQuestionInDB(formattedQuestion)
 
       // close the modal without resetting state
-      // should send the new question as an optional paramter to this function
+      // should send the new question as an optional parameter to this function
       // pass the updated Question Object so it can update state/UI on admin page
       // without a database refresh
       // only if the update operation was a success

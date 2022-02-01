@@ -12,7 +12,14 @@ export default NextAuth({
   providers: [
     Providers.Credentials({
       async authorize(credentials) {
-        const client = await connectToDatabase()
+        // error handling for connection to database
+        let client
+        try {
+          client = await connectToDatabase()
+        } catch (error) {
+          res.status(500).json({ message: "There was an error connecting to the database." })
+          return
+        }
 
         const usersCollection = client.db().collection("users")
         const user = await usersCollection.findOne({ email: credentials.email })
@@ -31,12 +38,13 @@ export default NextAuth({
           throw new Error("Could not log you in.")
         }
 
-        // if we return an object inside fo authorize
+        // if we return an object inside of authorize
         // we let next-auth know that authorization succeeded
         // encoded into token
 
         client.close()
-        return { email: user.email }
+        // return { email: user.email }
+        return { username: user.username, email: user.email }
       }
     })
   ]

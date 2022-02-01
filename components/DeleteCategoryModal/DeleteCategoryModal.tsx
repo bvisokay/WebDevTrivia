@@ -13,15 +13,23 @@ const DeleteCategoryModal = (props: any) => {
     })
       .then(response => response.json())
       .then(data => {
-        //console.log(data)
         // if the db operation is successful then update the UI
         if (data.message == "success") {
-          // update successful so update the UI on Admin comp
-          // categories is not an array of objects it is just an array of strings
+          // deletion of category successful so update the UI on Admin comp
+          // categories
           const updatedCategories = props.categories.filter((item: any) => {
-            item !== catToDelete
+            return item !== catToDelete
           })
           props.setCategories([...updatedCategories])
+          // questions with deleted category need to be updated
+          const updatedQuestions = props.allQuestions.map((item: any) => {
+            if (item.category == catToDelete) {
+              return { ...item, category: "uncategorized" }
+            } else {
+              return item
+            }
+          })
+          props.setAllQuestions([...updatedQuestions])
         }
       })
       .catch(err => console.log(err))

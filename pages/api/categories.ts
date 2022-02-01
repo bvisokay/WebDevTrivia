@@ -109,8 +109,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //error handling for adding a new category
     try {
-      await deleteCategoryDocument(client, req.body)
-      res.status(201).json({ message: "success" })
+      let result = await deleteCategoryDocument(client, req.body)
+      if (result) {
+        res.status(201).json({ message: "success" })
+      }
     } catch (error) {
       res.status(500).json({ message: "Deleting category failed." })
     }

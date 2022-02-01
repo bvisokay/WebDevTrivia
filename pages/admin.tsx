@@ -213,7 +213,7 @@ const Admin: React.FC = () => {
       {deleteCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} />
+          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} />
         </>
       )}
 

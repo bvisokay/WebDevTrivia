@@ -13,8 +13,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const { email, password } = data
 
-  if (!email || !email.includes("@") || !password || password.trim().length < 7) {
-    res.status(422).json({ message: "Invalid input - password should also be at least 7 characters." })
+  // need to bulk up the error handling
+  if (!email || !email.includes("@") || !password || password.trim().length < 6) {
+    res.status(422).json({ message: "Invalid input - password should also be at least 6 characters." })
     return
   }
 
