@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { getSession, session } from "next-auth/client"
+import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 
 //comps
@@ -10,9 +10,8 @@ import DeleteQuestionModal from "../components/DeleteQuestionModal/DeleteQuestio
 import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal"
 
 // styles
-import { Section, SectionNarrow, ListItem } from "../styles/GlobalComponents"
+import { Section, ListItem, SectionTitle, QuestionCardRow } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
-import { QuestionCardRow, SectionTitle } from "../styles/GlobalComponents"
 
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
@@ -29,7 +28,7 @@ const BtnContainer = styled.div`
   }
 `
 
-const Admin: React.FC = () => {
+const AdminPage = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true)
@@ -50,7 +49,7 @@ const Admin: React.FC = () => {
         router.replace("/auth")
       } else {
         setIsLoading(false)
-        console.log("useEffect ran")
+        //console.log("useEffect ran")
         setIsCategoriesLoading(true)
         //async function called immediately after to avoid useEffect being async
         const getCategoriesOnLoad = async () => {
@@ -67,15 +66,16 @@ const Admin: React.FC = () => {
         const getQuestionsOnLoad = async () => {
           try {
             const response = await fetch("/api/allquestions")
-            const data = await response.json()
+            const datas = await response.json()
             // Load all categories and store in state
-            setAllQuestions(data)
+
+            setAllQuestions(datas)
           } catch (error) {
             throw new Error()
           }
         } // closes getCategoriesOnLoad definition
-        getCategoriesOnLoad()
         getQuestionsOnLoad()
+        getCategoriesOnLoad()
 
         // teardown function goes here
       }
@@ -168,38 +168,23 @@ const Admin: React.FC = () => {
         })}
       </ul>
 
-      <ul /* className="questionList" */>
-        <p /* className="questionItem" */>Questions ({allQuestions.length})</p>
+      <ul>
+        <p>Questions ({allQuestions.length})</p>
         <hr />
-        {allQuestions.map((questionObj: any, index: any) => {
+        {/* {allQuestions.map((questionObj: any) => (
+          <li key={questionObj.id}>{questionObj.question}</li>
+        ))} */}
+        {allQuestions.map((questionObj: any) => {
           return (
-            <QuestionCardRow key={index}>
+            <QuestionCardRow key={questionObj.id}>
               <div>
-                {/* <p style={{ textAlign: "right", fontWeight: "700" }}>{questionObj.category}</p> */}
                 <div>
                   <p>
                     <strong>Q: </strong>
                     {questionObj.question}
                   </p>
-                  {/*   <p>
-                    <strong>Correct A:</strong> {questionObj.correct_answer}
-                  </p>
-                  <p>
-                    <strong>Incorrect 1:</strong> {questionObj.incorrect_answers[0]}
-                  </p>
-                  <p>
-                    <strong>Incorrect 2:</strong> {questionObj.incorrect_answers[1]}
-                  </p>
-                  <p>
-                    <strong>Incorrect 3:</strong> {questionObj.incorrect_answers[2]}
-                  </p> */}
                 </div>
-                {/*  <p className="categoryItem">Correct Answer: {questionObj.correct_answer}</p>
-                <p className="categoryItem">Incorrect Answer 1: {questionObj.incorrect_answers[0]}</p>
-                <p className="categoryItem">Incorrect Answer 2: {questionObj.incorrect_answers[1]}</p>
-                <p className="categoryItem">Incorrect Answer 3: {questionObj.incorrect_answers[2]}</p> */}
               </div>
-
               <BtnContainer>
                 <BtnSmall onClick={EditQuestionHandler.bind(null, questionObj)}>Edit</BtnSmall>
                 <BtnSmall onClick={DeleteQuestionHandler.bind(null, questionObj)}>Delete</BtnSmall>
@@ -240,4 +225,4 @@ const Admin: React.FC = () => {
   )
 }
 
-export default Admin
+export default AdminPage
