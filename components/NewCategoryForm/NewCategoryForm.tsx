@@ -17,20 +17,17 @@ const NewQuestionForm: React.FC = () => {
   function ourReducer(draft: any, action: any) {
     switch (action.type) {
       case "clearField":
-        draft.name.value = action.value
+        draft.name.value = ""
         return
       case "nameChange":
         draft.name.hasErrors = false
         draft.name.value = action.value
         return
-      case "nameRules":
-        if (!action.value.trim()) {
+      case "submitRequest":
+        if (draft.name.value.trim() == "") {
           draft.name.hasErrors = true
           draft.name.message = "You must provide a value."
         }
-        // need only alphanumeric
-        return
-      case "submitRequest":
         if (!draft.name.hasErrors) {
           draft.sendCount++
         }
@@ -65,7 +62,7 @@ const NewQuestionForm: React.FC = () => {
           const data = await response.json()
           console.log(`data: ${data}`)
           dispatch({ type: "saveRequestFinished" })
-          dispatch({ type: "clearField", value: "" })
+          dispatch({ type: "clearField" })
         } catch (e) {
           console.log("There was a problem or the request was cancelled")
           // handle fetch error
@@ -88,7 +85,7 @@ const NewQuestionForm: React.FC = () => {
       <form onSubmit={newCategoryHandler}>
         <FormControl>
           <label htmlFor="category-name">Category</label>
-          <input autoFocus aria-label="Category" type="text" value={state.name.value} onBlur={e => dispatch({ type: "nameRules", value: e.target.value })} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
+          <input autoFocus aria-label="Category" type="text" value={state.name.value} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
           {state.name.hasErrors && <div className="liveValidateMessage">{state.name.message}</div>}
         </FormControl>
         <BtnTertiary type="submit" disabled={state.isSaving}>
