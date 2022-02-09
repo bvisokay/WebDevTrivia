@@ -54,7 +54,7 @@ export const BtnSmall = styled.button`
   background: var(--primary);
   border: none;
   border-radius: 0.25rem;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
 
   @media ${breakpoints.sm} {
     font-size: 0.8rem;

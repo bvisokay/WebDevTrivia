@@ -74,6 +74,12 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
+  ul{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+  }
+
   li{
     list-style: none;
   }
@@ -105,7 +111,10 @@ export const GlobalStyles = createGlobalStyle`
   input {
     display: block;
     width: 100%;
-    min-width: 300px;
+
+    @media ${breakpoints.sm} {
+      min-width: 300px;
+    }
   }
 
   label {
@@ -118,18 +127,45 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .modal {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   background-color: white;
-  padding: 1rem;
+  padding: .5rem;
   text-align: center;
-  width: 30rem;
   z-index: 10;
   position: fixed;
   top: 1rem;
-  left: calc(50% - 15rem);
-  font-size: 1rem;
-  overflow-y: auto;
+  min-width: 260px;
+  left: calc(50% - 130px);
+  font-size: 0.6rem;
+  max-width: 90%;
+  margin: 0 auto;
+  
+  @media ${breakpoints.xs} {
+  position: fixed;
+  font-size: 0.8rem;
+  width: 20rem;
+  left: calc(50% - 10rem);
+  }
+
+  @media ${breakpoints.sm} {
+  position: fixed;
+  font-size: 0.9rem;
+  width: 26rem;
+  left: calc(50% - 13rem);
+  }
+
+  input, textarea, select, label {
+    font-size: 0.6rem;
+    @media ${breakpoints.xs} {
+      font-size: 0.8rem;
+    }
+    @media ${breakpoints.sm} {
+      font-size: 0.9rem;
+    }
+  }
+
+  
 }
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
-import { FormControl } from "../../styles/GlobalComponents"
+import { FormControl, SectionTitle } from "../../styles/GlobalComponents"
 
 const EditQuestionModal = (props: any) => {
   const [newCategory, setNewCategory] = useState<string>(props.tgtQuestion.category)
@@ -84,15 +84,9 @@ const EditQuestionModal = (props: any) => {
   return (
     <div className="modal">
       {/* Title Area */}
-      <div>
-        <p>Edit Question</p>
-      </div>
+      <SectionTitle>Edit Question</SectionTitle>
       {/* Meat and Potatoes */}
       <div>
-        {/*  <FormControl>
-          <label htmlFor="">ID</label>
-          <input aria-label="Question" type="text" value={props.tgtQuestion.id} />
-        </FormControl> */}
         <FormControl>
           <label htmlFor="">Category</label>
           <select

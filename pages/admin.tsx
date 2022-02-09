@@ -168,7 +168,7 @@ const AdminPage = () => {
         })}
       </ul>
 
-      <ul>
+      <ul className="question">
         <p>Questions ({allQuestions.length})</p>
         <hr />
         {/* {allQuestions.map((questionObj: any) => (

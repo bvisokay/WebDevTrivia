@@ -54,6 +54,8 @@ export const ListItem = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   margin: 0.5rem 0;
   padding: 0 0.5rem;
+  border-radius: 10px;
+  font-weight: 700;
 `
 
 export const QuestionCardEl = styled.div`
@@ -95,6 +97,10 @@ export const FormControl = styled.div`
   font-weight: bold;
   position: relative;
   z-index: 2;
+
+  label {
+    //text-align: center;
+  }
 
   input {
     border: 2px solid var(--secondary);
