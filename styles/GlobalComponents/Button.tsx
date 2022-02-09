@@ -36,6 +36,13 @@ export const BtnTertiary = styled.button`
   padding: 0 20px;
   min-width: 100px;
   color: orangered;
+
+  :disabled {
+    cursor: wait;
+    background: linear-gradient(180deg, #fff, #ffe1bf);
+    border: 2px solid #ca9c81;
+    color: #ff7d4e;
+  }
 `
 
 export const BtnSmall = styled.button`

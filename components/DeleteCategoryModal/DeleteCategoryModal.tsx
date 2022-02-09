@@ -46,7 +46,9 @@ const DeleteCategoryModal = (props: any) => {
   return (
     <div className="modal">
       <p>Are you sure you want to delete this item?</p>
-      <BtnSmall onClick={props.closeModalHandler}>Cancel</BtnSmall>
+      <BtnSmall autoFocus onClick={props.closeModalHandler}>
+        Cancel
+      </BtnSmall>
       <BtnSmall onClick={confirmDeleteHandler}>Confirm</BtnSmall>
     </div>
   )

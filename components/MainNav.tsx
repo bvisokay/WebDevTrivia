@@ -71,7 +71,7 @@ const MainNav = () => {
         {session && (
           <>
             <li>
-              <Link href="/addQuestion">
+              <Link href="/addQ">
                 <a>Add Question</a>
               </Link>
             </li>

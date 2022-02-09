@@ -113,12 +113,16 @@ export const FormControl = styled.div`
     padding: 0.25rem;
     position: relative;
     z-index: 2;
+    resize: none;
   }
 
   select {
     width: 100%;
+    /* margin-top: 0.35rem; */
     padding: 0.5rem 0;
     border: 2px solid var(--secondary);
     border-radius: 0.25rem;
+    position: relative;
+    z-index: 2;
   }
 `

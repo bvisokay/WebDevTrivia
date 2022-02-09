@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import { getSession } from "next-auth/client"
 import { GetServerSideProps, GetServerSidePropsContext } from "next"
 // comps
@@ -14,7 +13,7 @@ const addQuestion = () => {
 }
 
 // redirect away if not logged in - server-side page guard
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const session = await getSession({ req: context.req })
   if (!session) {
     return {

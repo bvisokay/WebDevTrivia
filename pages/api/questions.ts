@@ -12,9 +12,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // add server-side validation to prevent empty fields
-    /*  if (newQuestion.category === "") {
-      res.status(422).json({ message: "Invalid category. " })
-    } */
+    const newQ = {
+      category: req.body.category,
+      type: req.body.type,
+      difficulty: req.body.difficulty,
+      question: req.body.question,
+      correct_answer: req.body.correct_answer,
+      incorrect_answers: req.body.incorrect_answers
+    }
+
+    console.log(newQ)
+
+    if (newQ.category == "" || newQ.type == "" || newQ.difficulty == "" || newQ.question == "" || newQ.correct_answer == "" || newQ.incorrect_answers[0] == "" || newQ.incorrect_answers[1] == "" || newQ.incorrect_answers[2] == "") {
+      res.status(422).json({ message: "No fields may be left blank" })
+      return
+    }
+
+    if (newQ.correct_answer == newQ.incorrect_answers[0] || newQ.correct_answer == newQ.incorrect_answers[1] || newQ.correct_answer == newQ.incorrect_answers[2]) {
+      res.status(422).json({ message: "Correct answer cannot match incorrect answer" })
+      return
+    }
 
     let client
     //error handling for connection to database
@@ -27,15 +44,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //error handling for adding a new question
     try {
-      await addQuestionDocument(client, {
-        category: req.body.category,
-        type: req.body.type,
-        difficulty: req.body.difficulty,
-        question: req.body.question,
-        correct_answer: req.body.correct_answer,
-        incorrect_answers: req.body.incorrect_answers
-      })
-      res.status(201).json({ message: "New question added!" })
+      await addQuestionDocument(client, newQ)
+      res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: "Inserting data failed." })
     }

@@ -207,10 +207,10 @@ export const GlobalStyles = createGlobalStyle`
 
   .liveValidateMessage {
   font-size: .75rem;
-  top: -.75rem;
+  top: -.2rem;
   position: absolute;
   z-index: 1;
-  padding-top: 10px;
+  padding-top: 7px;
   padding-bottom: 16px;
   padding-left: 0.8rem;
   padding-right: 0.8rem;

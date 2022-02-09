@@ -96,6 +96,7 @@ const EditQuestionModal = (props: any) => {
         <FormControl>
           <label htmlFor="">Category</label>
           <select
+            autoFocus
             name="Category"
             id="category"
             onChange={event => {
