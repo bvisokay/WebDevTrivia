@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
 //comps
 import Backdrop from "../components/Backdrop/Backdrop"
@@ -10,7 +11,7 @@ import DeleteQuestionModal from "../components/DeleteQuestionModal/DeleteQuestio
 import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal"
 
 // styles
-import { Section, ListItem, SectionTitle, QuestionCardRow } from "../styles/GlobalComponents"
+import { Section, SectionNarrow, ListItem, SectionText, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
 
 import styled from "styled-components"
@@ -134,43 +135,41 @@ const AdminPage = () => {
 
   return (
     <Section>
-      <SectionTitle>Admin</SectionTitle>
-      <p style={{ textAlign: "center" }}>This page is meant for admins to be able to CRUD categories and questions.</p>
-      <hr />
+      <SectionText style={{ textAlign: "center" }}>Manage All Categories and Questions</SectionText>
 
-      <ul>
-        <p>
-          <strong>Features coming soon include:</strong>
-        </p>
-        <li className="dotted">See all the existing questions and categories to make edits if necesssary.</li>
-        <li className="dotted">Totals for categories</li>
-        <li className="dotted">CRUD all questions and categories here? Need to be able to edit existing questions.</li>
-        <li className="dotted">Ability to search</li>
-        <li className="dotted">Ability to sort</li>
-        <li className="dotted">Ability to filter</li>
-      </ul>
+      <SectionNarrow>
+        <TitleArea>
+          <SectionTitle2>Categories ({categories.length})</SectionTitle2>
+          <Link href="/addCategory">
+            <a>+</a>
+          </Link>
+        </TitleArea>
 
-      <ul className="categoryList">
-        <p className="categoryItem">Categories ({categories.length})</p>
-        <hr />
-        {categories.sort().map((category, index) => {
-          return (
-            <ListItem key={index}>
-              <div>
-                <p className="categoryItem">{category}</p>
-              </div>
-              <div>
-                <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
-                <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
-              </div>
-            </ListItem>
-          )
-        })}
-      </ul>
+        <ul className="categoryList">
+          {categories.sort().map((category, index) => {
+            return (
+              <ListItem key={index}>
+                <div>
+                  <p className="categoryItem">{category}</p>
+                </div>
+                <div>
+                  <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
+                  <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
+                </div>
+              </ListItem>
+            )
+          })}
+        </ul>
+      </SectionNarrow>
+
+      <TitleArea>
+        <SectionTitle2>Questions ({allQuestions.length})</SectionTitle2>
+        <Link href="/addQ">
+          <a>+</a>
+        </Link>
+      </TitleArea>
 
       <ul className="question">
-        <p>Questions ({allQuestions.length})</p>
-        <hr />
         {/* {allQuestions.map((questionObj: any) => (
           <li key={questionObj.id}>{questionObj.question}</li>
         ))} */}

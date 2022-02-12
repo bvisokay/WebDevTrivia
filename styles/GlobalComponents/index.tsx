@@ -11,7 +11,7 @@ export const WideWrapper = styled.div`
 `
 
 export const Section = styled.section`
-  padding: 1rem;
+  padding: 0 1rem;
   margin: 0 auto;
   width: 100%;
   max-width: var(--wrapper-width);
@@ -19,26 +19,38 @@ export const Section = styled.section`
 `
 
 export const SectionNarrow = styled.section`
-  padding: 1rem;
+  padding: 0 1rem;
   margin: 0 auto;
   width: 100%;
   max-width: var(--wrapper-width-narrow);
   //border: 3px solid var(--tertiary);
 `
-
-export const SectionTitle = styled.h2`
+export const PageTitle = styled.h2`
   font-weight: 700;
   margin-bottom: 16px;
   color: var(--primary);
 `
 
+export const SectionTitle = styled.h2`
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: var(--primary);
+  text-align: center;
+`
+export const SectionTitle2 = styled.h4`
+  color: #fff;
+  font-family: var(--font-primary) sans-serif;
+  padding: 0;
+  margin: 0;
+`
 export const SectionText = styled.p`
   font-size: 1rem;
-  line-height: 2rem;
-  padding: 1rem 0;
+  line-height: 1;
+  padding: 0;
 `
 
 export const SectionDivider = styled.div`
+  margin: 0.25rem auto 2rem auto;
   width: 64px;
   height: 6px;
   border-radius: 10px;
@@ -90,45 +102,62 @@ export const QuestionCardRow = styled.div`
 
 export const FormControl = styled.div`
   //border: 1px solid var(--secondary);
-  border-radius: 0.25rem;
-  margin: 0.2rem auto;
-  padding: 0.2rem 0.25rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem auto;
+  padding: 0.35rem 0.25rem;
   color: var(--primary);
   font-weight: bold;
   position: relative;
   z-index: 2;
 
-  label {
-    //text-align: center;
+  input {
+    padding: 0.6rem 0.5rem;
   }
 
-  input {
-    border: 2px solid var(--secondary);
-    border-radius: 0.25rem;
-    display: block;
-    min-width: 30px;
-    position: relative;
-    z-index: 2;
+  label {
+    font-size: 1rem;
+    padding: 0;
   }
 
   textarea {
-    width: 100%;
-    border: 2px solid var(--secondary);
-    border-radius: 0.25rem;
     line-height: 1.75;
-    padding: 0.25rem;
-    position: relative;
-    z-index: 2;
     resize: none;
   }
 
   select {
+    padding: 0.75rem 0;
+  }
+
+  input,
+  textarea,
+  select {
+    margin-top: 0.5rem;
+    min-width: 275px;
     width: 100%;
-    /* margin-top: 0.35rem; */
-    padding: 0.5rem 0;
-    border: 2px solid var(--secondary);
-    border-radius: 0.25rem;
     position: relative;
     z-index: 2;
+    border-radius: 0.5rem;
+    border: 2px solid var(--secondary);
+    :focus {
+      outline: 1px solid var(--secondary);
+    }
+    :active {
+      outline: 1px solid var(--secondary);
+    }
+  }
+`
+export const TitleArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin: 0 0 0.75rem 0;
+
+  a {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.75rem;
   }
 `

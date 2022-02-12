@@ -6,13 +6,10 @@ import { breakpoints } from "../styles/breakpoints"
 const FooterContainer = styled.div`
   background: var(--primary);
   color: white;
-  /* font-family: "Bungee", sans-serif; */
-  /*  padding: 1rem; */
-  //font-family: "Fascinate Inline", Arial, Helvetica, sans-serif;
 
   ul {
     display: flex;
-    padding: 0;
+    padding: 1rem 0;
   }
 
   li {

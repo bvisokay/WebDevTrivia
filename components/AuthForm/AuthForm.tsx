@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react"
 import { signIn } from "next-auth/client"
 import { useRouter } from "next/router"
 
-// styles
-import { Wrapper } from "./AuthFormStyles"
+import { SectionNarrow, FormControl, SectionTitle } from "../../styles/GlobalComponents"
+import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
 async function createUser(email: string, password: string) {
   const response = await fetch("/api/auth/signup", {
@@ -47,7 +47,7 @@ const AuthForm = () => {
       // log user in with redirect to prevent redirect on login error
       const result = await signIn("credentials", { redirect: false, email: enteredEmail, password: enteredPassword })
       if (!result!.error) {
-        router.replace("/addQuestion")
+        router.replace("/admin")
       }
     } else {
       try {
@@ -60,25 +60,25 @@ const AuthForm = () => {
   }
 
   return (
-    <Wrapper>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+    <SectionNarrow>
+      <SectionTitle>{isLogin ? "Login" : "Sign Up"}</SectionTitle>
       <form onSubmit={submitHandler}>
-        <div className="formControl">
+        <FormControl>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
-        </div>
-        <div className="formControl">
+          <input autoComplete="off" type="email" id="email" required ref={emailInputRef} />
+        </FormControl>
+        <FormControl>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" required ref={passwordInputRef} />
-        </div>
+          <input autoComplete="off" type="password" id="password" required ref={passwordInputRef} />
+        </FormControl>
         <div>
-          <button className="login">{isLogin ? "Login" : "Create Account"}</button>
-          <button type="button" className="toggle" onClick={switchAuthModeHandler}>
+          <BtnTertiary className="login">{isLogin ? "Login" : "Create Account"}</BtnTertiary>
+          <BtnTertiary className="toggle" onClick={switchAuthModeHandler}>
             {isLogin ? "Create new account" : "Login with existing account"}
-          </button>
+          </BtnTertiary>
         </div>
       </form>
-    </Wrapper>
+    </SectionNarrow>
   )
 }
 

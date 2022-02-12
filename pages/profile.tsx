@@ -1,10 +1,11 @@
 import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
 import UserProfileComp from "../components/Profile/UserProfile"
 
-import { SectionNarrow } from "../styles/GlobalComponents"
+import { SectionNarrow, SectionTitle, SectionText } from "../styles/GlobalComponents"
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -26,10 +27,15 @@ const Profile = () => {
 
   return (
     <SectionNarrow>
-      <h2>Hello User</h2>
-      <p>This is your profile page</p>
-      <p>See all the user-specific content here </p>
-      <p>CRUD all questions and categories here? Need to be able to edit existing questions.</p>
+      <SectionTitle>Hey There!</SectionTitle>
+      <SectionText>
+        Manage all question and categories{" "}
+        <Link href="/admin">
+          <a className="textLink">here</a>
+        </Link>
+        .
+      </SectionText>
+
       <UserProfileComp />
     </SectionNarrow>
   )

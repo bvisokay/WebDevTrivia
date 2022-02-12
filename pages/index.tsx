@@ -10,6 +10,10 @@ import LoadingError from "../components/LoadingError"
 import QuestionCard from "../components/QuestionCard/QuestionCard"
 import OptionsModal from "../components/OptionsModal/OptionsModal"
 
+//styles
+import { SectionTitle } from "../styles/GlobalComponents"
+import { BtnTertiary } from "../styles/GlobalComponents/Button"
+
 export type AnswerObject = {
   question: string
   answer: string
@@ -147,7 +151,6 @@ const Home: NextPage = () => {
         <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
-      <h1>RANDOM QUIZ</h1>
       {gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
       {!gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
       {loadingError && <LoadingError />}

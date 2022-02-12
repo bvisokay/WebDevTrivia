@@ -1,41 +1,32 @@
 import { useRef } from "react"
-import styled from "styled-components"
-
-const Wrapper = styled.section`
-  max-width: 90%;
-  margin: 3rem auto;
-
-  label {
-    font-weight: bold;
-  }
-
-  input {
-    max-width: 400px;
-    //min-height: 200px;
-  }
-`
+import { FormControl, SectionNarrow } from "../styles/GlobalComponents"
+import { BtnTertiary } from "../styles/GlobalComponents/Button"
 
 const SupportForm = () => {
-  const messageInputRef = useRef<HTMLInputElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const messageInputRef = useRef<HTMLTextAreaElement>(null)
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault()
+    const enteredNameInput = nameInputRef.current!.value
     const enteredMessageInput = messageInputRef.current!.value
-    alert("Sending Feedback Now: " + enteredMessageInput)
+    alert("Sending Feedback Now: " + enteredNameInput + enteredMessageInput)
   }
 
   return (
-    <Wrapper>
+    <SectionNarrow>
       <form onSubmit={submitHandler}>
-        <div className="form-control">
+        <FormControl>
+          <label htmlFor="">Name</label>
+          <input aria-label="Message" ref={nameInputRef} />
+        </FormControl>
+        <FormControl>
           <label htmlFor="">Your Message</label>
-          <input aria-label="Message" type="textarea" ref={messageInputRef} />
-        </div>
-        <button className="supportSubmit" type="submit">
-          Submit
-        </button>
+          <textarea aria-label="Message" rows={8} ref={messageInputRef} />
+        </FormControl>
+        <BtnTertiary>Submit</BtnTertiary>
       </form>
-    </Wrapper>
+    </SectionNarrow>
   )
 }
 

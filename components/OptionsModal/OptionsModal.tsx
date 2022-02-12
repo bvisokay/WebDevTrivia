@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { BackDrop, SettingsPanel, FormGroup } from "./OptionsModalStyles"
+import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
 
 interface OptionsModalProps {
   setSelectedTotalQs: (value: number) => void
@@ -38,12 +40,12 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
   return (
     <BackDrop>
       <SettingsPanel>
-        <h3>Settings</h3>
+        <SectionTitle>Settings</SectionTitle>
         {isCategoriesLoading ? (
           <p>Loading...</p>
         ) : (
           <form onSubmit={saveSettingsHandler}>
-            <FormGroup>
+            <FormControl>
               <label htmlFor="">Category</label>
               <select name="Category" id="category" onChange={e => setSelectedCategory(e.target.value)}>
                 <option value="all">All</option>
@@ -55,10 +57,10 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
                   )
                 })}
               </select>
-            </FormGroup>
+            </FormControl>
 
             {/* Need to prevent showing option for more questions that exist or will get error */}
-            <FormGroup>
+            <FormControl>
               <label htmlFor="">Number of Questions</label>
               <select
                 name="Number of Questions"
@@ -72,7 +74,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
                 <option value="10">10</option>
                 <option value="25">25</option>
               </select>
-            </FormGroup>
+            </FormControl>
 
             {/* Need to prevent showing option for more questions that exist or will get error */}
             {/* bring Back Later */}
@@ -93,12 +95,10 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
           </FormGroup> */}
 
             <div className="btn-container">
-              <button type="submit" className="save">
-                Start
-              </button>
-              <button type="button" className="cancel" onClick={closeSettingsHandler}>
+              <BtnTertiary type="submit">Start</BtnTertiary>
+              <BtnTertiary type="button" onClick={closeSettingsHandler}>
                 Cancel
-              </button>
+              </BtnTertiary>
             </div>
           </form>
         )}

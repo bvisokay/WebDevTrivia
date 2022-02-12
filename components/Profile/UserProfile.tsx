@@ -1,5 +1,5 @@
 import ProfileForm from "./ProfileForm"
-import { SectionNarrow } from "../../styles/GlobalComponents"
+import { SectionTitle } from "../../styles/GlobalComponents"
 
 const UserProfile = () => {
   async function changePasswordHandler(passwordData: any) {
@@ -15,10 +15,10 @@ const UserProfile = () => {
   }
 
   return (
-    <SectionNarrow>
-      <h2>Your User Profile</h2>
+    <>
+      <SectionTitle>Update Password</SectionTitle>
       <ProfileForm onChangePassword={changePasswordHandler} />
-    </SectionNarrow>
+    </>
   )
 }
 

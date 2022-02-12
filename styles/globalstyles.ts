@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle`
   --font-primary: monospace, sans-serif;
   --font-secondary: "Fascinate Inline", Arial, Helvetica, sans-serif;
   --font-tertiary: "Bungee", sans-serif;
+  --font-cuatro: "Catamaran", sans-serif;
 }
 
   * {
@@ -31,22 +32,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   h1 {
-    font-family: "Fascinate Inline", Arial, Helvetica, sans-serif;
-    background-image: linear-gradient(180deg, aqua, var(--primary));
-    background-size: 100%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-    filter: drop-shadow(2px 2px var(--secondary));
-    //filter: drop-shadow(2px 2px #0085a3);
     font-size: 1rem;
-    font-weight: 400;
-    text-align: center;
-    margin: 20px 0 0 0;
-    line-height: 1;
-    padding-bottom: 1rem;
 
     @media ${breakpoints.xs} {
       font-size: 2rem;
@@ -56,23 +42,36 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  h2,h3,h4,h5,h6,button {
-    font-family: "Bungee", sans-serif;
+  h1, h2,h3,h4,h5,h6,button {
+    font-family: var(--font-tertiary), sans-serif;
+    margin: 0;
+    padding: 0;
+    //border: 1px solid hotpink;
   }
 
   p {
     font-size: 0.7rem;
-
     @media ${breakpoints.sm} {
       font-size: .8rem;
     }
-
-    
   }
+
+  /* Links */
 
   a {
     text-decoration: none;
   }
+
+  .textLink {
+    color: var(--primary);
+    font-weight: 700;
+  
+    :hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* End Links */
 
   ul{
     margin-block-start: 0;
@@ -82,19 +81,6 @@ export const GlobalStyles = createGlobalStyle`
 
   li{
     list-style: none;
-  }
-
-  li.dotted {
-    margin: .1rem 0 .1rem 1rem;
-    list-style-type: square;
-    color: var(--primary);
-    padding: 0;
-    font-size: 0.7rem;
-
-@media ${breakpoints.sm} {
-  font-size: .8rem;
-}
-
   }
 
 
@@ -107,24 +93,7 @@ export const GlobalStyles = createGlobalStyle`
     border-radius: 8px;
   }
 
-  label,
-  input {
-    display: block;
-    width: 100%;
 
-    @media ${breakpoints.sm} {
-      min-width: 300px;
-    }
-  }
-
-  label {
-    font-size: 0.8rem;
-    padding-bottom: 0.25rem;
-  }
-
-  input {
-    padding: 0.5rem;
-  }
 
   .modal {
   //box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
@@ -197,7 +166,7 @@ export const GlobalStyles = createGlobalStyle`
   .options,
   .login,
   .toggle,
-  .addQSubmit, .supportSubmit, .changePW {
+  .addQSubmit {
     cursor: pointer;
     background: linear-gradient(180deg, #fff, #ffcc91);
     border: 2px solid #d38558;

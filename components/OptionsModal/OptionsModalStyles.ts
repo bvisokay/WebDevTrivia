@@ -27,16 +27,13 @@ export const SettingsPanel = styled.div`
   max-width: 400px;
 
   form {
-    //border: 2px solid green;
     width: 100%;
   }
 
   label {
     display: block;
-    //border: 2px solid aqua;
     text-align: center;
     width: 100%;
-    font-family: "Catamaran", sans-serif;
   }
 
   select {
@@ -54,30 +51,8 @@ export const SettingsPanel = styled.div`
   }
 
   .btn-container {
-    //border: 2px dashed aqua;
     display: flex;
-    //align-items: center;
     justify-content: center;
     margin: 1rem 0;
   }
-
-  .save,
-  .cancel {
-    cursor: pointer;
-    background: linear-gradient(180deg, #fff, #ffcc91);
-    border: 2px solid #d38558;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    height: 40px;
-    margin: 0 8px;
-    padding: 0 20px;
-    width: 100px;
-  }
-`
-
-export const FormGroup = styled.div`
-  //border: 2px solid hotpink;
-  margin-bottom: 10px;
-  padding: 0.25rem;
-  border-radius: 10px; ;
 `

@@ -30,7 +30,7 @@ export const BtnTertiary = styled.button`
   background: linear-gradient(180deg, #fff, #ffcc91);
   border: 2px solid #d38558;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   height: 40px;
   margin: 20px 4px;
   padding: 0 20px;
@@ -42,6 +42,10 @@ export const BtnTertiary = styled.button`
     background: linear-gradient(180deg, #fff, #ffe1bf);
     border: 2px solid #ca9c81;
     color: #ff7d4e;
+  }
+
+  :focus {
+    outline: 2px solid #ff7d4e;
   }
 `
 
