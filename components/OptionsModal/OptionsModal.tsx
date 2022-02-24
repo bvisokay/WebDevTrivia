@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { BackDrop, SettingsPanel, FormGroup } from "./OptionsModalStyles"
+import { BackDrop, SettingsPanel } from "./OptionsModalStyles"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
 
