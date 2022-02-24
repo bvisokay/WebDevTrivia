@@ -18,7 +18,7 @@ const Wrapper = styled.div<Percentage>`
   h2,
   h3,
   .percentage {
-    font-family: "bungee", sans-serif;
+    font-family: var(--font-secondary);
     margin: 0;
     padding: 1rem;
     line-height: 1;

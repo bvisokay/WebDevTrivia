@@ -47,7 +47,7 @@ export const SectionTitle = styled.h2<SectionTitleProps>`
 
 export const SectionTitle2 = styled.h4`
   color: #fff;
-  font-family: var(--font-primary) sans-serif;
+  font-family: var(--font-primary);
   padding: 0;
   margin: 0;
   color: #fff;
@@ -81,7 +81,7 @@ export const ListItem = styled.div`
 
 export const QuestionCardEl = styled.div`
   font-size: 0.75rem;
-  font-family: arial, sans-serif;
+  font-family: var(--font-primary);
   color: var(--primary);
   display: flex;
   flex-direction: column;

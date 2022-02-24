@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   color: white;
-  font-family: "Catamaran", sans-serif;
+  font-family: var(--font-secondary);
   padding: 1rem;
   max-width: var(--wrapper-width);
   margin: 0 auto;

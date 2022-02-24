@@ -19,14 +19,12 @@ export const GlobalStyles = createGlobalStyle`
   --orange: orange;
   --orangemuted: #ffcc91;
   --transparent-light: rgba(0,0,0,0);
-  --transparent-dark: rgba(0,0,0,.8);
+  --transparent-dark: rgba(0,0,0,.4);
   --white: #fff;
   --wrapper-width: 1015px;
   --wrapper-width-narrow: 400px;
   --font-primary: monospace, sans-serif;
-  --font-secondary: "Fascinate Inline", Arial, Helvetica, sans-serif;
-  --font-tertiary: "Bungee", sans-serif;
-  --font-cuatro: "Catamaran", sans-serif;
+  --font-secondary: 'Bebas Neue', cursive;
 }
 
   * {
@@ -68,8 +66,8 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  h1, h2,h3,h4,h5,h6,button {
-    font-family: var(--font-tertiary), sans-serif;
+  h1,h2,h3,h4,h5,h6,button {
+    font-family: var(--font-secondary);
     margin: 0;
     padding: 0;
     //border: 1px solid hotpink;
@@ -171,8 +169,9 @@ export const GlobalStyles = createGlobalStyle`
   .loading
    {
     text-transform: uppercase;
-    font-family: "Bungee", sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-secondary);
+    font-size: 1.5rem;
+    letter-spacing: 1px;
     margin: -0.5rem 0 0.5rem 0;
     padding: 0;
     color: var(--primary);
@@ -204,13 +203,14 @@ export const GlobalStyles = createGlobalStyle`
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     height: 40px;
-    margin: 20px 4px;
+    margin: 10px 4px;
     padding: 0 20px;
     min-width: 100px;
-    font-size: .5rem;
+    font-size: .8rem;
+    font-weight: 500;
 
     @media ${breakpoints.xs} {
-      font-size: .8rem;
+      font-size: 1rem;
     }
   }
 

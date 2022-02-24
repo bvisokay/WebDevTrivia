@@ -36,6 +36,7 @@ export const BtnTertiary = styled.button`
   padding: 0 20px;
   min-width: 100px;
   color: orangered;
+  font-size: 1rem;
 
   :disabled {
     cursor: wait;

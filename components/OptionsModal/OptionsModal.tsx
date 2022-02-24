@@ -40,7 +40,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
   return (
     <BackDrop>
       <SettingsPanel>
-        <SectionTitle>Settings</SectionTitle>
+        <SectionTitle dark={true}>Settings</SectionTitle>
         {isCategoriesLoading ? (
           <p>Loading...</p>
         ) : (

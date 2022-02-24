@@ -54,7 +54,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     user-select: none;
     font-size: 0.8rem;
     width: 100%;
-    padding: 0.25rem;
+    padding: 0.4rem;
     margin: 5px 0;
     background: ${({ correct, userClicked }) => (correct ? "linear-gradient(90deg, var(--green), var(--greenmuted))" : !correct && userClicked ? "linear-gradient(90deg, var(--red), var(--redmuted))" : "linear-gradient(90deg, var(--cinco), var(--primary))")};
     border: 3px solid #fff;
