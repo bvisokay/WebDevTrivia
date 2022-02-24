@@ -5,7 +5,6 @@ export default function Welcome() {
     <SectionNarrow>
       <SectionTitle>For the Love of Trivia</SectionTitle>
       <SectionDivider />
-
       <SectionText>Time to put your knowledge to the test.</SectionText>
       <SectionText>This site was created out of passion for the topics and the love of trivia.</SectionText>
       <SectionText>

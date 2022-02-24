@@ -55,7 +55,7 @@ export const BtnSmall = styled.button`
   font-family: var(--font-primary);
   color: #fff;
   cursor: pointer;
-  background: var(--primary);
+  background: var(--cinco);
   border: none;
   border-radius: 0.25rem;
   font-size: 0.7rem;

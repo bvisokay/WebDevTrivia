@@ -16,11 +16,11 @@ const SupportForm = () => {
   return (
     <SectionNarrow>
       <form onSubmit={submitHandler}>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Name</label>
           <input aria-label="Message" ref={nameInputRef} />
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Your Message</label>
           <textarea aria-label="Message" rows={8} ref={messageInputRef} />
         </FormControl>

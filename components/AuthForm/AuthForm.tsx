@@ -63,11 +63,11 @@ const AuthForm = () => {
     <SectionNarrow>
       <SectionTitle>{isLogin ? "Login" : "Sign Up"}</SectionTitle>
       <form onSubmit={submitHandler}>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="email">Email</label>
           <input autoComplete="off" type="email" id="email" required ref={emailInputRef} />
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="password">Password</label>
           <input autoComplete="off" type="password" id="password" required ref={passwordInputRef} />
         </FormControl>

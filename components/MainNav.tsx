@@ -29,12 +29,12 @@ const NavContainer = styled.nav`
       display: block;
       width: 100%;
       margin: 0;
-      padding: 0;
+      padding: 0.6rem 0;
 
       @media ${breakpoints.sm} {
         flex-direction: row;
         margin: 0 0.5rem;
-        padding: 0.25rem;
+        padding: 0.35rem;
       }
 
       a:hover {
@@ -59,6 +59,12 @@ const MainNav = () => {
             <a>Home</a>
           </Link>
         </li> */}
+
+        <li>
+          <Link href="/">
+            <a>Start</a>
+          </Link>
+        </li>
 
         {!session && !isLoading && (
           <li>
@@ -95,7 +101,9 @@ const MainNav = () => {
 
         {session && (
           <li>
-            <a onClick={logoutHandler}>Logout</a>
+            <a href="#" onClick={logoutHandler}>
+              Logout
+            </a>
           </li>
         )}
       </ul>

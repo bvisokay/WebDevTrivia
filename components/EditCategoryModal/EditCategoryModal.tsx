@@ -80,9 +80,8 @@ const EditCategoryModal = (props: any) => {
 
   return (
     <div className="modal">
-      <p>Edit</p>
       <FormControl>
-        <label htmlFor="">Category Name</label>
+        <label htmlFor="">Edit Category Name</label>
         <input autoFocus aria-label="Category" type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
       </FormControl>
       <BtnSmall onClick={cancelEditHandler}>Cancel</BtnSmall>

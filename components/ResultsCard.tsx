@@ -5,11 +5,11 @@ import styled from "styled-components"
 const Wrapper = styled.div<Percentage>`
   width: 100%;
   max-width: 400px;
-  background: whitesmoke;
+  background: #ebfeff;
   //background: #ebfeff;
   border-radius: 10px;
   // green if passing or red if failed?
-  border: 2px solid orange;
+  border: 2px solid var(--primary);
   padding: 0.5rem;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
@@ -22,7 +22,7 @@ const Wrapper = styled.div<Percentage>`
     margin: 0;
     padding: 1rem;
     line-height: 1;
-    color: #0085a3;
+    color: var(--primary);
     //color: #56ccff;
     font-size: 2rem;
   }
@@ -34,7 +34,7 @@ const Wrapper = styled.div<Percentage>`
   }
 
   .percentage {
-    color: ${props => (props.percentage >= 70 ? "#59bc86" : "#ff5656")};
+    color: ${props => (props.percentage >= 70 ? "var(--green)" : "var(--red)")};
   }
 `
 

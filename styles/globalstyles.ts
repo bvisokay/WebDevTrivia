@@ -3,11 +3,24 @@ import { breakpoints } from "../styles/breakpoints"
 
 export const GlobalStyles = createGlobalStyle`
 
+/* #003594 */
+
 :root {
-  --primary: #003594;
+  --primary: #1b262c;
   --secondary: #869397;
   --tertiary: #041E42;
   --cuatro: #0085a3;
+  --cinco: #5661ff;
+  --seis: #d38558;
+  --green: #56ffa4;
+  --greenmuted: #59bc86;
+  --red: #ff5656;
+  --redmuted: #d94141;
+  --orange: orange;
+  --orangemuted: #ffcc91;
+  --transparent-light: rgba(0,0,0,0);
+  --transparent-dark: rgba(0,0,0,.8);
+  --white: #fff;
   --wrapper-width: 1015px;
   --wrapper-width-narrow: 400px;
   --font-primary: monospace, sans-serif;
@@ -26,9 +39,22 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: whitesmoke;
+    background-image: url("sebastian-unrau-unsplash.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
+  }
+
+  body::after {
+    content: "";
+    background: rgba(0,0,0,.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -2;
   }
 
   h1 {
@@ -153,6 +179,10 @@ export const GlobalStyles = createGlobalStyle`
     text-align: center;
   }
 
+  .loading {
+    color: #fff;
+  }
+
 
   .btn-container {
     //border: 1px solid hotpink;
@@ -168,15 +198,15 @@ export const GlobalStyles = createGlobalStyle`
   .toggle,
   .addQSubmit {
     cursor: pointer;
-    background: linear-gradient(180deg, #fff, #ffcc91);
-    border: 2px solid #d38558;
+    color: orangered;
+    background: linear-gradient(180deg, #fff, var(--orangemuted));
+    border: 2px solid var(--seis);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     height: 40px;
     margin: 20px 4px;
     padding: 0 20px;
     min-width: 100px;
-    color: orangered;
     font-size: .5rem;
 
     @media ${breakpoints.xs} {
@@ -212,11 +242,11 @@ export const GlobalStyles = createGlobalStyle`
 
   .liveValidateMessage {
   font-size: .75rem;
-  top: -.2rem;
+  top: .1rem;
   position: absolute;
   z-index: 1;
   padding-top: 7px;
-  padding-bottom: 16px;
+  padding-bottom: 20px;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
   background: #ffd7d4;

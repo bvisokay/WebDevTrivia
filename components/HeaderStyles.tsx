@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 
 export const HeaderContainer = styled.div`
-  background: var(--primary);
+  background: var(--transparent-light);
   width: 100%;
 `
 

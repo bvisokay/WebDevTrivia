@@ -84,7 +84,7 @@ const EditQuestionModal = (props: any) => {
   return (
     <div className="modal">
       {/* Title Area */}
-      <SectionTitle>Edit Question</SectionTitle>
+      <SectionTitle dark={true}>Edit Question</SectionTitle>
       {/* Meat and Potatoes */}
       <div>
         <FormControl>
