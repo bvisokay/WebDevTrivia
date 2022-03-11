@@ -2,8 +2,14 @@ import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-// import { CSVLink } from "react-csv"
-/* CSV Link is breaking things */
+/* import { CSVLink } from "react-csv" */
+
+import { connectToDatabase, getCategories, getAllQuestions } from "../lib/db"
+
+/* This manage page is a duplicate of the admin page */
+/* Attempt to re-fit with getServerSideProps instead of client side data fetching */
+/* Not just about the data but protecting the page from non-logged in users */
+/* Existing implementation uses the getSession in useEffect Approach */
 
 //comps
 import Backdrop from "../components/Backdrop/Backdrop"
@@ -18,6 +24,7 @@ import { BtnSmall } from "../styles/GlobalComponents/Button"
 
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
+import { GetServerSidePropsContext } from "next"
 
 const BtnContainer = styled.div`
   display: flex;
@@ -31,64 +38,25 @@ const BtnContainer = styled.div`
   }
 `
 
-const AdminPage = () => {
+const AdminPage = (props: any) => {
   const router = useRouter()
-  const [isPageLoading, setIsPageLoading] = useState<boolean>(true)
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<string[]>([])
+
+  console.log(props.session)
+  console.log(props.categoryData)
+  console.log(props.questionData)
+
+  //categories state
+  /* const [isLoading, setIsLoading] = useState(true)
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
+  const [categories, setCategories] = useState<string[]>(props.categoryData)
   const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false)
   const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] = useState(false)
   //questions state
-  const [allQuestions, setAllQuestions] = useState<any>([])
+  const [allQuestions, setAllQuestions] = useState<any>(props.questionData)
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
   const [tgtCategory, setTgtCategory] = useState<string>()
   const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
-
-  // make sure the user is logged in if so fetch data
-  useEffect(() => {
-    getSession().then(session => {
-      if (!session) {
-        router.replace("/auth")
-      } else {
-        setIsPageLoading(false)
-        //console.log("useEffect ran")
-        setIsCategoriesLoading(true)
-        //async function called immediately after to avoid useEffect being async
-        const getCategoriesOnLoad = async () => {
-          try {
-            const response = await fetch("/api/categories")
-            const data = await response.json()
-            // Load all categories and store in state
-            setCategories(data)
-            setIsCategoriesLoading(false)
-          } catch (error) {
-            throw new Error()
-          }
-        } // closes getCategoriesOnLoad definition
-        const getQuestionsOnLoad = async () => {
-          try {
-            const response = await fetch("/api/allquestions")
-            const ourdatas = await response.json()
-            // Load all categories and store in state
-
-            setAllQuestions(ourdatas)
-            console.log(allQuestions)
-          } catch (error) {
-            throw new Error()
-          }
-        } // closes getCategoriesOnLoad definition
-        getQuestionsOnLoad()
-        getCategoriesOnLoad()
-
-        // teardown function goes here
-      }
-    })
-  }, [router])
-
-  if (isPageLoading) {
-    return <p>Loading...</p>
-  }
 
   //EXPORT TO CSV STRATEGY #1
 
@@ -99,7 +67,7 @@ const AdminPage = () => {
     { firstName: "Luky", lastName: "Skywalky" }
   ] */
 
-  /* let mydata
+  /*   let mydata
   if (allQuestions.length) {
     let mydata = allQuestions.reduce((acc: any, q: any) => {
       const { id, question } = q
@@ -211,7 +179,7 @@ const AdminPage = () => {
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
           <Link href="/addCategory">
-            <a>+</a>
+            <a>Add+</a>
           </Link>
         </TitleArea>
 
@@ -234,9 +202,9 @@ const AdminPage = () => {
 
       <TitleArea>
         <SectionTitle2>Questions ({allQuestions.length})</SectionTitle2>
-        {/*  <CSVLink {...csvReport}>Export to CSV</CSVLink> */}
+        {/* <CSVLink {...csvReport}>Export to CSV</CSVLink> */}
         <Link href="/addQ">
-          <a>+</a>
+          <a>Add+</a>
         </Link>
         {/* <button type="button" onClick={exportToCsv}>
           Export to CSV
@@ -296,6 +264,46 @@ const AdminPage = () => {
       )}
     </Section>
   )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession({ req: context.req })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false
+      }
+    }
+  }
+
+  /* Get Cats and Qs */
+  let client
+  try {
+    client = await connectToDatabase()
+  } catch (error) {
+    console.log(error)
+    return
+  }
+  let categoryData = null
+  let questionData = null
+  try {
+    categoryData = await getCategories(client)
+    questionData = await getAllQuestions(client)
+  } catch (error) {
+    console.log(error)
+  }
+  client.close()
+  /* END Get Cats and Qs */
+
+  return {
+    props: {
+      session,
+      categoryData,
+      questionData
+    }
+  }
 }
 
 export default AdminPage

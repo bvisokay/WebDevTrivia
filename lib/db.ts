@@ -52,7 +52,7 @@ export async function getCategories(client: MongoClient) {
   const cleanedResults = results.map(categoryObj => {
     return categoryObj.name
   })
-  client.close()
+  //client.close()
 
   const data = cleanedResults
   return data
@@ -146,7 +146,7 @@ export async function getAllQuestions(client: MongoClient) {
   // removes _id from each question object
   const cleanedResults = results.map((questionObj: any) => {
     return {
-      id: questionObj._id,
+      id: questionObj._id.toString(),
       category: questionObj.category,
       type: questionObj.type,
       difficulty: questionObj.difficulty,
@@ -156,7 +156,7 @@ export async function getAllQuestions(client: MongoClient) {
     }
   })
 
-  client.close()
+  //client.close()
 
   const data = cleanedResults
   return data

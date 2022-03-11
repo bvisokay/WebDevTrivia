@@ -177,6 +177,6 @@ export const TitleArea = styled.div`
   a {
     color: #fff;
     font-weight: 700;
-    font-size: 1.75rem;
+    font-size: 1rem;
   }
 `

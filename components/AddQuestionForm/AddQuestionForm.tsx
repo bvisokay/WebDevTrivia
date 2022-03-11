@@ -218,7 +218,7 @@ const AddQuestionForm = (props: any) => {
     <SectionNarrow>
       <SectionTitle>Add New Question</SectionTitle>
       <form onSubmit={newQuestionHandler}>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Category</label>
           <select
             onChange={e => {
@@ -240,7 +240,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.category.message}</div>
           </CSSTransition>
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Question</label>
           <textarea
             value={state.question.value}
@@ -256,7 +256,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.question.message}</div>
           </CSSTransition>
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="correctAnswer">Correct Answer</label>
           <input
             value={state.correctAnswer.value}
@@ -272,7 +272,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.correctAnswer.message}</div>
           </CSSTransition>
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="incorrectAnswer1">Incorrect Answer 1</label>
           <input
             value={state.incorrectAnswer1.value}
@@ -288,7 +288,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.incorrectAnswer1.message}</div>
           </CSSTransition>
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Incorrect Answer 2</label>
           <input
             value={state.incorrectAnswer2.value}
@@ -304,7 +304,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.incorrectAnswer2.message}</div>
           </CSSTransition>
         </FormControl>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="">Incorrect Answer 3</label>
           <input
             value={state.incorrectAnswer3.value}
