@@ -83,7 +83,7 @@ const NewQuestionForm: React.FC = () => {
     <SectionNarrow>
       <SectionTitle>Add New Category</SectionTitle>
       <form onSubmit={newCategoryHandler}>
-        <FormControl>
+        <FormControl light={true}>
           <label htmlFor="category-name">Category</label>
           <input autoFocus aria-label="Category" type="text" value={state.name.value} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
           {state.name.hasErrors && <div className="liveValidateMessage">{state.name.message}</div>}
