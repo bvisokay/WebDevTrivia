@@ -42,7 +42,7 @@ const EditQuestionModal = (props: any) => {
         if (data.message == "success") {
           const updatedQuestions = props.allQuestions.map((item: any) => {
             if (item.id == updatedQuestion._id) {
-              return updatedQuestion
+              return { ...updatedQuestion, id: updatedQuestion._id }
             } else {
               return item
             }
