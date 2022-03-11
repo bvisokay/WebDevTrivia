@@ -62,7 +62,7 @@ const EditQuestionModal = (props: any) => {
       // only if there are changes made then create the new Question object you want to send to the database
       // format the updated question to prep it being sent to the database
       const formattedQuestion = { _id: props.tgtQuestion.id, category: newCategory, type: "multiple", difficulty: "easy", question: newQuestion, correct_answer: newCorrectAnswer, incorrect_answers: [newIncorrectAnswer01, newIncorrectAnswer02, newIncorrectAnswer03] }
-      console.log(formattedQuestion)
+      console.log(`formattedQuestion: ${formattedQuestion}`)
       // Call function to update the database passing it the object
       actuallyUpdateQuestionInDB(formattedQuestion)
       //close modal

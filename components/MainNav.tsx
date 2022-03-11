@@ -87,7 +87,7 @@ const MainNav = () => {
               </Link>
             </li>
             <li>
-              <Link href="/admin">
+              <Link href="/manage">
                 <a>Admin</a>
               </Link>
             </li>
