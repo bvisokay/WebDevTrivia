@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
 import { connectToDatabase, addQuestionDocument, getQuestions, updateQuestionDocument, deleteQuestionDocument } from "../../lib/db"
+import { validateNewQs } from "../../lib/util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -11,46 +12,57 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    // add server-side validation to prevent empty fields
-    const newQ = {
-      category: req.body.category,
-      type: req.body.type,
-      difficulty: req.body.difficulty,
-      question: req.body.question,
-      correct_answer: req.body.correct_answer,
-      incorrect_answers: req.body.incorrect_answers
-    }
+    let newQArray
 
-    console.log(newQ)
+    if (req.body.length && req.body instanceof Array) {
+      // cleanup each question object in the array regardless of how many there are
+      newQArray = req.body.map(qObj => {
+        return {
+          category: qObj.category.trim(),
+          type: qObj.type.trim(),
+          difficulty: qObj.difficulty.trim(),
+          question: qObj.question.trim(),
+          correct_answer: qObj.correct_answer.trim(),
+          incorrect_answers: [qObj.incorrect_answers[0].trim(), qObj.incorrect_answers[1].trim(), qObj.incorrect_answers[2].trim()]
+        }
+      }) // end newQArray
 
-    if (newQ.category == "" || newQ.type == "" || newQ.difficulty == "" || newQ.question == "" || newQ.correct_answer == "" || newQ.incorrect_answers[0] == "" || newQ.incorrect_answers[1] == "" || newQ.incorrect_answers[2] == "") {
-      res.status(422).json({ message: "No fields may be left blank" })
-      return
-    }
+      // validate every question object in the array regardless of how many there are
+      const valResult = await validateNewQs(newQArray)
 
-    if (newQ.correct_answer == newQ.incorrect_answers[0] || newQ.correct_answer == newQ.incorrect_answers[1] || newQ.correct_answer == newQ.incorrect_answers[2]) {
-      res.status(422).json({ message: "Correct answer cannot match incorrect answer" })
-      return
-    }
+      if (!valResult) {
+        console.log("Validation failed, operation aborted")
+        return
+      }
 
-    let client
-    //error handling for connection to database
-    try {
-      client = await connectToDatabase()
-    } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
-      return
-    }
+      if (valResult) {
+        let client
+        //error handling for connection to database
+        try {
+          client = await connectToDatabase()
+        } catch (error) {
+          res.status(500).json({ message: "There was an error connecting to the data." })
+          return
+        }
 
-    //error handling for adding a new question
-    try {
-      await addQuestionDocument(client, newQ)
-      res.status(201).json({ message: "success" })
-    } catch (error) {
-      res.status(500).json({ message: "Inserting data failed." })
-    }
+        //error handling for adding a new question
+        for (let i = 0; i < newQArray.length; i++) {
+          let newQ = newQArray[i] || {}
+          try {
+            await addQuestionDocument(client, newQ)
+          } catch (error) {
+            res.status(500).json({ message: "Inserting data failed." })
+            client.close()
+            return
+          }
+        } // end for loop
 
-    client.close()
+        client.close()
+        res.status(201).json({ message: "success" })
+      }
+    } else {
+      res.status(422).json({ message: "Invalid data sent" })
+    } // end if/else
   } // end post request
 
   if (req.method === "GET") {

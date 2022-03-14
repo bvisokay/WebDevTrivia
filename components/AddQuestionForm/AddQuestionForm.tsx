@@ -168,19 +168,22 @@ const AddQuestionForm = (props: any) => {
     if (state.submitCount) {
       dispatch({ type: "saveRequestStarted" })
       // format new Q to send
-      const newQ = {
-        category: state.category.value,
-        type: "multiple",
-        difficulty: "easy",
-        question: state.question.value.trim(),
-        correct_answer: state.correctAnswer.value.trim(),
-        incorrect_answers: [state.incorrectAnswer1.value, state.incorrectAnswer2.value.trim(), state.incorrectAnswer3.value.trim()]
-      }
-      const saveNewQ = async (newQuestionObj: any) => {
+      // sending inside of array
+      const newQ = [
+        {
+          category: state.category.value,
+          type: "multiple",
+          difficulty: "easy",
+          question: state.question.value.trim(),
+          correct_answer: state.correctAnswer.value.trim(),
+          incorrect_answers: [state.incorrectAnswer1.value.trim(), state.incorrectAnswer2.value.trim(), state.incorrectAnswer3.value.trim()]
+        }
+      ]
+      const saveNewQ = async (newQuestionArr: any) => {
         try {
           const response = await fetch("/api/questions", {
             method: "POST",
-            body: JSON.stringify(newQuestionObj),
+            body: JSON.stringify(newQuestionArr),
             headers: {
               "Content-Type": "application/json"
             }

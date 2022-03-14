@@ -62,7 +62,7 @@ const NewQuestionForm: React.FC = () => {
     // fetch user input
     const enteredCategory = categoryInputRef.current!.value
     /*  const enteredType = typeInputRef.current!.value */
-    const enteredType = "multiple choice"
+    const enteredType = "multiple"
     /* const enteredDifficulty = difficultyInputRef.current!.value */
     const enteredDifficulty = "easy"
     const enteredQuestion = questionInputRef.current!.value
