@@ -1,7 +1,8 @@
 import type { NextPage } from "next"
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Head from "next/head"
-import { shuffleArray } from "../utils"
+import { shuffleArray } from "../lib/util"
+import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 
 //comps
 import StartBtns from "../components/StartBtns"
@@ -14,25 +15,8 @@ import OptionsModal from "../components/OptionsModal/OptionsModal"
 import { SectionTitle } from "../styles/GlobalComponents"
 import { BtnTertiary } from "../styles/GlobalComponents/Button"
 
-export type AnswerObject = {
-  question: string
-  answer: string
-  correct: boolean
-  correctAnswer: string
-}
-
-export type Question = {
-  category: string
-  correct_answer: string
-  difficulty: string
-  incorrect_answers: string[]
-  question: string
-  type: string
-}
-
-export type QuestionsState = Question & {
-  answers: string[]
-}
+// types
+import { AnswerObject, Question, QuestionsState } from "../lib/types"
 
 const TOTAL_QUESTIONS = 5
 
@@ -43,13 +27,16 @@ const Home: NextPage = () => {
   const [number, setNumber] = useState(0)
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([])
   const [score, setScore] = useState(0)
-  const [gameOver, setGameOver] = useState(true)
+  //const [gameOver, setGameOver] = useState(true)
   const [loadingError, setLoadingError] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [selectedTotalQs, setSelectedTotalQs] = useState(TOTAL_QUESTIONS)
   /* temporarily not implementating difficulty feature */
   /*   const [selectedDifficulty, setSelectedDifficulty] = useState("easy") */
   const [selectedCategory, setSelectedCategory] = useState("all")
+
+  const appDispatch = useContext(GlobalDispatchContext)
+  const appState = useContext(GlobalStateContext)
 
   const fetchQuizQuestions = async (selectedCategory: string, selectedTotalQs: number) => {
     const trimmedCategory = selectedCategory.trim().replace(/ /g, "")
@@ -89,7 +76,8 @@ const Home: NextPage = () => {
       setUserAnswers([])
       setNumber(0)
       setLoading(false)
-      setGameOver(false)
+      appDispatch({ type: "gameOver", value: false })
+      //setGameOver(false)
     } catch (e) {
       setLoadingError(true)
       setLoading(false)
@@ -98,7 +86,7 @@ const Home: NextPage = () => {
   }
 
   const checkAnswer = (e: any) => {
-    if (!gameOver) {
+    if (!appState.gameOver) {
       // User's answer
       const answer = e.currentTarget.value
       // Check answer against correct answer
@@ -122,7 +110,8 @@ const Home: NextPage = () => {
     // move on to the next question if not the last question
     const nextQuestion = number + 1
     if (nextQuestion === selectedTotalQs) {
-      setGameOver(true)
+      appDispatch({ type: "gameOver", value: true })
+      //setGameOver(true)
     } else {
       setNumber(nextQuestion)
     }
@@ -131,13 +120,15 @@ const Home: NextPage = () => {
   const saveSettingsHandler = (event: React.FormEvent) => {
     event.preventDefault()
     setSettingsOpen(false)
-    setGameOver(true)
+    appDispatch({ type: "gameOver", value: true })
+    //setGameOver(true)
     startTrivia()
   }
 
   const closeSettingsHandler = () => {
     setSettingsOpen(false)
-    setGameOver(true)
+    appDispatch({ type: "gameOver", value: true })
+    //setGameOver(true)
     //reset defaults if cancel button is hit
     setSelectedTotalQs(TOTAL_QUESTIONS)
     setSelectedCategory("all")
@@ -151,12 +142,12 @@ const Home: NextPage = () => {
         <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
-      {gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
-      {!gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
+      {appState.gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
+      {!appState.gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
       {loadingError && <LoadingError />}
       {loading && <div className="loading">Loading Questions...</div>}
-      {!loading && !gameOver && <QuestionCard score={score} questionNr={number + 1} totalQuestions={selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
-      {!gameOver && !loading && userAnswers.length === number + 1 && number !== selectedTotalQs - 1 && (
+      {!loading && !appState.gameOver && <QuestionCard score={score} questionNr={number + 1} totalQuestions={selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
+      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== selectedTotalQs - 1 && (
         <button className="next" onClick={nextQuestion}>
           Next Question
         </button>

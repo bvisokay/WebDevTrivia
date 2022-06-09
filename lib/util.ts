@@ -18,3 +18,7 @@ export async function validateNewQs(newQArray: any[]) {
     return { pass: true, message: "cleared validation" }
   } // end for loop
 } // end validateNewQs
+
+export const shuffleArray = (array: any[]) => {
+  return [...array].sort(() => Math.random() - 0.5)
+}

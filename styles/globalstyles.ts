@@ -24,7 +24,7 @@ export const GlobalStyles = createGlobalStyle`
   --wrapper-width: 1015px;
   --wrapper-width-narrow: 400px;
   --font-primary: monospace, sans-serif;
-  --font-secondary: 'Bebas Neue', cursive;
+  --font-secondary: 'Bebas Neue',  sans-serif;
 }
 
   * {
@@ -37,7 +37,8 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-image: url("sebastian-unrau-unsplash.jpg");
+    //background-image: url("sebastian-unrau-unsplash.jpg");
+    background-color: var(--cinco);
     background-size: cover;
     background-repeat: no-repeat;
     margin: 0;

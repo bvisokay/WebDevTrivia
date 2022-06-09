@@ -4,16 +4,18 @@ import { useImmerReducer } from "use-immer"
 export const GlobalDispatchContext = createContext((() => {}) as React.Dispatch<GlobalActionTypes>)
 
 export const GlobalStateContext = createContext({
+  gameOver: true,
   loggedIn: false,
   flashMessages: [] as any,
   language: "",
   theme: ""
 })
 
-type GlobalActionTypes = { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string } | { type: "setEnglish" } | { type: "setSpanish" } | { type: "setLatin" } | { type: "setLightTheme" } | { type: "setDarkTheme" }
+type GlobalActionTypes = { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string } | { type: "setEnglish" } | { type: "setSpanish" } | { type: "setLatin" } | { type: "setLightTheme" } | { type: "setDarkTheme" }
 
 export const GlobalContextProvider: React.FC = props => {
   const initialState = {
+    gameOver: true,
     loggedIn: false,
     flashMessages: [] as any,
     language: "english",
@@ -22,6 +24,8 @@ export const GlobalContextProvider: React.FC = props => {
 
   function ourReducer(draft: typeof initialState, action: GlobalActionTypes): void {
     switch (action.type) {
+      case "gameOver":
+        draft.gameOver = action.value
       case "login":
         draft.loggedIn = true
         return

@@ -27,12 +27,12 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <Container>
+        {/* // need a function to manually reset the game state app */}
         <Link href="/">
-          <LogoText>
-            <a>{SITENAME}</a>
-          </LogoText>
+          <a>
+            <LogoText>{SITENAME}</LogoText>
+          </a>
         </Link>
-
         <MainNav />
         {/* <p>{appState.loggedIn ? "Logged In" : "Logged Out"}</p> */}
         {/*  <LogInOutBtns /> */}
