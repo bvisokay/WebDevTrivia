@@ -1,13 +1,15 @@
 import { useContext } from "react"
-import { GlobalStateContext } from "../store/GlobalContext"
+import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 import Container, { HeaderContainer } from "./HeaderStyles"
 import Link from "next/link"
 import { SITENAME } from "../pages/_app"
-import styled from "styled-components"
-import { breakpoints } from "../styles/breakpoints"
 import { FaSun } from "react-icons/fa"
 import { RiMoonClearLine } from "react-icons/ri"
 import { GiHamburgerMenu } from "react-icons/gi"
+
+//styles
+import { breakpoints } from "../styles/breakpoints"
+import styled from "styled-components"
 
 //comps
 import MainNav from "./MainNav"
@@ -23,13 +25,14 @@ const LogoText = styled.div`
 
 const Header: React.FC = () => {
   const appState = useContext(GlobalStateContext)
+  const appDispatch = useContext(GlobalDispatchContext)
 
   return (
     <HeaderContainer>
       <Container>
         {/* // need a function to manually reset the game state app */}
         <Link href="/">
-          <a>
+          <a onClick={() => appDispatch({ type: "gameOver", value: true })}>
             <LogoText>{SITENAME}</LogoText>
           </a>
         </Link>

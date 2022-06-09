@@ -1,5 +1,9 @@
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/client"
+import { useContext } from "react"
+import { GlobalDispatchContext } from "../store/GlobalContext"
+
+// styles
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 
@@ -45,6 +49,8 @@ const NavContainer = styled.nav`
 `
 
 const MainNav = () => {
+  const appDispatch = useContext(GlobalDispatchContext)
+
   const [session, isLoading] = useSession()
 
   function logoutHandler() {
@@ -54,15 +60,9 @@ const MainNav = () => {
   return (
     <NavContainer>
       <ul>
-        {/*  <li>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-        </li> */}
-
         <li>
           <Link href="/">
-            <a>Start</a>
+            <a onClick={() => appDispatch({ type: "gameOver", value: true })}>Home</a>
           </Link>
         </li>
 
