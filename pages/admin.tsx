@@ -82,9 +82,10 @@ const AdminPage = () => {
         getCategoriesOnLoad()
 
         // teardown function goes here
+        return () => {}
       }
     })
-  }, [router])
+  }, [router, allQuestions])
 
   if (isPageLoading) {
     return <p>Loading...</p>
@@ -216,11 +217,12 @@ const AdminPage = () => {
         </TitleArea>
 
         <ul className="categoryList">
+          {/* Render the Category */}
           {categories.sort().map((category, index) => {
             return (
               <ListItem key={index}>
                 <div>
-                  <p className="categoryItem">{category}</p>
+                  <p className="categoryItem">{category} (#Qs)</p>
                 </div>
                 <div>
                   <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>

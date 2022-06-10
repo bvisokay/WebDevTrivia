@@ -1,9 +1,17 @@
-import React, { useEffect } from "react"
+import { route } from "next/dist/server/router"
+import { useRouter } from "next/router"
+import React, { useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
+import { GlobalDispatchContext } from "../../store/GlobalContext"
+
+//styles
 import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
 const NewQuestionForm: React.FC = () => {
+  const appDispatch = useContext(GlobalDispatchContext)
+  const router = useRouter()
+
   const originalState = {
     name: {
       value: "",
@@ -62,7 +70,9 @@ const NewQuestionForm: React.FC = () => {
           const data = await response.json()
           console.log(`data: ${data}`)
           dispatch({ type: "saveRequestFinished" })
-          dispatch({ type: "clearField" })
+          //dispatch({ type: "clearField" })
+          appDispatch({ type: "flashMessage", value: "Category Added" })
+          router.push("/manage")
         } catch (e) {
           console.log("There was a problem or the request was cancelled")
           // handle fetch error

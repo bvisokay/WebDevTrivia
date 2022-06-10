@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
-import { CSSTransition } from "react-transition-group"
+import { GlobalDispatchContext } from "../../store/GlobalContext"
+import { useRouter } from "next/router"
 
+// styles
+import { CSSTransition } from "react-transition-group"
 import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
@@ -151,6 +154,9 @@ function ourReducer(draft: any, action: any) {
 
 // Main Componemt Function
 const AddQuestionForm = (props: any) => {
+  const appDispatch = useContext(GlobalDispatchContext)
+  const router = useRouter()
+
   // Receive categories as props from parent component via GSSP
   const [categories, setCategories] = useState([])
 
@@ -191,9 +197,10 @@ const AddQuestionForm = (props: any) => {
           const data = await response.json()
           dispatch({ type: "saveRequestFinished" })
           if (data.message == "success") {
-            console.log("New question was added")
-            //pass clearFields a value?
-            dispatch({ type: "clearFields" })
+            //console.log("New question was added")
+            //dispatch({ type: "clearFields" })
+            appDispatch({ type: "flashMessage", value: "New Question Added" })
+            router.push("/manage")
           }
         } catch (e) {
           console.log("New question could not be added")

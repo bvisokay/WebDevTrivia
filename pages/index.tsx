@@ -142,7 +142,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
-      {appState.gameOver || userAnswers.length === selectedTotalQs ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
+      {(appState.gameOver || userAnswers.length === selectedTotalQs) && !loading ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
       {!appState.gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
       {loadingError && <LoadingError />}
       {loading && <div className="loading">Loading Questions...</div>}

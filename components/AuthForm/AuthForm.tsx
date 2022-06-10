@@ -47,7 +47,7 @@ const AuthForm = () => {
       // log user in with redirect to prevent redirect on login error
       const result = await signIn("credentials", { redirect: false, email: enteredEmail, password: enteredPassword })
       if (!result!.error) {
-        router.replace("/admin")
+        router.replace("/manage")
       }
     } else {
       try {

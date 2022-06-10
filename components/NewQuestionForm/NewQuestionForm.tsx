@@ -3,6 +3,8 @@ import { Wrapper } from "./NewQFormStyles"
 import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 
+/* REFACTORED THIS COMP TO LEVERAGE USEIMMERREDUCER */
+
 export type Question = {
   category: string
   type: string

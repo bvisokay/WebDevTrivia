@@ -1,5 +1,6 @@
 import Header from "./Header"
 import Footer from "./Footer"
+import FlashMessages from "./FlashMessages"
 
 import styled from "styled-components"
 
@@ -10,6 +11,7 @@ const LayoutContainer = styled.div`
   flex-direction: column;
   //border: 1px solid red;
   margin: 0 auto;
+  position: relative;
 `
 
 const Container = styled.div`
@@ -29,6 +31,7 @@ const Container = styled.div`
 const Layout: React.FC = props => {
   return (
     <LayoutContainer>
+      <FlashMessages />
       <Header />
       <Container>{props.children}</Container>
       <Footer />

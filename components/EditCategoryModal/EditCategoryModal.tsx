@@ -3,8 +3,10 @@ import { BtnSmall } from "../../styles/GlobalComponents/Button"
 import { FormControl } from "../../styles/GlobalComponents"
 
 const EditCategoryModal = (props: any) => {
-  const [newCategoryName, setNewCategoryName] = useState<string>(props.tgtCategory)
-  //console.log(props.tgtCategory)
+  const [newCategoryName, setNewCategoryName] = useState<string>(props.tgtCategory.name)
+  console.log("props.tgtCategory: ", props.tgtCategory)
+  console.log("props keys: ", Object.keys(props))
+  console.log("props.categories: ", props.categories)
 
   const actuallyUpdatecategoryInDB = (objToSend: any) => {
     // send a patch request to an api route
@@ -23,14 +25,17 @@ const EditCategoryModal = (props: any) => {
         //console.log(data)
         if (data.message == "success") {
           // update successful so update the UI on Admin comp
-          // categories is not an array of objects it is just an array of strings
+          // categories was originally just an array of strings
+          // categories is now an array of objects
           const updatedCategories = props.categories.map((item: any) => {
-            if (item == objToSend.oldCategoryName) {
-              return objToSend.newCategoryName
+            if (item.name === objToSend.oldCategoryName) {
+              item.name = objToSend.newCategoryName
+              return item
             } else {
               return item
             }
           })
+          console.log(updatedCategories)
           props.setCategories([...updatedCategories])
         }
       })
@@ -68,7 +73,7 @@ const EditCategoryModal = (props: any) => {
     // again, needed for query parameters
     const trimmedCategory = newCategoryName.trim().replace(/ /g, "-")
     const objToSend = {
-      oldCategoryName: props.tgtCategory,
+      oldCategoryName: props.tgtCategory.name,
       newCategoryName: trimmedCategory
     }
     // if different send http request to update db

@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import { Question } from "../pages/index"
+import { Question } from "../lib/types"
 import type { NextApiRequest } from "next"
 const ObjectId = require("mongodb").ObjectId
 
@@ -56,6 +56,20 @@ export async function getCategories(client: MongoClient) {
 
   const data = cleanedResults
   return data
+}
+
+export async function getCategoryObjs(client: MongoClient) {
+  const db = client.db()
+  const results = await db.collection("categories").find().toArray()
+  const cleanedResults = results.map(categoryObj => {
+    return {
+      id: categoryObj._id.toString(),
+      name: categoryObj.name,
+      tally: 0
+    }
+  })
+  //client.close()
+  return cleanedResults
 }
 
 export async function updateCategoryDocument(client: MongoClient, objWithOldAndNewNames: any) {

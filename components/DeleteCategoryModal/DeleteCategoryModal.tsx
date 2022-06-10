@@ -18,7 +18,7 @@ const DeleteCategoryModal = (props: any) => {
           // deletion of category successful so update the UI on Admin comp
           // categories
           const updatedCategories = props.categories.filter((item: any) => {
-            return item !== catToDelete
+            return item.name !== catToDelete
           })
           props.setCategories([...updatedCategories])
           // questions with deleted category need to be updated

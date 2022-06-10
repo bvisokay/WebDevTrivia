@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { CSVLink } from "react-csv"
 
-import { connectToDatabase, getCategories, getAllQuestions } from "../lib/db"
+import { connectToDatabase, getCategoryObjs, getAllQuestions } from "../lib/db"
 
 /* This manage page is a duplicate of the admin page */
 /* DONE: Attempt to re-fit with getServerSideProps instead of CS-data-fetching */
@@ -38,26 +38,49 @@ const BtnContainer = styled.div`
   }
 `
 
+interface CategoryObj {
+  id: string
+  name: string
+  tally: number
+}
+
 const AdminPage = (props: any) => {
   const router = useRouter()
 
   //categories state
   /* const [isLoading, setIsLoading] = useState(true)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
-  const [categories, setCategories] = useState<string[]>(props.categoryData)
+  const [categories, setCategories] = useState<CategoryObj[]>(props.categoryData)
   const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false)
   const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] = useState(false)
   //questions state
   const [allQuestions, setAllQuestions] = useState<any>(props.questionData)
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
-  const [tgtCategory, setTgtCategory] = useState<string>()
+
+  // Tgt sent to modals
+  const [tgtCategory, setTgtCategory] = useState<CategoryObj>()
   const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
 
-  console.log(allQuestions)
+  //console.log("allQuestions: ", allQuestions)
+  //console.log("categories: ", categories)
+
+  // Update tally of questions for each category
+  // on page but alos whenever the questions or category state changes
+  useEffect(() => {
+    if (categories) {
+      categories.forEach((categoryObj: any) => {
+        allQuestions.forEach((question: any) => {
+          if (question.category === categoryObj.name) {
+            categoryObj.tally++
+          }
+        })
+      })
+    }
+  }, [allQuestions, categories])
 
   // EXPORT FEATURE USING REACT_CSV LIBRARY
-
+  /* 
   const questionsToExport = [...allQuestions]
 
   const exportColumnHeaders = [
@@ -76,19 +99,20 @@ const AdminPage = (props: any) => {
     filename: "Exportion.csv",
     headers: exportColumnHeaders,
     data: questionsToExport
-  }
+  } */
 
   // CATEGORIES
 
-  function EditCategoryHandler(catObj: string) {
+  function EditCategoryHandler(catObj: CategoryObj) {
     setTgtCategory(catObj)
     setEditCategoryModalIsOpen(true)
     // IF YOU EDIT - need to find all questions with the old name and update it to be the new name
   }
 
-  function DeleteCategoryHandler(catObj: string) {
+  function DeleteCategoryHandler(catObj: CategoryObj) {
     setTgtCategory(catObj)
     setDeleteCategoryModalIsOpen(true)
+    // IF YOU DELETE - need to find all cats with that name and delete or uncat
     // or convert to uncategorized, add uncategorized as categoyr
     // Should questions with this category be deleted?
     // if not they will never been seen
@@ -127,11 +151,13 @@ const AdminPage = (props: any) => {
         </TitleArea>
 
         <ul className="categoryList">
-          {categories.sort().map((category, index) => {
+          {categories.sort().map(category => {
             return (
-              <ListItem key={index}>
+              <ListItem key={category.id}>
                 <div>
-                  <p className="categoryItem">{category}</p>
+                  <p className="categoryItem">
+                    {category.name} ({category.tally})
+                  </p>
                 </div>
                 <div>
                   <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
@@ -143,9 +169,14 @@ const AdminPage = (props: any) => {
         </ul>
       </SectionNarrow>
 
+      <br />
+      <br />
+      <br />
+      <br />
+
       <TitleArea>
         <SectionTitle2>Questions ({allQuestions.length})</SectionTitle2>
-        <CSVLink {...csvExport}>Export to CSV</CSVLink>
+        {/* <CSVLink {...csvExport}>Export to CSV</CSVLink> */}
         <Link href="/addQ">
           <a>Add+</a>
         </Link>
@@ -204,6 +235,7 @@ const AdminPage = (props: any) => {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  console.log("GSSP on Manage")
   const session = await getSession({ req: context.req })
 
   if (!session) {
@@ -223,10 +255,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     console.log(error)
     return
   }
-  let categoryData = null
-  let questionData = null
+  let categoryData: {}[] = []
+  let questionData: {}[] = []
   try {
-    categoryData = await getCategories(client)
+    categoryData = await getCategoryObjs(client)
     questionData = await getAllQuestions(client)
   } catch (error) {
     console.log(error)
