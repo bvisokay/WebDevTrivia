@@ -1,6 +1,16 @@
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
 
 const DeleteCategoryModal = (props: any) => {
+  //
+  //
+  //
+  console.log("props.tgtCategory: ", props.tgtCategory)
+  console.log("props keys: ", Object.keys(props))
+  //console.log("props.categories: ", props.categories)
+  //
+  //
+  //
+
   const actuallyDeleteCategoryInDB = (catToDelete: string) => {
     // send a patch request to an api route
     //send valid data
@@ -23,12 +33,13 @@ const DeleteCategoryModal = (props: any) => {
           props.setCategories([...updatedCategories])
           // questions with deleted category need to be updated
           const updatedQuestions = props.allQuestions.map((item: any) => {
-            if (item.category == catToDelete) {
+            if (item.category.name == catToDelete) {
               return { ...item, category: "uncategorized" }
             } else {
               return item
             }
           })
+          console.log("updatedQuestions: ", updatedQuestions)
           props.setAllQuestions([...updatedQuestions])
         }
       })
@@ -37,7 +48,7 @@ const DeleteCategoryModal = (props: any) => {
 
   const confirmDeleteHandler = () => {
     // send http request passing the name of the category to delete
-    actuallyDeleteCategoryInDB(props.tgtCategory)
+    actuallyDeleteCategoryInDB(props.tgtCategory.name)
 
     // close the modal
     props.closeModalHandler()
@@ -45,7 +56,7 @@ const DeleteCategoryModal = (props: any) => {
 
   return (
     <div className="modal">
-      <p>Are you sure you want to delete this item?</p>
+      <p>Are you sure you want to delete {props.tgtCategory.name}?</p>
       <BtnSmall autoFocus onClick={props.closeModalHandler}>
         Cancel
       </BtnSmall>
