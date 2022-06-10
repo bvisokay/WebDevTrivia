@@ -81,7 +81,7 @@ const NewQuestionForm: React.FC = () => {
       addCat()
       return () => controller?.abort()
     } // close if state.sendCount
-  }, [state.sendCount])
+  }, [state.sendCount, appDispatch, router, dispatch, state.name.value])
 
   function newCategoryHandler(e: React.FormEvent) {
     e.preventDefault()

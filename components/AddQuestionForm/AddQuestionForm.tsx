@@ -163,7 +163,7 @@ const AddQuestionForm = (props: any) => {
   // component throws error if this not in useEffect - something about infinite loop
   useEffect(() => {
     setCategories(props.categories)
-  }, [])
+  }, [props.categories])
 
   // useImmerReducer
   const [state, dispatch] = useImmerReducer(ourReducer, initialState)
@@ -209,7 +209,7 @@ const AddQuestionForm = (props: any) => {
       saveNewQ(newQ)
       // teardown function needed here
     }
-  }, [state.submitCount])
+  }, [state.submitCount, dispatch, appDispatch, router, state.correctAnswer.value, state.incorrectAnswer1.value, state.incorrectAnswer2.value, state.incorrectAnswer3.value, state.question.value, state.category.value])
 
   // none of these values need to be unique or checked after a delay
   // sanitize before saving to the database
