@@ -4,6 +4,9 @@ import { BtnSmall } from "../../styles/GlobalComponents/Button"
 import { FormControl, SectionTitle } from "../../styles/GlobalComponents"
 
 const EditQuestionModal = (props: any) => {
+  console.log("Object.keys(props): ", Object.keys(props))
+  console.log("props.categories: ", props.categories)
+
   const [newCategory, setNewCategory] = useState<string>(props.tgtQuestion.category)
   const [newQuestion, setNewQuestion] = useState<string>(props.tgtQuestion.question)
   const [newCorrectAnswer, setNewCorrectAnswer] = useState<string>(props.tgtQuestion.correct_answer)
@@ -13,7 +16,7 @@ const EditQuestionModal = (props: any) => {
 
   const cancelHandler = () => {
     // Set the state back to the original
-    setNewCategory(props.tgtQuestion.category)
+    setNewCategory(props.tgtQuestion.category.name)
     setNewQuestion(props.tgtQuestion.question)
     setNewCorrectAnswer(props.tgtQuestion.correct_answer)
     setNewIncorrectAnswer01(props.tgtQuestion.incorrect_answers[0])
@@ -100,13 +103,15 @@ const EditQuestionModal = (props: any) => {
             <option value={newCategory}>{newCategory}</option>
             {props.categories
               .filter((category: any) => {
-                return category !== props.tgtQuestion.category
+                //console.log("filter category.name: ", category.name)
+                //console.log("filter props.tgtQuestion.category: ", props.tgtQuestion.category)
+                return category.name !== props.tgtQuestion.category
               })
               .sort()
               .map((category: any, index: any) => {
                 return (
-                  <option key={index} value={category}>
-                    {category}
+                  <option key={index} value={category.name}>
+                    {category.name}
                   </option>
                 )
               })}
