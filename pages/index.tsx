@@ -68,6 +68,13 @@ const Home: NextPage = () => {
       setLoading(true)
       const newQuestions = await fetchQuizQuestions(selectedCategory, selectedTotalQs)
       setQuestions(newQuestions)
+      // what happens if there are no questions for that category
+      if (!questions.length) {
+        appDispatch({ type: "flashMessage", value: "Oops: Something went wrong" })
+        setLoading(false)
+        appDispatch({ type: "gameOver", value: true })
+        return
+      }
       // handle the case if there are not enough questions for selected amount
       if (selectedTotalQs > questions.length) {
         setSelectedTotalQs(newQuestions.length)
