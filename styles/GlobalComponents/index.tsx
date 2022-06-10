@@ -124,10 +124,6 @@ export const FormControl = styled.div<FormControlProps>`
   position: relative;
   z-index: 2;
 
-  input {
-    padding: 0.6rem 0.5rem;
-  }
-
   label {
     font-size: 1rem;
     padding: 0;
@@ -138,23 +134,28 @@ export const FormControl = styled.div<FormControlProps>`
     resize: none;
   }
 
-  select {
-    padding: 0.75rem 0;
-  }
-
   input,
   textarea,
   select {
-    margin-top: 0.5rem;
-    min-width: 160px;
-    width: 100%;
+    padding: 0.1rem 0.2rem;
+    margin-top: 0.1rem;
+    width: 98%;
     position: relative;
     z-index: 2;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     border: 2px solid var(--secondary);
 
+    @media ${breakpoints.xs} {
+      padding: 0.15rem 0.25rem;
+      //border: 2px solid crimson;
+      margin-top: 0.3rem;
+    }
+
     @media ${breakpoints.sm} {
-      min-width: 275px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      //border: 2px solid hotpink;
     }
 
     :focus {
