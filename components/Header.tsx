@@ -32,7 +32,7 @@ const Header: React.FC = () => {
       <Container>
         {/* // need a function to manually reset the game state app */}
         <Link href="/">
-          <a onClick={() => appDispatch({ type: "gameOver", value: true })}>
+          <a onClick={() => appDispatch({ type: "gameReset" })}>
             <LogoText>{SITENAME}</LogoText>
           </a>
         </Link>

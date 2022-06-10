@@ -1,6 +1,8 @@
 import styled from "styled-components"
 //import BackgroundAnimation from "./BackgroundAnimation"
 //import FailAnimation from "./FailAnimation"
+import { useContext } from "react"
+import { GlobalStateContext } from "../store/GlobalContext"
 
 const Wrapper = styled.div<Percentage>`
   width: 100%;
@@ -58,23 +60,23 @@ const GifWrapper = styled.div`
 
 type ResultsProps = {
   score: number
-  selectedTotalQs: number
 }
 
 type Percentage = {
   percentage: number
 }
 
-const ResultsCard: React.FC<ResultsProps> = ({ score, selectedTotalQs }) => {
-  const percentage = (score / selectedTotalQs) * 100
+const ResultsCard: React.FC<ResultsProps> = ({ score }) => {
+  const appState = useContext(GlobalStateContext)
+  const percentage = (score / appState.selectedTotalQs) * 100
   const pass = ["pass-jep.mp4", "pass-rocky.mp4"]
   return (
     <Wrapper percentage={percentage}>
       <h2>
-        RESULTS:<span className="percentage">{percentage}%</span>
+        RESULTS:<span className="percentage">{percentage}</span>
       </h2>
       <h3>
-        ({score} out of {selectedTotalQs})
+        ({score} out of {appState.selectedTotalQs})
       </h3>
 
       <GifWrapper>

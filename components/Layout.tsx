@@ -17,7 +17,8 @@ const LayoutContainer = styled.div`
 const Container = styled.div`
   flex: 1;
   padding: 1rem;
-  border: 1px dashed hotpink;
+  border-top: 1px dashed hotpink;
+  border-bottom: 1px dashed hotpink;
   width: 100%;
   max-width: var(--wrapper-width);
   margin: 0 auto;

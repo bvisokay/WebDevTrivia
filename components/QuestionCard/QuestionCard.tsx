@@ -1,4 +1,4 @@
-import { AnswerObject } from "../../pages/index"
+import { AnswerObject } from "../../lib/types"
 
 import { Wrapper, ProgressBar, ButtonWrapper } from "./QuestionCardStyles"
 

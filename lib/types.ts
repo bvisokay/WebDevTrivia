@@ -5,6 +5,15 @@ export type AnswerObject = {
   correctAnswer: string
 }
 
+export type OptionsModalProps = {
+  /* 
+  Text inside a comment
+  */
+  /* setSelectedDifficulty: (value: string) => void */
+  saveSettingsHandler: (e: React.FormEvent) => void
+  closeSettingsHandler: () => void
+}
+
 export type Question = {
   category: string
   correct_answer: string

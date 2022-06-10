@@ -1,9 +1,13 @@
 import React, { createContext } from "react"
 import { useImmerReducer } from "use-immer"
 
+export const defaultTotalQuestions = 5
+
 export const GlobalDispatchContext = createContext((() => {}) as React.Dispatch<GlobalActionTypes>)
 
 export const GlobalStateContext = createContext({
+  selectedCategory: "",
+  selectedTotalQs: defaultTotalQuestions,
   gameOver: true,
   loggedIn: false,
   flashMessages: [] as any,
@@ -11,10 +15,12 @@ export const GlobalStateContext = createContext({
   theme: ""
 })
 
-type GlobalActionTypes = { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string } | { type: "setEnglish" } | { type: "setSpanish" } | { type: "setLatin" } | { type: "setLightTheme" } | { type: "setDarkTheme" }
+type GlobalActionTypes = { type: "gameReset" } | { type: "setSelectedCategory"; value: string } | { type: "setSelectedTotalQs"; value: number } | { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string } | { type: "setEnglish" } | { type: "setSpanish" } | { type: "setLatin" } | { type: "setLightTheme" } | { type: "setDarkTheme" }
 
 export const GlobalContextProvider: React.FC = props => {
   const initialState = {
+    selectedCategory: "all",
+    selectedTotalQs: defaultTotalQuestions,
     gameOver: true,
     loggedIn: false,
     flashMessages: [] as any,
@@ -24,6 +30,17 @@ export const GlobalContextProvider: React.FC = props => {
 
   function ourReducer(draft: typeof initialState, action: GlobalActionTypes): void {
     switch (action.type) {
+      case "gameReset":
+        draft.gameOver = true
+        draft.selectedTotalQs = defaultTotalQuestions
+        draft.selectedCategory = "all"
+        return
+      case "setSelectedCategory":
+        draft.selectedCategory = action.value
+        return
+      case "setSelectedTotalQs":
+        draft.selectedTotalQs = action.value
+        return
       case "gameOver":
         draft.gameOver = action.value
       case "login":

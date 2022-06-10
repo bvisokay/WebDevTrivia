@@ -1,8 +1,9 @@
 import type { NextPage } from "next"
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Head from "next/head"
 import { shuffleArray } from "../lib/util"
-import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import { defaultTotalQuestions, GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import styled from "styled-components"
 
 //comps
 import StartBtns from "../components/StartBtns"
@@ -18,29 +19,36 @@ import { BtnTertiary } from "../styles/GlobalComponents/Button"
 // types
 import { AnswerObject, Question, QuestionsState } from "../lib/types"
 
-const TOTAL_QUESTIONS = 5
+const Debug = styled.div`
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  padding: 0 0.5rem;
+  p {
+    line-height: 0.5rem;
+  }
+`
 
 // Home: NextPage =
 const Home: NextPage = () => {
+  //console.log("Home Comp Rendered")
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<QuestionsState[]>([])
   const [number, setNumber] = useState(0)
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([])
   const [score, setScore] = useState(0)
-  //const [gameOver, setGameOver] = useState(true)
   const [loadingError, setLoadingError] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [selectedTotalQs, setSelectedTotalQs] = useState(TOTAL_QUESTIONS)
   /* temporarily not implementating difficulty feature */
   /*   const [selectedDifficulty, setSelectedDifficulty] = useState("easy") */
-  const [selectedCategory, setSelectedCategory] = useState("all")
 
   const appDispatch = useContext(GlobalDispatchContext)
   const appState = useContext(GlobalStateContext)
 
   const fetchQuizQuestions = async (selectedCategory: string, selectedTotalQs: number) => {
+    //console.log(selectedCategory)
+    //console.log(selectedTotalQs)
     const trimmedCategory = selectedCategory.trim().replace(/ /g, "")
-    // handle
 
     try {
       let endpoint
@@ -49,10 +57,11 @@ const Home: NextPage = () => {
       } else {
         endpoint = `/api/questions?category=${trimmedCategory}&amount=${selectedTotalQs}`
       }
-      console.log(endpoint)
+      //console.log(endpoint)
 
       const response = await fetch(endpoint)
       const data = await response.json()
+      //console.log("data", data)
 
       return data.map((question: Question) => {
         return { ...question, answers: shuffleArray([...question.incorrect_answers, question.correct_answer]) }
@@ -62,34 +71,38 @@ const Home: NextPage = () => {
     }
   }
 
-  const startTrivia = async () => {
+  useEffect(() => {
+    //console.log("questions.length", questions.length)
+    if (!appState.gameOver && questions.length === 0) {
+      appDispatch({ type: "flashMessage", value: "Error: No questions for that category" })
+      appDispatch({ type: "gameReset" })
+    }
+    if (!appState.gameOver && questions.length && questions.length < appState.selectedTotalQs) {
+      appDispatch({ type: "setSelectedTotalQs", value: questions.length })
+      appDispatch({ type: "flashMessage", value: "As many Qs as possible" })
+      console.log("Question number reset down to what's available")
+    }
+  }, [appState.gameOver, questions, appState.selectedTotalQs, appDispatch])
+
+  const startGameHandler = async () => {
+    //fresh start
+    setLoadingError(false)
+    setLoading(true)
+    //get questions
     try {
-      setLoadingError(false)
-      setLoading(true)
-      const newQuestions = await fetchQuizQuestions(selectedCategory, selectedTotalQs)
+      const newQuestions = await fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
       setQuestions(newQuestions)
-      // what happens if there are no questions for that category
-      if (!questions.length) {
-        appDispatch({ type: "flashMessage", value: "Oops: Something went wrong" })
-        setLoading(false)
-        appDispatch({ type: "gameOver", value: true })
-        return
-      }
-      // handle the case if there are not enough questions for selected amount
-      if (selectedTotalQs > questions.length) {
-        setSelectedTotalQs(newQuestions.length)
-      }
-      setScore(0)
-      setUserAnswers([])
-      setNumber(0)
-      setLoading(false)
-      appDispatch({ type: "gameOver", value: false })
-      //setGameOver(false)
-    } catch (e) {
+    } catch (err) {
       setLoadingError(true)
       setLoading(false)
-      return
+      throw { message: "error", errors: err }
     }
+    // end fetch questions
+    setScore(0)
+    setUserAnswers([])
+    setNumber(0)
+    setLoading(false)
+    appDispatch({ type: "gameOver", value: false })
   }
 
   const checkAnswer = (e: any) => {
@@ -116,29 +129,26 @@ const Home: NextPage = () => {
   const nextQuestion = () => {
     // move on to the next question if not the last question
     const nextQuestion = number + 1
-    if (nextQuestion === selectedTotalQs) {
-      appDispatch({ type: "gameOver", value: true })
-      //setGameOver(true)
+    if (nextQuestion === appState.selectedTotalQs) {
+      appDispatch({ type: "gameReset" })
     } else {
       setNumber(nextQuestion)
     }
   }
 
-  const saveSettingsHandler = (event: React.FormEvent) => {
+  const saveSettingsHandler = async (event: React.FormEvent) => {
     event.preventDefault()
     setSettingsOpen(false)
     appDispatch({ type: "gameOver", value: true })
-    //setGameOver(true)
-    startTrivia()
+    startGameHandler()
   }
 
   const closeSettingsHandler = () => {
     setSettingsOpen(false)
     appDispatch({ type: "gameOver", value: true })
-    //setGameOver(true)
     //reset defaults if cancel button is hit
-    setSelectedTotalQs(TOTAL_QUESTIONS)
-    setSelectedCategory("all")
+    appDispatch({ type: "setSelectedTotalQs", value: defaultTotalQuestions })
+    appDispatch({ type: "setSelectedCategory", value: "all" })
     /* setSelectedDifficulty("easy") */
   }
 
@@ -149,17 +159,25 @@ const Home: NextPage = () => {
         <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
-      {(appState.gameOver || userAnswers.length === selectedTotalQs) && !loading ? <StartBtns startTrivia={startTrivia} setSettingsOpen={setSettingsOpen} /> : null}
-      {!appState.gameOver && userAnswers.length === selectedTotalQs && <ResultsCard score={score} selectedTotalQs={selectedTotalQs} />}
+      {(appState.gameOver || userAnswers.length === appState.selectedTotalQs) && !loading && <StartBtns startGameHandler={startGameHandler} setSettingsOpen={setSettingsOpen} />}
+
+      {!appState.gameOver && userAnswers.length === appState.selectedTotalQs && <ResultsCard score={score} />}
       {loadingError && <LoadingError />}
       {loading && <div className="loading">Loading Questions...</div>}
-      {!loading && !appState.gameOver && <QuestionCard score={score} questionNr={number + 1} totalQuestions={selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
-      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== selectedTotalQs - 1 && (
+      {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
+      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && (
         <button className="next" onClick={nextQuestion}>
           Next Question
         </button>
       )}
-      {settingsOpen && <OptionsModal setSelectedTotalQs={setSelectedTotalQs} /* setSelectedDifficulty={setSelectedDifficulty} */ setSelectedCategory={setSelectedCategory} saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
+      {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
+
+      {/*  <Debug>
+        <p style={{ color: "white" }}>questions.length: {questions.length}</p>
+        <p style={{ color: "white" }}>Number: {number}</p>
+        <p style={{ color: "white" }}>SelectedCategory: {appState.selectedCategory}</p>
+        <p style={{ color: "white" }}>selectedTotalQs: {appState.selectedTotalQs}</p>
+      </Debug> */}
     </>
   )
 }

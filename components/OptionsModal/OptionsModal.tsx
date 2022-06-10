@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { BackDrop, SettingsPanel } from "./OptionsModalStyles"
 import { BtnTertiary } from "../../styles/GlobalComponents/Button"
 import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
+import { GlobalDispatchContext } from "../../store/GlobalContext"
 
-interface OptionsModalProps {
-  setSelectedTotalQs: (value: number) => void
-  setSelectedCategory: (value: string) => void
-  /* setSelectedDifficulty: (value: string) => void */
-  saveSettingsHandler: (e: React.FormEvent) => void
-  closeSettingsHandler: () => void
-}
+import { OptionsModalProps } from "../../lib/types"
 
-const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setSelectedDifficulty, */ setSelectedCategory, saveSettingsHandler, closeSettingsHandler }) => {
+const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, */ saveSettingsHandler, closeSettingsHandler }) => {
+  const appDispatch = useContext(GlobalDispatchContext)
   // set some state
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true)
   const [categories, setCategories] = useState<string[]>([])
@@ -47,7 +43,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
           <form onSubmit={saveSettingsHandler}>
             <FormControl>
               <label htmlFor="">Category</label>
-              <select name="Category" id="category" onChange={e => setSelectedCategory(e.target.value)}>
+              <select name="Category" id="category" onChange={e => appDispatch({ type: "setSelectedCategory", value: e.target.value })}>
                 <option value="all">All</option>
                 {categories.sort().map((category, index) => {
                   return (
@@ -62,14 +58,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ setSelectedTotalQs, /* setS
             {/* Need to prevent showing option for more questions that exist or will get error */}
             <FormControl>
               <label htmlFor="">Number of Questions</label>
-              <select
-                name="Number of Questions"
-                id="numQ"
-                onChange={e => {
-                  const selectedQuestionNr = e.target.value
-                  setSelectedTotalQs(+selectedQuestionNr)
-                }}
-              >
+              <select name="Number of Questions" id="numQ" onChange={e => appDispatch({ type: "setSelectedTotalQs", value: +e.target.value })}>
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>

@@ -62,7 +62,7 @@ const MainNav = () => {
       <ul>
         <li>
           <Link href="/">
-            <a onClick={() => appDispatch({ type: "gameOver", value: true })}>Home</a>
+            <a onClick={() => appDispatch({ type: "gameReset" })}>Home</a>
           </Link>
         </li>
 

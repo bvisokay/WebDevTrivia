@@ -6,7 +6,6 @@ import { CSVLink } from "react-csv"
 
 import { connectToDatabase, getCategoryObjs, getAllQuestions } from "../lib/db"
 
-/* This manage page is a duplicate of the admin page */
 /* DONE: Attempt to re-fit with getServerSideProps instead of CS-data-fetching */
 /* DONE: Not just about the data but protecting the page from non-logged in users */
 /* Existing implementation uses the getSession in useEffect Approach */
@@ -45,8 +44,6 @@ interface CategoryObj {
 }
 
 const AdminPage = (props: any) => {
-  const router = useRouter()
-
   //categories state
   /* const [isLoading, setIsLoading] = useState(true)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
@@ -57,27 +54,11 @@ const AdminPage = (props: any) => {
   const [allQuestions, setAllQuestions] = useState<any>(props.questionData)
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
+  const [catFilter, setCatFilter] = useState<string>("")
 
   // Tgt sent to modals
   const [tgtCategory, setTgtCategory] = useState<CategoryObj>()
   const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
-
-  //console.log("allQuestions: ", allQuestions)
-  //console.log("categories: ", categories)
-
-  // Update tally of questions for each category
-  // on page but alos whenever the questions or category state changes
-  useEffect(() => {
-    if (categories) {
-      categories.forEach((categoryObj: any) => {
-        allQuestions.forEach((question: any) => {
-          if (question.category === categoryObj.name) {
-            categoryObj.tally++
-          }
-        })
-      })
-    }
-  }, [allQuestions, categories])
 
   // EXPORT FEATURE USING REACT_CSV LIBRARY
   /* 
@@ -100,6 +81,19 @@ const AdminPage = (props: any) => {
     headers: exportColumnHeaders,
     data: questionsToExport
   } */
+
+  /* useEffect(() => {
+      if (categories) {
+        categories.forEach((categoryObj: any) => {
+          categoryObj.tally = 0
+          allQuestions.forEach((question: any) => {
+            if (question.category === categoryObj.name) {
+              categoryObj.tally++
+            }
+          })
+        })
+      }
+    }, [allQuestions, categories]) */
 
   // CATEGORIES
 
@@ -138,6 +132,10 @@ const AdminPage = (props: any) => {
     setDeleteQuestionModalIsOpen(false)
   }
 
+  const catFilterHandler = (cat: string) => {
+    setCatFilter(cat)
+  }
+
   return (
     <Section>
       <SectionText style={{ textAlign: "center" }}>Manage All Categories and Questions</SectionText>
@@ -151,21 +149,29 @@ const AdminPage = (props: any) => {
         </TitleArea>
 
         <ul className="categoryList">
-          {categories.sort().map(category => {
-            return (
-              <ListItem key={category.id}>
-                <div>
-                  <p className="categoryItem">
-                    {category.name} ({category.tally})
-                  </p>
-                </div>
-                <div>
-                  <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
-                  <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
-                </div>
-              </ListItem>
-            )
-          })}
+          {categories
+            .sort((a, b) => {
+              if (a.name > b.name) {
+                return 1
+              } else {
+                return -1
+              }
+            })
+            .map(category => {
+              return (
+                <ListItem key={category.id}>
+                  <div>
+                    <p onClick={catFilterHandler.bind(null, category.name)} className="categoryItem">
+                      {category.name} ({category.tally})
+                    </p>
+                  </div>
+                  <div>
+                    <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
+                    <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
+                  </div>
+                </ListItem>
+              )
+            })}
         </ul>
       </SectionNarrow>
 
@@ -175,7 +181,17 @@ const AdminPage = (props: any) => {
       <br />
 
       <TitleArea>
-        <SectionTitle2>Questions ({allQuestions.length})</SectionTitle2>
+        <SectionTitle2>
+          Questions{" "}
+          {!catFilter ? (
+            allQuestions.length
+          ) : (
+            <>
+              <p>Filtering - {catFilter}</p>
+              <BtnSmall onClick={() => setCatFilter("")}>Clear</BtnSmall>
+            </>
+          )}
+        </SectionTitle2>
         {/* <CSVLink {...csvExport}>Export to CSV</CSVLink> */}
         <Link href="/addQ">
           <a>Add+</a>
@@ -183,7 +199,34 @@ const AdminPage = (props: any) => {
       </TitleArea>
 
       <ul className="question">
-        {allQuestions.map((questionObj: any) => {
+        {allQuestions
+          .filter((Q: any) => {
+            if (!catFilter) {
+              return Q
+            }
+            if (catFilter && Q.category === catFilter) {
+              return Q
+            }
+          })
+          .map((questionObj: any) => {
+            return (
+              <QuestionCardRow key={questionObj.id}>
+                <div>
+                  <div>
+                    <p>
+                      <strong>Q: </strong>
+                      {questionObj.question}
+                    </p>
+                  </div>
+                </div>
+                <BtnContainer>
+                  <BtnSmall onClick={EditQuestionHandler.bind(null, questionObj)}>Edit</BtnSmall>
+                  <BtnSmall onClick={DeleteQuestionHandler.bind(null, questionObj)}>Delete</BtnSmall>
+                </BtnContainer>
+              </QuestionCardRow>
+            )
+          })}
+        {/*    {allQuestions.map((questionObj: any) => {
           return (
             <QuestionCardRow key={questionObj.id}>
               <div>
@@ -200,7 +243,7 @@ const AdminPage = (props: any) => {
               </BtnContainer>
             </QuestionCardRow>
           )
-        })}
+        })} */}
       </ul>
 
       {/* Backdrop and Modal Logic*/}
@@ -235,7 +278,6 @@ const AdminPage = (props: any) => {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  console.log("GSSP on Manage")
   const session = await getSession({ req: context.req })
 
   if (!session) {
@@ -247,24 +289,30 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  /* Get Cats and Qs */
   let client
   try {
     client = await connectToDatabase()
-  } catch (error) {
-    console.log(error)
-    return
+  } catch (err) {
+    throw { message: "error", errors: err }
   }
   let categoryData: {}[] = []
   let questionData: {}[] = []
   try {
     categoryData = await getCategoryObjs(client)
     questionData = await getAllQuestions(client)
-  } catch (error) {
-    console.log(error)
+
+    categoryData.forEach((categoryObj: any) => {
+      categoryObj.tally = 0
+      questionData.forEach((question: any) => {
+        if (question.category === categoryObj.name) {
+          categoryObj.tally++
+        }
+      })
+    })
+  } catch (err) {
+    throw { message: "error", errors: err }
   }
   client.close()
-  /* END Get Cats and Qs */
 
   return {
     props: {
