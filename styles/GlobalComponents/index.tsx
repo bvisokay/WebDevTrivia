@@ -19,12 +19,12 @@ export const Section = styled.section`
 `
 
 export const SectionNarrow = styled.section`
-  padding: 1rem;
+  padding: 0.5rem;
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width-narrow);
   //border: 3px solid var(--tertiary);
-  background: var(--transparent-dark);
+  //background: var(--transparent-dark);
   border-radius: 10px;
 `
 export const PageTitle = styled.h2`
@@ -77,6 +77,7 @@ export const ListItem = styled.div`
   padding: 0 0.5rem;
   border-radius: 10px;
   font-weight: 700;
+  //border: 1px solid var(--cinco);
 `
 
 export const QuestionCardEl = styled.div`
@@ -102,11 +103,20 @@ export const QuestionCardRow = styled.div`
   justify-content: space-between;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  margin: 0.25rem 0;
-  padding: 0.25rem;
+  margin: 0.75rem 0;
+  padding: 0.25rem 0.5rem 0.75rem 0.5rem;
 
-  @media ${breakpoints.sm} {
+  @media ${breakpoints.xs} {
     flex-direction: row;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+  }
+
+  p {
+    //border: 1px solid red;
+
+    @media ${breakpoints.xs} {
+      padding-right: 0.8rem;
+    }
   }
 `
 
@@ -174,10 +184,31 @@ export const TitleArea = styled.div`
   padding: 0.75rem;
   border-radius: 10px;
   margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+
+  @media ${breakpoints.xs} {
+    font-size: 1rem;
+  }
+  @media ${breakpoints.sm} {
+    font-size: 1.25rem;
+  }
 
   a {
     color: #fff;
     font-weight: 700;
+    display: flex;
     font-size: 1rem;
+
+    @media ${breakpoints.xs} {
+      font-size: 1.5rem;
+    }
+    @media ${breakpoints.sm} {
+      font-size: 2rem;
+    }
+
+    svg {
+      //border: 1px solid hotpink;
+      border-radius: 6px;
+    }
   }
 `

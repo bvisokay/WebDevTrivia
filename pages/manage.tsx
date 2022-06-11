@@ -3,12 +3,8 @@ import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { CSVLink } from "react-csv"
-
+import { GetServerSidePropsContext } from "next"
 import { connectToDatabase, getCategoryObjs, getAllQuestions } from "../lib/db"
-
-/* DONE: Attempt to re-fit with getServerSideProps instead of CS-data-fetching */
-/* DONE: Not just about the data but protecting the page from non-logged in users */
-/* Existing implementation uses the getSession in useEffect Approach */
 
 //comps
 import Backdrop from "../components/Backdrop/Backdrop"
@@ -18,22 +14,39 @@ import DeleteQuestionModal from "../components/DeleteQuestionModal/DeleteQuestio
 import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal"
 
 // styles
-import { Section, SectionNarrow, ListItem, SectionText, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
+import { Section, SectionNarrow, ListItem, SectionTitle, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
-
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
-import { GetServerSidePropsContext } from "next"
+import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
 
 const BtnContainer = styled.div`
+  //border: 1px solid hotpink;
   display: flex;
   align-items: center;
-  min-width: 100px;
-  margin: 0 auto;
+  justify-content: center;
+  //min-width: 100px;
+  //margin: 0 auto;
 
   @media ${breakpoints.sm} {
     //border: 1px solid crimson;
     margin: 0 0 0 0.5rem;
+  }
+
+  button {
+    background-color: var(--cinco);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    margin: 0.1rem;
+    padding: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      font-size: 1rem;
+    }
   }
 `
 
@@ -138,13 +151,15 @@ const AdminPage = (props: any) => {
 
   return (
     <Section>
-      <SectionText style={{ textAlign: "center" }}>Manage All Categories and Questions</SectionText>
+      {/* <SectionTitle style={{ textAlign: "center" }}>Manage All Categories and Questions</SectionTitle> */}
 
       <SectionNarrow>
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
           <Link href="/addCategory">
-            <a>Add+</a>
+            <a>
+              <FiPlusSquare />
+            </a>
           </Link>
         </TitleArea>
 
@@ -165,10 +180,14 @@ const AdminPage = (props: any) => {
                       {category.name} ({category.tally})
                     </p>
                   </div>
-                  <div>
-                    <BtnSmall onClick={EditCategoryHandler.bind(null, category)}>Edit</BtnSmall>
-                    <BtnSmall onClick={DeleteCategoryHandler.bind(null, category)}>Delete</BtnSmall>
-                  </div>
+                  <BtnContainer>
+                    <button onClick={EditCategoryHandler.bind(null, category)}>
+                      <FiEdit />
+                    </button>
+                    <button onClick={DeleteCategoryHandler.bind(null, category)}>
+                      <FiTrash2 />
+                    </button>
+                  </BtnContainer>
                 </ListItem>
               )
             })}
@@ -188,13 +207,15 @@ const AdminPage = (props: any) => {
           ) : (
             <>
               <p>Filtering - {catFilter}</p>
-              <BtnSmall onClick={() => setCatFilter("")}>Clear</BtnSmall>
+              <BtnSmall onClick={() => setCatFilter("")}>Remove Filter</BtnSmall>
             </>
           )}
         </SectionTitle2>
         {/* <CSVLink {...csvExport}>Export to CSV</CSVLink> */}
         <Link href="/addQ">
-          <a>Add+</a>
+          <a>
+            <FiPlusSquare />
+          </a>
         </Link>
       </TitleArea>
 
@@ -217,11 +238,19 @@ const AdminPage = (props: any) => {
                       <strong>Q: </strong>
                       {questionObj.question}
                     </p>
+                    <p>
+                      <strong>A: </strong>
+                      {questionObj.correct_answer}
+                    </p>
                   </div>
                 </div>
                 <BtnContainer>
-                  <BtnSmall onClick={EditQuestionHandler.bind(null, questionObj)}>Edit</BtnSmall>
-                  <BtnSmall onClick={DeleteQuestionHandler.bind(null, questionObj)}>Delete</BtnSmall>
+                  <button onClick={EditQuestionHandler.bind(null, questionObj)}>
+                    <FiEdit />
+                  </button>
+                  <button onClick={DeleteQuestionHandler.bind(null, questionObj)}>
+                    <FiTrash2 />
+                  </button>
                 </BtnContainer>
               </QuestionCardRow>
             )
