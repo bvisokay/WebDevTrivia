@@ -10,41 +10,21 @@ export async function connectToDatabase() {
   return client
 } // end connectToDatabase
 
-export async function addQuestionDocument(client: MongoClient, document: Question) {
-  const db = client.db()
-  const result = await db.collection("questions").insertOne(document)
-  return result
-}
-
-export async function updateQuestionDocument(client: MongoClient, document: any) {
-  const db = client.db()
-  const result = await db.collection("questions").findOneAndUpdate(
-    { _id: new ObjectId(document._id) },
-    {
-      $set: {
-        category: document.category,
-        type: document.type,
-        difficulty: document.difficulty,
-        question: document.question,
-        correct_answer: document.correct_answer,
-        incorrect_answers: document.incorrect_answers
-      }
-    }
-  )
-  return result
-}
-
-export async function deleteQuestionDocument(client: MongoClient, document: any) {
-  const db = client.db()
-  const result = await db.collection("questions").deleteOne({ _id: new ObjectId(document._id) })
-  return result
-}
+// CREATE
 
 export async function addCategoryDocument(client: MongoClient, document: {}) {
   const db = client.db()
   const result = await db.collection("categories").insertOne(document)
   return result
 }
+
+export async function addQuestionDocument(client: MongoClient, document: Question) {
+  const db = client.db()
+  const result = await db.collection("questions").insertOne(document)
+  return result
+}
+
+// READ
 
 export async function getCategories(client: MongoClient) {
   const db = client.db()
@@ -70,52 +50,6 @@ export async function getCategoryObjs(client: MongoClient) {
   })
   //client.close()
   return cleanedResults
-}
-
-export async function updateCategoryDocument(client: MongoClient, objWithOldAndNewNames: any) {
-  const db = client.db()
-  // update the category name
-  const result = await db.collection("categories").findOneAndUpdate(
-    { name: objWithOldAndNewNames.oldCategoryName },
-    {
-      $set: {
-        name: objWithOldAndNewNames.newCategoryName
-      }
-    }
-  )
-  // update all questions with that category
-  return result
-}
-
-export async function updateQsWithNewCategoryName(client: MongoClient, objWithOldAndNewNames: any) {
-  const db = client.db()
-  // update the category name
-  const result = await db.collection("questions").updateMany(
-    { category: objWithOldAndNewNames.oldCategoryName },
-    {
-      $set: {
-        category: objWithOldAndNewNames.newCategoryName
-      }
-    }
-  )
-  // update all questions with that category
-  return result
-}
-
-// should really be using the id and not the name
-export async function deleteCategoryDocument(client: MongoClient, catName: string) {
-  const db = client.db()
-  // rename existing questions in the category being deleted to uncategorized
-  //const result1 = await db.collection("questions").updateMany({ category: catName }, { $set: { category: "uncategorized" } })
-
-  // delete existing questions in the category being deleted to uncategorized
-  const result1 = await db.collection("questions").deleteMany({ category: catName })
-  const result2 = await db.collection("categories").deleteOne({ name: catName })
-  const resultObj = {
-    result1: result1,
-    result2: result2
-  }
-  return resultObj
 }
 
 export async function getQuestions(client: MongoClient, req: NextApiRequest) {
@@ -178,4 +112,78 @@ export async function getAllQuestions(client: MongoClient) {
 
   const data = cleanedResults
   return data
+}
+
+// UPDATE
+
+export async function updateQuestionDocument(client: MongoClient, document: any) {
+  const db = client.db()
+  const result = await db.collection("questions").findOneAndUpdate(
+    { _id: new ObjectId(document._id) },
+    {
+      $set: {
+        category: document.category,
+        type: document.type,
+        difficulty: document.difficulty,
+        question: document.question,
+        correct_answer: document.correct_answer,
+        incorrect_answers: document.incorrect_answers
+      }
+    }
+  )
+  return result
+}
+
+export async function updateCategoryDocument(client: MongoClient, objWithOldAndNewNames: any) {
+  const db = client.db()
+  // update the category name
+  const result = await db.collection("categories").findOneAndUpdate(
+    { name: objWithOldAndNewNames.oldCategoryName },
+    {
+      $set: {
+        name: objWithOldAndNewNames.newCategoryName
+      }
+    }
+  )
+  // update all questions with that category
+  return result
+}
+
+export async function updateQsWithNewCategoryName(client: MongoClient, objWithOldAndNewNames: any) {
+  const db = client.db()
+  // update the category name
+  const result = await db.collection("questions").updateMany(
+    { category: objWithOldAndNewNames.oldCategoryName },
+    {
+      $set: {
+        category: objWithOldAndNewNames.newCategoryName
+      }
+    }
+  )
+  // update all questions with that category
+  return result
+}
+
+// DELETE
+
+export async function deleteQuestionDocument(client: MongoClient, document: any) {
+  const db = client.db()
+  const result = await db.collection("questions").deleteOne({ _id: new ObjectId(document._id) })
+  return result
+}
+
+// should really be using the id and not the name
+export async function deleteCategoryDocument(client: MongoClient, catName: string) {
+  const db = client.db()
+  // rename existing questions in the category being deleted to uncategorized
+  //const result1 = await db.collection("questions").updateMany({ category: catName }, { $set: { category: "uncategorized" } })
+
+  // delete existing questions in the category being deleted to uncategorized
+  const result1 = await db.collection("questions").deleteMany({ category: catName })
+  const result2 = await db.collection("categories").deleteOne({ name: catName })
+  const resultObj = {
+    result1: result1,
+    result2: result2
+  }
+  return resultObj
 }
