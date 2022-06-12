@@ -19,8 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       newQArray = req.body.map(qObj => {
         return {
           category: qObj.category.trim(),
-          type: qObj.type.trim(),
-          difficulty: qObj.difficulty.trim(),
+          type: "multiple",
+          difficulty: "easy",
           question: qObj.question.trim(),
           correct_answer: qObj.correct_answer.trim(),
           incorrect_answers: [qObj.incorrect_answers[0].trim(), qObj.incorrect_answers[1].trim(), qObj.incorrect_answers[2].trim()]
@@ -40,8 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         //error handling for connection to database
         try {
           client = await connectToDatabase()
-        } catch (error) {
-          res.status(500).json({ message: "There was an error connecting to the data." })
+        } catch (err) {
+          res.status(500).json({ message: "There was an error connecting to the data", errors: err })
           return
         }
 

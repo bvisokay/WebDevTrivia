@@ -1,15 +1,47 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import Papa from "papaparse"
+import { GlobalDispatchContext } from "../store/GlobalContext"
+import Router, { useRouter } from "next/router"
 
 // styled comps
-import { SectionNarrow, SectionTitle } from "../styles/GlobalComponents"
 import { BtnTertiary } from "../styles/GlobalComponents/Button"
+import styled from "styled-components"
+import { breakpoints } from "../styles/breakpoints"
+
+const ImportContainer = styled.div`
+  color: white;
+  background-color: var(--transparent-dark);
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  padding: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+
+  input {
+    cursor: pointer;
+    background-color: var(--cinco);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 0.5rem;
+    font-size: 0.675rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0.25rem 0.25rem 0.25rem;
+
+    @media ${breakpoints.sm} {
+      font-size: 0.9rem;
+    }
+  }
+
+  p {
+    margin-left: 0.5rem;
+  }
+`
 
 const UploadCSV = () => {
   const [uploading, setUploading] = useState(false)
   const inputRef = useRef()
+  const appDispatch = useContext(GlobalDispatchContext)
+  const router = useRouter()
 
-  const handleUploadCSV = () => {
+  const importCsvHandler = () => {
     setUploading(true)
     const input = inputRef?.current
     const reader = new FileReader()
@@ -20,14 +52,16 @@ const UploadCSV = () => {
 
       if (csv.data == null) {
         console.log("csv.data is null...")
+        appDispatch({ type: "flashMessage", value: "Problem with the uploaded file format" })
       }
 
-      //console.log(csv.data)
+      console.log("csv: ", csv)
+      console.log("csv.data: ", csv.data)
 
-      // Don't need useEffect to send request
+      // Don't need useEffect to trigger sending of HTTP Request
       // onloadend handles the when
 
-      // need to handle a question with category that doesn't already exist
+      // need to handle a question with a category that doesn't already exist
 
       // need simple client-side validation here
 
@@ -39,14 +73,13 @@ const UploadCSV = () => {
         })
         .map(QRow => {
           return {
-            category: QRow.CATEGORY,
-            type: "multiple",
-            difficulty: "easy",
-            question: QRow.QUESTION,
-            correct_answer: QRow.Correct_Answer,
-            incorrect_answers: [QRow.Incorrect_Answer_01, QRow.Incorrect_Answer_02, QRow.Incorrect_Answer_03]
+            category: QRow.category,
+            question: QRow.question,
+            correct_answer: QRow.correct_answer,
+            incorrect_answers: [QRow.incorrect_answer_1, QRow.incorrect_answer_2, QRow.incorrect_answer_3]
           }
         })
+      console.log("arrayOfQuestions: ", arrayOfQuestions)
 
       // send request
 
@@ -60,35 +93,46 @@ const UploadCSV = () => {
           }
         })
         const data = await response.json()
-        // is api request set up to return a success message?
-        if (data.message == "success") {
-          console.log("Import was a success")
-          setUploading(false)
-        }
         console.log(data)
-      } catch (e) {
-        console.log("Importing file failed. " + e)
+        // is api request set up to return a success message?
+        if (data.message === "success") {
+          setUploading(false)
+          appDispatch({ type: "flashMessage", value: "Successfully imported questions" })
+          router.push("/manage")
+          return
+        } else {
+          appDispatch({ type: "flashMessage", value: "There was a problem" })
+          throw { message: "error", errors: "Import was not successful" }
+        }
+      } catch (err) {
+        appDispatch({ type: "flashMessage", value: "Something went wrong" })
         setUploading(false)
+        throw { message: "error", errors: err }
       }
-    }
+    } // end onloadend function
 
-    // this is what automaticaly calls onloadend
+    //if the http requst is commented uncomment the next lines
+    setUploading(false)
+
+    // Ensure there is a file selected
     if (file == null) {
-      alert("Please select a file")
+      appDispatch({ type: "flashMessage", value: "Please select a file to import" })
       setUploading(false)
     } else {
+      // this is what automaticaly calls onloadend
       reader.readAsText(file)
     }
   }
 
   return (
-    <SectionNarrow>
-      <SectionTitle>Upload a CSV</SectionTitle>
+    <ImportContainer>
+      <p>Uploading Questions via a CSV file is suppported.</p>
+      <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
       <input ref={inputRef} disabled={uploading} type="file" />
-      <BtnTertiary onClick={handleUploadCSV} disabled={uploading}>
-        {uploading ? "Uploading..." : "Upload"}
+      <BtnTertiary onClick={importCsvHandler} disabled={uploading}>
+        {uploading ? "Importing..." : "Import"}
       </BtnTertiary>
-    </SectionNarrow>
+    </ImportContainer>
   )
 }
 

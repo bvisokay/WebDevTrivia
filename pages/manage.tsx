@@ -14,11 +14,13 @@ import DeleteQuestionModal from "../components/DeleteQuestionModal/DeleteQuestio
 import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal"
 
 // styles
-import { Section, SectionNarrow, ListItem, SectionTitle, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
+import { Section, SectionNarrow, ListItem, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
+import { GrDocumentCsv } from "react-icons/gr"
+import { BiImport } from "react-icons/bi"
 
 const BtnContainer = styled.div`
   //border: 1px solid hotpink;
@@ -27,12 +29,14 @@ const BtnContainer = styled.div`
   justify-content: center;
   //min-width: 100px;
   //margin: 0 auto;
+  color: white;
 
   @media ${breakpoints.sm} {
     //border: 1px solid crimson;
     margin: 0 0 0 0.5rem;
   }
 
+  /* New Q button */
   button {
     background-color: var(--cinco);
     color: white;
@@ -44,8 +48,28 @@ const BtnContainer = styled.div`
     justify-content: center;
     align-items: center;
 
+    /* on the list items not the title area */
     svg {
       font-size: 1rem;
+    }
+  }
+
+  /* Plus and export icon */
+  a svg {
+    font-size: 1.25rem;
+    color: white;
+    margin: 0 0.25rem;
+
+    @media ${breakpoints.sm} {
+      font-size: 1.75rem;
+    }
+
+    @media ${breakpoints.md} {
+      font-size: 2rem;
+    }
+
+    path {
+      stroke: white;
     }
   }
 `
@@ -65,6 +89,7 @@ const AdminPage = (props: any) => {
   const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] = useState(false)
   //questions state
   const [allQuestions, setAllQuestions] = useState<any>(props.questionData)
+  const [questionsToExport, setQuestionsToExport] = useState<any>(props.questionData)
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
   const [catFilter, setCatFilter] = useState<string>("")
@@ -73,40 +98,56 @@ const AdminPage = (props: any) => {
   const [tgtCategory, setTgtCategory] = useState<CategoryObj>()
   const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
 
-  // EXPORT FEATURE USING REACT_CSV LIBRARY
-  /* 
-  const questionsToExport = [...allQuestions]
+  //
+  // Begin export using { CSVLink } from "react-csv"
+  // let questionsToExport = [...allQuestions] // was the pre-filtering logic
+  // update the Questions ot export if the filter is updated or allQuestions state changes
+  useEffect(() => {
+    setQuestionsToExport(() => {
+      if (!catFilter) {
+        return [...allQuestions]
+      } else {
+        let filteredQsToExport = allQuestions.filter((Q: any) => {
+          if (catFilter && Q.category === catFilter) {
+            return Q
+          }
+        })
+        return [...filteredQsToExport]
+      }
+    })
+  }, [catFilter, allQuestions])
 
   const exportColumnHeaders = [
-    { label: "ID", key: "id" },
-    { label: "CATEGORY", key: "category" },
-    { label: "DIFF", key: "difficulty" },
-    { label: "TYPE", key: "type" },
-    { label: "QUESTION", key: "question" },
-    { label: "Correct_Answer", key: "correct_answer" },
-    { label: "Incorrect_Answer_01", key: "incorrect_answers[0]" },
-    { label: "Incorrect_Answer_02", key: "incorrect_answers[1]" },
-    { label: "Incorrect_Answer_03", key: "incorrect_answers[2]" }
+    /* { label: "ID", key: "id" }, */
+    { label: "category", key: "category" },
+    /* { label: "DIFF", key: "difficulty" },
+    { label: "TYPE", key: "type" }, */
+    { label: "question", key: "question" },
+    { label: "correct_answer", key: "correct_answer" },
+    { label: "incorrect_answer_1", key: "incorrect_answers[0]" },
+    { label: "incorrect_answer_2", key: "incorrect_answers[1]" },
+    { label: "incorrect_answer_3", key: "incorrect_answers[2]" }
   ]
-
   const csvExport = {
-    filename: "Exportion.csv",
+    filename: "questions.csv",
     headers: exportColumnHeaders,
     data: questionsToExport
-  } */
+  }
+  // End export
+  //
 
-  /* useEffect(() => {
-      if (categories) {
-        categories.forEach((categoryObj: any) => {
-          categoryObj.tally = 0
-          allQuestions.forEach((question: any) => {
-            if (question.category === categoryObj.name) {
-              categoryObj.tally++
-            }
-          })
+  useEffect(() => {
+    if (categories) {
+      categories.forEach((categoryObj: any) => {
+        categoryObj.tally = 0
+        allQuestions.forEach((question: any) => {
+          if (question.category === categoryObj.name) {
+            categoryObj.tally++
+          }
         })
-      }
-    }, [allQuestions, categories]) */
+      })
+    }
+  }, [allQuestions, categories])
 
   // CATEGORIES
 
@@ -156,11 +197,13 @@ const AdminPage = (props: any) => {
       <SectionNarrow>
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
-          <Link href="/addCategory">
-            <a>
-              <FiPlusSquare />
-            </a>
-          </Link>
+          <BtnContainer>
+            <Link href="/addCategory">
+              <a>
+                <FiPlusSquare />
+              </a>
+            </Link>
+          </BtnContainer>
         </TitleArea>
 
         <ul className="categoryList">
@@ -195,9 +238,6 @@ const AdminPage = (props: any) => {
       </SectionNarrow>
 
       <br />
-      <br />
-      <br />
-      <br />
 
       <TitleArea>
         <SectionTitle2>
@@ -211,12 +251,24 @@ const AdminPage = (props: any) => {
             </>
           )}
         </SectionTitle2>
-        {/* <CSVLink {...csvExport}>Export to CSV</CSVLink> */}
-        <Link href="/addQ">
-          <a>
-            <FiPlusSquare />
-          </a>
-        </Link>
+
+        <BtnContainer>
+          <Link href="/addQ">
+            <a>
+              <FiPlusSquare />
+            </a>
+          </Link>
+
+          <CSVLink {...csvExport}>
+            <GrDocumentCsv />
+          </CSVLink>
+
+          <Link href="/import">
+            <a>
+              <BiImport />
+            </a>
+          </Link>
+        </BtnContainer>
       </TitleArea>
 
       <ul className="question">

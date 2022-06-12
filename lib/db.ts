@@ -105,7 +105,11 @@ export async function updateQsWithNewCategoryName(client: MongoClient, objWithOl
 // should really be using the id and not the name
 export async function deleteCategoryDocument(client: MongoClient, catName: string) {
   const db = client.db()
-  const result1 = await db.collection("questions").updateMany({ category: catName }, { $set: { category: "uncategorized" } })
+  // rename existing questions in the category being deleted to uncategorized
+  //const result1 = await db.collection("questions").updateMany({ category: catName }, { $set: { category: "uncategorized" } })
+
+  // delete existing questions in the category being deleted to uncategorized
+  const result1 = await db.collection("questions").deleteMany({ category: catName })
   const result2 = await db.collection("categories").deleteOne({ name: catName })
   const resultObj = {
     result1: result1,

@@ -4,6 +4,8 @@ export async function validateNewQs(newQArray: any[]) {
   for (let i = 0; i < newQArray.length; i++) {
     //console.log("hello")
 
+    // need to make sure type exists
+
     // server-side validation to prevent empty fields
     if (newQArray[i].category == "" || newQArray[i].type == "" || newQArray[i].difficulty == "" || newQArray[i].question == "" || newQArray[i].correct_answer == "" || newQArray[i].incorrect_answers[0] == "" || newQArray[i].incorrect_answers[1] == "" || newQArray[i].incorrect_answers[2] == "") {
       return { pass: false, message: "No fields may be left empty" }

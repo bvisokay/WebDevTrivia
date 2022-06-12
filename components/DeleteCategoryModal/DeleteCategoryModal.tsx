@@ -1,4 +1,18 @@
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
+import { IoWarning } from "react-icons/io5"
+import styled from "styled-components"
+
+const ModalTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  svg {
+    font-size: 1.25rem;
+    color: orangered;
+    margin-right: 0.5rem;
+  }
+`
 
 const DeleteCategoryModal = (props: any) => {
   //
@@ -32,10 +46,8 @@ const DeleteCategoryModal = (props: any) => {
           })
           props.setCategories([...updatedCategories])
           // questions with deleted category need to be updated
-          const updatedQuestions = props.allQuestions.map((item: any) => {
-            if (item.category.name == catToDelete) {
-              return { ...item, category: "uncategorized" }
-            } else {
+          const updatedQuestions = props.allQuestions.filter((item: any) => {
+            if (item.category !== catToDelete) {
               return item
             }
           })
@@ -56,7 +68,14 @@ const DeleteCategoryModal = (props: any) => {
 
   return (
     <div className="modal">
-      <p>Are you sure you want to delete {props.tgtCategory.name}?</p>
+      <ModalTitle>
+        <IoWarning />
+        <strong>Delete Category?</strong>
+      </ModalTitle>
+      <p>
+        Delete {props.tgtCategory.tally === 1 ? `the one question` : `all ${props.tgtCategory.tally} questions`} in &apos;{props.tgtCategory.name}&apos;?
+      </p>
+      <p>This action cannot be undone.</p>
       <BtnSmall autoFocus onClick={props.closeModalHandler}>
         Cancel
       </BtnSmall>

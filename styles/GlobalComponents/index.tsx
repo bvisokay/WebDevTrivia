@@ -68,6 +68,7 @@ export const SectionDivider = styled.div`
 `
 
 export const ListItem = styled.div`
+  background: var(--transparent-dark);
   color: var(--white);
   display: flex;
   align-items: center;
