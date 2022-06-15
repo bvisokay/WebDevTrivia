@@ -17,8 +17,8 @@ export const Section = styled.section`
   max-width: var(--wrapper-width);
   //border: 3px solid var(--tertiary);
 `
-
-export const SectionNarrow = styled.section`
+type SectionProps = { dark?: boolean }
+export const SectionNarrow = styled.section<SectionProps>`
   padding: 0.5rem;
   margin: 0.5rem auto;
   width: 100%;
@@ -26,6 +26,7 @@ export const SectionNarrow = styled.section`
   //border: 3px solid var(--tertiary);
   //background: var(--transparent-dark);
   border-radius: 10px;
+  //background-color: ${props => (props.dark ? "var(--primary)" : "var(--white)")};
 `
 export const PageTitle = styled.h2`
   font-weight: 700;
