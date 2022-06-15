@@ -11,7 +11,7 @@ const FlashMessageBox = styled.div`
   display: none;
   position: absolute;
   z-index: 999;
-  top: 9rem;
+  bottom: 9rem;
   left: 50%;
   transform: translateX(-50%);
   -moz-animation: floatingAlert ease-in 3s forwards;

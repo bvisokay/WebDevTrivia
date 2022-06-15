@@ -71,7 +71,7 @@ const EditCategoryModal = (props: any) => {
     // define object to send in HTTP request
     // make sure the new category has no spaces on the ends or between
     // again, needed for query parameters
-    const trimmedCategory = newCategoryName.trim().replace(/ /g, "-")
+    const trimmedCategory = newCategoryName.trim().toLowerCase().replace(/ /g, "-")
     const objToSend = {
       oldCategoryName: props.tgtCategory.name,
       newCategoryName: trimmedCategory

@@ -58,7 +58,7 @@ const NewQuestionForm: React.FC = () => {
       const addCat = async () => {
         try {
           // Trim and replace with dash, category ends up in url
-          const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
+          const trimmedCategory = state.name.value.trim().toLowerCase().replace(/ /g, "-")
           const response = await fetch("/api/categories", {
             method: "POST",
             body: JSON.stringify(trimmedCategory),

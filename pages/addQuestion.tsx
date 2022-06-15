@@ -3,6 +3,16 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next"
 // comps
 import NewQuestionForm from "../components/NewQuestionForm/NewQuestionForm"
 
+/* 
+
+
+
+// OLD USEREF Version of adding question
+
+
+
+*/
+
 const addQuestion = () => {
   // redirect away if not logged in
   return (

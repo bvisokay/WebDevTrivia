@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/test.js", "lib/mongodb.js", "components/UploadCSV.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/test.js", "lib/mongodb.js", "components/Import.js"],
   "exclude": ["node_modules"]
 }

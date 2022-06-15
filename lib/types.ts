@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb"
+
 export type AnswerObject = {
   question: string
   answer: string
@@ -15,12 +17,14 @@ export type OptionsModalProps = {
 }
 
 export type Question = {
+  /* authorId: ObjectId() */
   category: string
   correct_answer: string
   difficulty: string
   incorrect_answers: string[]
   question: string
   type: string
+  /* createdDate: Date */
 }
 
 export type QuestionsState = Question & {

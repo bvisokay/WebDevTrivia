@@ -2,15 +2,15 @@ import { getSession } from "next-auth/client"
 import { GetServerSideProps, GetServerSidePropsContext } from "next"
 // comps
 import AddQuestionForm from "../components/AddQuestionForm/AddQuestionForm"
-import UploadCSV from "../components/UploadCSV"
 import { connectToDatabase, getCategories } from "../lib/db"
 import React from "react"
+import Import from "../components/Import"
 
 const addQ = (props: any) => {
   return (
     <div>
       <AddQuestionForm categories={props.categories} />
-      <UploadCSV />
+      <Import categories={props.categories} />
     </div>
   )
 }

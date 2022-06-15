@@ -1,11 +1,11 @@
-import UploadCSV from "../components/UploadCSV"
+import Import from "../components/Import"
 import { SectionNarrow, PageTitle } from "../styles/GlobalComponents"
 
 const ImportPage = () => {
   return (
     <SectionNarrow>
       <PageTitle>Import Questions</PageTitle>
-      <UploadCSV />
+      <Import />
     </SectionNarrow>
   )
 }
