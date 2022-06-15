@@ -73,7 +73,7 @@ const ResultsCard: React.FC<ResultsProps> = ({ score }) => {
   return (
     <Wrapper percentage={percentage}>
       <h2>
-        RESULTS:<span className="percentage">{percentage}</span>
+        RESULTS:<span className="percentage">{percentage} &#37;</span>
       </h2>
       <h3>
         ({score} out of {appState.selectedTotalQs})

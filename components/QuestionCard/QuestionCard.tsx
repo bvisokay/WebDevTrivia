@@ -26,7 +26,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ score, question, answers, c
       <div>
         {answers.map(answer => (
           <ButtonWrapper correct={userAnswer?.correctAnswer === answer} userClicked={userAnswer?.answer === answer} key={answer}>
-            <button disabled={!!userAnswer} value={answer} onClick={callback}>
+            <button autoFocus disabled={!!userAnswer} value={answer} onClick={callback}>
               <span dangerouslySetInnerHTML={{ __html: answer }} />
             </button>
           </ButtonWrapper>
