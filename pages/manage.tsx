@@ -260,12 +260,14 @@ const AdminPage = (props: any) => {
           </Link>
 
           <CSVLink {...csvExport}>
-            <GrDocumentCsv />
+            {/* <GrDocumentCsv /> */}
+            <BtnSmall>Export</BtnSmall>
           </CSVLink>
 
           <Link href="/import">
             <a>
-              <BiImport />
+              <BtnSmall>Import</BtnSmall>
+              {/* <BiImport /> */}
             </a>
           </Link>
         </BtnContainer>
@@ -279,6 +281,13 @@ const AdminPage = (props: any) => {
             }
             if (catFilter && Q.category === catFilter) {
               return Q
+            }
+          })
+          .sort((a: any, b: any) => {
+            if (a.createdDate < b.createdDate) {
+              return 1
+            } else {
+              return -1
             }
           })
           .map((questionObj: any) => {
