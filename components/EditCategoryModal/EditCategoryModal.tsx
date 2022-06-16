@@ -37,6 +37,22 @@ const EditCategoryModal = (props: any) => {
           })
           console.log(updatedCategories)
           props.setCategories([...updatedCategories])
+          // we also need to loop through questions and update those
+          const updatedQuestions = props.allQuestions.filter((qObj: any) => {
+            if (qObj.category === objToSend.oldCategoryName) {
+              qObj.category = objToSend.newCategoryName
+            }
+            return qObj
+          })
+          console.log("updatedQuestions", updatedQuestions)
+          props.setAllQuestions([...updatedQuestions])
+          // remove filter if it matches deleted category
+          if (props.catFilter === objToSend.oldCategoryName) {
+            props.setCatFilter(objToSend.newCategoryName)
+          }
+          // Note: When a category is the current filter and is then edited successfully, the question tally total is lost and the filter, although updated, doesn't show the question
+          // try to do the work here?
+          console.log(props.categories)
         }
       })
       .catch(err => console.log(err))

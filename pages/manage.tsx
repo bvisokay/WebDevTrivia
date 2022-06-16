@@ -340,14 +340,14 @@ const AdminPage = (props: any) => {
       {deleteCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} />
+          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
         </>
       )}
 
       {editCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <EditCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} />
+          <EditCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
         </>
       )}
       {deleteQuestionModalIsOpen && (

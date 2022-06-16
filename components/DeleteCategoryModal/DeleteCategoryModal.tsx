@@ -45,6 +45,10 @@ const DeleteCategoryModal = (props: any) => {
             return item.name !== catToDelete
           })
           props.setCategories([...updatedCategories])
+          // remove filter if it matches deleted category
+          if (props.catFilter === catToDelete) {
+            props.setCatFilter("")
+          }
           // questions with deleted category need to be updated
           const updatedQuestions = props.allQuestions.filter((item: any) => {
             if (item.category !== catToDelete) {
