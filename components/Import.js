@@ -44,6 +44,11 @@ const Import = props => {
   const router = useRouter()
 
   //
+  const resetFileInput = () => {
+    inputRef.current.value = ""
+  }
+
+  //
   const requestHandler = async arrayOfQuestions => {
     // send request
 
@@ -93,6 +98,7 @@ const Import = props => {
 
         if (csv.errors.length) {
           console.log("csv.errors: ", csv.errors)
+          //file = null throws error that the file is read-only
           //throw { message: "error", errors: "Check the imported file and try again" }
         }
 
@@ -104,6 +110,8 @@ const Import = props => {
 
         //console.log("csv: ", csv)
         console.log("csv.data: ", csv.data)
+
+        resetFileInput()
 
         // need simple client-side validation here
         // make sure the file is not too large
@@ -164,7 +172,7 @@ const Import = props => {
     <ImportContainer>
       <p>Uploading Questions via a CSV file is suppported.</p>
       <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
-      <input ref={inputRef} disabled={uploading} type="file" />
+      <input ref={inputRef} disabled={uploading} type="file" onChange={e => e.target.value} />
       <BtnTertiary onClick={importCsvHandler} disabled={uploading}>
         {uploading ? "Importing..." : "Import"}
       </BtnTertiary>
