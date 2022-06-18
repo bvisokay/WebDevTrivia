@@ -6,11 +6,11 @@ export const GlobalStyles = createGlobalStyle`
 /* #003594 */
 
 :root {
-  --primary: #1b262c;
-  --secondary: #869397;
+  --primary: #1b262c; /* */
+  --secondary: #869397; /* rgb(27,38,44) */
   --tertiary: #041E42;
   --cuatro: #0085a3;
-  --cinco: #5661ff;
+  --cinco: #5661ff;/* 86, 97, 255 */
   --seis: #d38558;
   --green: #56ffa4;
   --greenmuted: #59bc86;
@@ -38,7 +38,9 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     //background-image: url("sebastian-unrau-unsplash.jpg");
-    background-color: var(--cinco);
+    background-image: url("Sprinkle.svg");
+    //background-image: url("polygon-luminary-bg-jar.svg");
+    //background-color: var(--cinco);
     background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
