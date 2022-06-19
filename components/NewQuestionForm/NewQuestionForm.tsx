@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Wrapper } from "./NewQFormStyles"
 import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 /* REFACTORED THIS COMP TO LEVERAGE USEIMMERREDUCER */
 
@@ -174,7 +174,7 @@ const NewQuestionForm: React.FC = () => {
             <input aria-label="Incorrect Answer 3" type="text" ref={incorrectAnswer3InputRef} />
           </FormControl>
 
-          <BtnTertiary>Submit</BtnTertiary>
+          <BtnPrimary>Submit</BtnPrimary>
         </form>
       )}
     </SectionNarrow>

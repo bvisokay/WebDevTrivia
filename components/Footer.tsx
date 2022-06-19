@@ -34,21 +34,28 @@ const FooterContainer = styled.div`
   }
 `
 
+const Help = styled.li`
+  padding: 0.1rem;
+  background-color: var(--secondary);
+  border-radius: 50%;
+`
+
 export default function Footer() {
   return (
     <FooterContainer>
       <Wrapper>
         <ul>
-          <li>
+          <Help>
             <Link href="/support">
-              <a>Support</a>
+              <a>&#63;{/* Question Mark */}</a>
             </Link>
-          </li>
-          <li>
+          </Help>
+
+          {/* <li>
             <Link href="/about">
               <a>About</a>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </Wrapper>
     </FooterContainer>

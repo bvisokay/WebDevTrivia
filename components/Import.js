@@ -5,7 +5,7 @@ import Router, { useRouter } from "next/router"
 import { clientValidateQuestionsArray } from "../lib/util"
 
 // styled comps
-import { BtnTertiary } from "../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 
@@ -19,7 +19,7 @@ const ImportContainer = styled.div`
 
   input {
     cursor: pointer;
-    background-color: var(--cinco);
+    border: 2px solid var(--primary);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 0.5rem;
     font-size: 0.675rem;
@@ -173,9 +173,9 @@ const Import = props => {
       <p>Uploading Questions via a CSV file is suppported.</p>
       <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
       <input ref={inputRef} disabled={uploading} type="file" onChange={e => e.target.value} />
-      <BtnTertiary onClick={importCsvHandler} disabled={uploading}>
+      <BtnPrimary onClick={importCsvHandler} disabled={uploading}>
         {uploading ? "Importing..." : "Import"}
-      </BtnTertiary>
+      </BtnPrimary>
     </ImportContainer>
   )
 }

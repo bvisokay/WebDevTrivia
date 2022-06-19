@@ -15,7 +15,6 @@ export const Section = styled.section`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width);
-  //border: 3px solid var(--tertiary);
 `
 type SectionProps = { dark?: boolean }
 export const SectionNarrow = styled.section<SectionProps>`
@@ -23,10 +22,9 @@ export const SectionNarrow = styled.section<SectionProps>`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width-narrow);
-  //border: 3px solid var(--tertiary);
   //background: var(--transparent-dark);
   border-radius: 10px;
-  //background-color: ${props => (props.dark ? "var(--primary)" : "var(--white)")};
+  //background-color: ${props => (props.dark ? "var(--primary)" : "white")};
 `
 export const PageTitle = styled.h2`
   font-weight: 700;
@@ -42,7 +40,7 @@ type SectionTitleProps = {
 export const SectionTitle = styled.h2<SectionTitleProps>`
   font-weight: 700;
   margin: 0.5rem 0;
-  color: ${props => (props.dark ? "var(--primary)" : "var(--white)")};
+  color: ${props => (props.dark ? "var(--primary)" : "white")};
   text-align: center;
 `
 
@@ -65,12 +63,12 @@ export const SectionDivider = styled.div`
   height: 6px;
   border-radius: 10px;
   background-color: #fff;
-  background: linear-gradient(270deg, var(--primary) 0%, var(--cinco) 100%);
+  background: linear-gradient(270deg, var(--primary) 0%, var(--primary) 100%);
 `
 
 export const ListItem = styled.div`
   background: var(--transparent-dark);
-  color: var(--white);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,7 +77,7 @@ export const ListItem = styled.div`
   padding: 0 0.5rem;
   border-radius: 10px;
   font-weight: 700;
-  //border: 1px solid var(--cinco);
+  //border: 1px solid var(--primary);
 `
 
 export const QuestionCardEl = styled.div`
@@ -98,7 +96,7 @@ export const QuestionCardEl = styled.div`
 
 export const QuestionCardRow = styled.div`
   background: var(--transparent-dark);
-  color: var(--white);
+  color: white;
   display: flex;
   flex-direction: column;
   //align-items: center;
@@ -127,11 +125,10 @@ type FormControlProps = {
 }
 
 export const FormControl = styled.div<FormControlProps>`
-  //border: 1px solid var(--secondary);
   border-radius: 0.5rem;
   margin: 0.5rem auto;
   padding: 0.35rem 0.25rem;
-  color: ${props => (props.light ? "var(--white)" : "var(--primary)")};
+  color: ${props => (props.light ? "white" : "var(--primary)")};
   font-weight: bold;
   position: relative;
   z-index: 2;
@@ -149,32 +146,21 @@ export const FormControl = styled.div<FormControlProps>`
   input,
   textarea,
   select {
-    padding: 0.1rem 0.2rem;
+    padding: 0.5rem 0.25rem;
     margin-top: 0.1rem;
     width: 98%;
     position: relative;
     z-index: 2;
-    border-radius: 0.25rem;
-    border: 2px solid var(--secondary);
+    border-radius: 0.65rem;
+    border: 2px solid var(--primary);
 
     @media ${breakpoints.xs} {
-      padding: 0.15rem 0.25rem;
-      //border: 2px solid crimson;
       margin-top: 0.3rem;
     }
 
     @media ${breakpoints.sm} {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
+      padding: 0.5rem 0.25rem;
       margin-top: 0.5rem;
-      //border: 2px solid hotpink;
-    }
-
-    :focus {
-      outline: 1px solid var(--secondary);
-    }
-    :active {
-      outline: 1px solid var(--secondary);
     }
   }
 `
@@ -182,7 +168,7 @@ export const TitleArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--primary);
+  background: var(--secondary);
   padding: 0.75rem;
   border-radius: 10px;
   margin: 0 0 0.75rem 0;

@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { FormControl, SectionNarrow } from "../styles/GlobalComponents"
-import { BtnTertiary } from "../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../styles/GlobalComponents/Button"
 
 const SupportForm = () => {
   const nameInputRef = useRef<HTMLInputElement>(null)
@@ -24,7 +24,7 @@ const SupportForm = () => {
           <label htmlFor="">Your Message</label>
           <textarea aria-label="Message" rows={8} ref={messageInputRef} />
         </FormControl>
-        <BtnTertiary>Submit</BtnTertiary>
+        <BtnPrimary>Submit</BtnPrimary>
       </form>
     </SectionNarrow>
   )

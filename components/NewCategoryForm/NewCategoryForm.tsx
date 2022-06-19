@@ -6,7 +6,7 @@ import { GlobalDispatchContext } from "../../store/GlobalContext"
 
 //styles
 import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 const NewQuestionForm: React.FC = () => {
   const appDispatch = useContext(GlobalDispatchContext)
@@ -98,9 +98,9 @@ const NewQuestionForm: React.FC = () => {
           <input autoFocus aria-label="Category" type="text" value={state.name.value} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
           {state.name.hasErrors && <div className="liveValidateMessage">{state.name.message}</div>}
         </FormControl>
-        <BtnTertiary type="submit" disabled={state.isSaving}>
+        <BtnPrimary type="submit" disabled={state.isSaving}>
           {state.isSaving ? "Saving..." : "Add"}
-        </BtnTertiary>
+        </BtnPrimary>
       </form>
     </SectionNarrow>
   )

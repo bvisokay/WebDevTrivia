@@ -14,7 +14,7 @@ import OptionsModal from "../components/OptionsModal/OptionsModal"
 
 //styles
 import { SectionTitle } from "../styles/GlobalComponents"
-import { BtnTertiary } from "../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../styles/GlobalComponents/Button"
 
 // types
 import { AnswerObject, Question, QuestionsState } from "../lib/types"
@@ -165,11 +165,7 @@ const Home: NextPage = () => {
       {loadingError && <LoadingError />}
       {loading && <div className="loading">Loading Questions...</div>}
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
-      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && (
-        <button className="next" onClick={nextQuestion}>
-          Next Question
-        </button>
-      )}
+      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && <BtnPrimary onClick={nextQuestion}>Next Question</BtnPrimary>}
       {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
 
       {/*  <Debug>

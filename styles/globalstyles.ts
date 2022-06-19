@@ -3,24 +3,21 @@ import { breakpoints } from "../styles/breakpoints"
 
 export const GlobalStyles = createGlobalStyle`
 
-/* #003594 */
 
 :root {
-  --primary: #1b262c; /* */
-  --secondary: #869397; /* rgb(27,38,44) */
-  --tertiary: #041E42;
+  --primary: #5661ff; /* Was #1b262c */
+  --secondary: #041E42;
+  --tertiary: #869397; /* rgb(27,38,44) */
   --cuatro: #0085a3;
-  --cinco: #5661ff;/* 86, 97, 255 */
+  --cinco: #5661ff;/* 86, 97, 255 */ /* Moved to primary, replace */
   --seis: #d38558;
   --green: #56ffa4;
   --greenmuted: #59bc86;
   --red: #ff5656;
   --redmuted: #d94141;
-  --orange: orange;
   --orangemuted: #ffcc91;
   --transparent-light: rgba(0,0,0,0);
   --transparent-dark: rgba(0,0,0,.4);
-  --white: #fff;
   --wrapper-width: 1015px;
   --wrapper-width-narrow: 400px;
   --font-primary: monospace, sans-serif;
@@ -40,7 +37,7 @@ export const GlobalStyles = createGlobalStyle`
     //background-image: url("sebastian-unrau-unsplash.jpg");
     background-image: url("Sprinkle.svg");
     //background-image: url("polygon-luminary-bg-jar.svg");
-    //background-color: var(--cinco);
+    //background-color: var(--primary);
     background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
@@ -193,16 +190,14 @@ export const GlobalStyles = createGlobalStyle`
     justify-content: center;
   }
 
-  .start,
-  .next,
-  .options,
+  
   .login,
   .toggle,
   .addQSubmit {
     cursor: pointer;
     color: orangered;
-    background: linear-gradient(180deg, #fff, var(--orangemuted));
-    border: 2px solid var(--seis);
+    background: linear-gradient(180deg, #fff, crimson);
+    border: 2px solid var(--primary);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     height: 40px;
@@ -217,16 +212,8 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .next {
-    display: block;
-    margin: 2rem auto;
-    text-align: center;
 
-  }
 
-  .start {
-    max-width: 200px;
-  }
 
   .categoryList, .questionList {
     display: block;

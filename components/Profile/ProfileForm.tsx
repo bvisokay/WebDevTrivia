@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import { FormControl } from "../../styles/GlobalComponents"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 type userProfileProps = {
   onChangePassword: ({}) => void
@@ -31,7 +31,7 @@ const ProfileForm = (props: userProfileProps) => {
         <label htmlFor="new-password">New Password</label>
         <input aria-label="New Password" type="password" ref={newPasswordRef} placeholder="New password" />
       </FormControl>
-      <BtnTertiary>Change Password</BtnTertiary>
+      <BtnPrimary>Change Password</BtnPrimary>
     </form>
   )
 }

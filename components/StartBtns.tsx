@@ -1,3 +1,5 @@
+import { BtnPrimary } from "../styles/GlobalComponents/Button"
+
 type StartBtnsProps = {
   startGameHandler: () => void
   setSettingsOpen: (arg: boolean) => void
@@ -6,12 +8,12 @@ type StartBtnsProps = {
 const StartBtns: React.FC<StartBtnsProps> = ({ startGameHandler, setSettingsOpen }) => {
   return (
     <div className="btn-container">
-      <button className="start" aria-label="Start Quiz" onClick={startGameHandler}>
-        Start
-      </button>
-      <button className="options" onClick={() => setSettingsOpen(true)}>
+      <BtnPrimary className="start" aria-label="Start Quiz" onClick={startGameHandler}>
+        Begin
+      </BtnPrimary>
+      <BtnPrimary className="options" onClick={() => setSettingsOpen(true)}>
         Settings
-      </button>
+      </BtnPrimary>
     </div>
   )
 }

@@ -38,7 +38,7 @@ const BtnContainer = styled.div`
 
   /* New Q button */
   button {
-    background-color: var(--cinco);
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 0.25rem;
@@ -54,11 +54,15 @@ const BtnContainer = styled.div`
     }
   }
 
+  a {
+    margin-right: 0.2rem;
+  }
+
   /* Plus and export icon */
   a svg {
     font-size: 1.25rem;
     color: white;
-    margin: 0 0.25rem;
+    margin: 0 0.1rem;
 
     @media ${breakpoints.sm} {
       font-size: 1.75rem;
@@ -70,6 +74,26 @@ const BtnContainer = styled.div`
 
     path {
       stroke: white;
+    }
+  }
+
+  .CSVLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 2px;
+    padding: 4px;
+    font-family: var(--font-primary);
+    color: #fff;
+    cursor: pointer;
+    background: var(--primary);
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+
+    @media ${breakpoints.sm} {
+      font-size: 0.8rem;
+      font-weight: 700;
     }
   }
 `
@@ -259,14 +283,14 @@ const AdminPage = (props: any) => {
             </a>
           </Link>
 
-          <CSVLink {...csvExport}>
-            {/* <GrDocumentCsv /> */}
-            <BtnSmall>Export</BtnSmall>
+          <CSVLink className="CSVLink" {...csvExport}>
+            Export
           </CSVLink>
 
           <Link href="/import">
-            <a>
-              <BtnSmall>Import</BtnSmall>
+            <a className="CSVLink">
+              Import
+              {/* <BtnSmall>Import</BtnSmall> */}
               {/* <BiImport /> */}
             </a>
           </Link>

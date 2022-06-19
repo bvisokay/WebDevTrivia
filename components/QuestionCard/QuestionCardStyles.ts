@@ -32,7 +32,7 @@ export const ProgressBar = styled.div<ProgressBarProps>`
     transform-origin: left;
     top: 0;
     left: 0;
-    background: linear-gradient(90deg, var(--primary), var(--cinco));
+    background: linear-gradient(90deg, var(--primary), var(--primary));
     border-radius: 0.5rem;
   }
 `
@@ -56,7 +56,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     width: 100%;
     padding: 0.4rem;
     margin: 5px 0;
-    background: ${({ correct, userClicked }) => (correct ? "linear-gradient(90deg, var(--green), var(--greenmuted))" : !correct && userClicked ? "linear-gradient(90deg, var(--red), var(--redmuted))" : "linear-gradient(90deg, var(--cinco), var(--primary))")};
+    background: ${({ correct, userClicked }) => (correct ? "linear-gradient(90deg, var(--green), var(--greenmuted))" : !correct && userClicked ? "linear-gradient(90deg, var(--red), var(--redmuted))" : "linear-gradient(90deg, var(--primary), var(--primary))")};
     border: 3px solid #fff;
     box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;

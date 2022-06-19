@@ -39,7 +39,7 @@ export const SettingsPanel = styled.div`
   select {
     width: 100%;
     padding: 10px 0;
-    border: 2px solid #d38558;
+    border: 2px solid var(--tertiary);
     background: whitesmoke;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;

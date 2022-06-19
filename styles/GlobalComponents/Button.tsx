@@ -2,51 +2,33 @@ import styled from "styled-components"
 import { breakpoints } from "../breakpoints"
 
 export const BtnPrimary = styled.button`
-  padding: 0.5rem 1rem;
-  color: var(--primary);
-  background: white;
-  border: 3px solid var(--primary);
-  border-radius: 1.5rem;
-
-  @media ${breakpoints.sm} {
-    color: var(--primary);
-  }
-`
-
-export const BtnSecondary = styled.button`
-  padding: 0.5rem 1rem;
+  margin: 0.6rem 0.2rem;
+  padding: 0.25rem 0.5rem;
   color: white;
-  background: var(--primary);
-  border: 3px solid white;
-  border-radius: 1.5rem;
+  cursor: pointer;
+  background: linear-gradient(45deg, var(--primary), var(--primary));
+  border: 3px solid var(--primary);
+  border-radius: 0.4rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  font-size: 0.9rem;
+  letter-spacing: 0.8px;
+  min-width: 75px;
+  //font-family: var(--font-primary);
 
   @media ${breakpoints.sm} {
-    color: white;
+    font-size: 1.4rem;
+    min-width: 100px;
   }
-`
-
-export const BtnTertiary = styled.button`
-  cursor: pointer;
-  background: linear-gradient(180deg, #fff, #ffcc91);
-  border: 2px solid #d38558;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 0.5rem;
-  height: 40px;
-  margin: 20px 4px;
-  padding: 0 20px;
-  min-width: 100px;
-  color: orangered;
-  font-size: 1rem;
 
   :disabled {
     cursor: wait;
-    background: linear-gradient(180deg, #fff, #ffe1bf);
-    border: 2px solid #ca9c81;
-    color: #ff7d4e;
+    background-color: var(--tertiary);
   }
 
-  :focus {
-    outline: 2px solid #ff7d4e;
+  :hover {
+    background: transparent;
+    border: 3px solid var(--primary);
+    color: var(--primary);
   }
 `
 
@@ -56,7 +38,7 @@ export const BtnSmall = styled.button`
   font-family: var(--font-primary);
   color: #fff;
   cursor: pointer;
-  background: var(--cinco);
+  background: var(--primary);
   border: none;
   border-radius: 0.25rem;
   font-size: 0.7rem;

@@ -3,7 +3,7 @@ import { signIn } from "next-auth/client"
 import { useRouter } from "next/router"
 
 import { SectionNarrow, FormControl, SectionTitle } from "../../styles/GlobalComponents"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 async function createUser(email: string, password: string) {
   const response = await fetch("/api/auth/signup", {
@@ -72,10 +72,8 @@ const AuthForm = () => {
           <input autoComplete="off" type="password" id="password" required ref={passwordInputRef} />
         </FormControl>
         <div>
-          <BtnTertiary className="login">{isLogin ? "Login" : "Create Account"}</BtnTertiary>
-          <BtnTertiary className="toggle" onClick={switchAuthModeHandler}>
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </BtnTertiary>
+          <BtnPrimary>{isLogin ? "Login" : "Create Account"}</BtnPrimary>
+          <BtnPrimary onClick={switchAuthModeHandler}>{isLogin ? "Create new account" : "Login with existing account"}</BtnPrimary>
         </div>
       </form>
     </SectionNarrow>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react"
 import { BackDrop, SettingsPanel } from "./OptionsModalStyles"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 
@@ -84,10 +84,10 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, *
           </FormGroup> */}
 
             <div className="btn-container">
-              <BtnTertiary type="submit">Start</BtnTertiary>
-              <BtnTertiary type="button" onClick={closeSettingsHandler}>
+              <BtnPrimary type="submit">Start</BtnPrimary>
+              <BtnPrimary type="button" onClick={closeSettingsHandler}>
                 Cancel
-              </BtnTertiary>
+              </BtnPrimary>
             </div>
           </form>
         )}

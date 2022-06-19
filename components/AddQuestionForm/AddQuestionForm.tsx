@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 // styles
 import { CSSTransition } from "react-transition-group"
 import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
-import { BtnTertiary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 // Parent component is "pages/addQ"
 // The page guard is server side in parent component
@@ -331,7 +331,7 @@ const AddQuestionForm = (props: any) => {
             <div className="liveValidateMessage">{state.incorrectAnswer3.message}</div>
           </CSSTransition>
         </FormControl>
-        <BtnTertiary disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Submit"}</BtnTertiary>
+        <BtnPrimary disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Submit"}</BtnPrimary>
       </form>
     </SectionNarrow>
   )
