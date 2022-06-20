@@ -44,6 +44,10 @@ const NavContainer = styled.nav`
       a:hover {
         cursor: pointer;
       }
+      a:visited {
+        color: white;
+        text-decoration: none;
+      }
     }
   }
 `
@@ -104,9 +108,7 @@ const MainNav = () => {
 
         {session && (
           <li>
-            <a href="#" onClick={logoutHandler}>
-              Logout
-            </a>
+            <a onClick={logoutHandler}>Logout</a>
           </li>
         )}
       </ul>

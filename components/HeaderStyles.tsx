@@ -25,11 +25,17 @@ const Container = styled.div`
     justify-content: space-between;
   }
 
-  a {
+  a.logoText {
     color: white;
     margin: 0;
     padding: 0;
     //border: 1px solid violet;
+    text-decoration: none;
+
+    :visited {
+      color: white;
+      text-decoration: none;
+    }
   }
 `
 

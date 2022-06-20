@@ -84,15 +84,23 @@ export const GlobalStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
+    :hover {
+      text-decoration: underline;
+    }
+
+    :visited {
+      color: var(--primary);
+      text-decoration: underline;
+    }
   }
 
   .textLink {
     color: var(--primary);
     font-weight: 700;
-  
     :hover {
       text-decoration: underline;
     }
+  
   }
 
   /* End Links */

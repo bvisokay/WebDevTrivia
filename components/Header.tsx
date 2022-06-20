@@ -15,11 +15,15 @@ import styled from "styled-components"
 import MainNav from "./MainNav"
 
 const LogoText = styled.div`
-  font-size: 1.25rem;
+  font-family: var(--font-secondary);
+  font-size: 2.25rem;
+  letter-spacing: 1px;
+  font-weight: 700;
   padding: 0.5rem 0;
+  text-decoration: none;
 
   @media ${breakpoints.xs} {
-    font-size: 1.75rem;
+    font-size: 2.75rem;
   }
 `
 
@@ -32,7 +36,7 @@ const Header: React.FC = () => {
       <Container>
         {/* // need a function to manually reset the game state app */}
         <Link href="/">
-          <a onClick={() => appDispatch({ type: "gameReset" })}>
+          <a className="logoText" onClick={() => appDispatch({ type: "gameReset" })}>
             <LogoText>{SITENAME}</LogoText>
           </a>
         </Link>
