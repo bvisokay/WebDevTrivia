@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from "react"
 import Papa from "papaparse"
 import { GlobalDispatchContext } from "../store/GlobalContext"
-import Router, { useRouter } from "next/router"
+import { useRouter } from "next/router"
 import { clientValidateQuestionsArray } from "../lib/util"
 
 // styled comps
@@ -68,7 +68,7 @@ const Import = props => {
       if (data.message === "success") {
         setUploading(false)
         appDispatch({ type: "flashMessage", value: data.data ? data.data : "Successfully imported questions" })
-        //router.push("/manage")
+        router.push("/manage")
         return
       } else {
         appDispatch({ type: "flashMessage", value: "There was a problem" })

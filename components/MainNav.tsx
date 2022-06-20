@@ -69,13 +69,13 @@ const MainNav = () => {
           </li>
         )}
 
-        {!session && !isLoading && (
+        {/*  {!session && !isLoading && (
           <li>
             <Link href="/auth">
               <a>Login</a>
             </Link>
           </li>
-        )}
+        )} */}
 
         {session && (
           <>
@@ -91,12 +91,12 @@ const MainNav = () => {
             </li>
             <li>
               <Link href="/manage">
-                <a>Admin</a>
+                <a>Manage</a>
               </Link>
             </li>
             <li>
               <Link href="/profile">
-                <a>Profile</a>
+                <a>Dashboard</a>
               </Link>
             </li>
           </>

@@ -22,6 +22,17 @@ import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
 import { GrDocumentCsv } from "react-icons/gr"
 import { BiImport } from "react-icons/bi"
 
+const CategoryBtn = styled.button`
+  color: white;
+  background-color: transparent;
+  font-family: var(--font-primary);
+  font-weight: 700;
+
+  :hover {
+    border-bottom: 2px solid var(--primary);
+  }
+`
+
 const BtnContainer = styled.div`
   //border: 1px solid hotpink;
   display: flex;
@@ -47,6 +58,11 @@ const BtnContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    :hover {
+      cursor: pointer;
+      background-color: var(--tertiary);
+    }
 
     /* on the list items not the title area */
     svg {
@@ -243,9 +259,9 @@ const AdminPage = (props: any) => {
               return (
                 <ListItem key={category.id}>
                   <div>
-                    <p onClick={catFilterHandler.bind(null, category.name)} className="categoryItem">
+                    <CategoryBtn onClick={catFilterHandler.bind(null, category.name)} className="categoryItem">
                       {category.name} ({category.tally})
-                    </p>
+                    </CategoryBtn>
                   </div>
                   <BtnContainer>
                     <button onClick={EditCategoryHandler.bind(null, category)}>

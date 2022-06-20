@@ -65,7 +65,7 @@ const AuthForm = () => {
       <form onSubmit={submitHandler}>
         <FormControl light={true}>
           <label htmlFor="email">Email</label>
-          <input autoComplete="off" type="email" id="email" required ref={emailInputRef} />
+          <input autoFocus autoComplete="off" type="email" id="email" required ref={emailInputRef} />
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="password">Password</label>

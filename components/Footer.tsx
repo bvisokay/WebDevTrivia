@@ -3,6 +3,10 @@ import styled from "styled-components"
 import { Wrapper } from "../styles/GlobalComponents"
 import { breakpoints } from "../styles/breakpoints"
 
+import { useSession, signOut } from "next-auth/client"
+import { useContext } from "react"
+import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+
 const FooterContainer = styled.div`
   background: var(--transparent-light);
   color: white;
@@ -10,6 +14,7 @@ const FooterContainer = styled.div`
   ul {
     display: flex;
     padding: 1rem 0;
+    justify-content: space-between;
   }
 
   li {
@@ -40,7 +45,16 @@ const Help = styled.li`
   border-radius: 50%;
 `
 
-export default function Footer() {
+const Footer = () => {
+  const appDispatch = useContext(GlobalDispatchContext)
+  const appState = useContext(GlobalStateContext)
+
+  const [session, isLoading] = useSession()
+
+  function logoutHandler() {
+    signOut()
+  }
+
   return (
     <FooterContainer>
       <Wrapper>
@@ -56,8 +70,18 @@ export default function Footer() {
               <a>About</a>
             </Link>
           </li> */}
+
+          {!session && !isLoading && (
+            <li>
+              <Link href="/auth">
+                <a>Login</a>
+              </Link>
+            </li>
+          )}
         </ul>
       </Wrapper>
     </FooterContainer>
   )
 }
+
+export default Footer
