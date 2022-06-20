@@ -43,7 +43,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, *
           <form onSubmit={saveSettingsHandler}>
             <FormControl>
               <label htmlFor="">Category</label>
-              <select name="Category" id="category" onChange={e => appDispatch({ type: "setSelectedCategory", value: e.target.value })}>
+              <select autoFocus name="Category" id="category" onChange={e => appDispatch({ type: "setSelectedCategory", value: e.target.value })}>
                 <option value="all">All</option>
                 {categories.sort().map((category, index) => {
                   return (

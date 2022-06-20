@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/client"
 import { useContext } from "react"
-import { GlobalDispatchContext } from "../store/GlobalContext"
+import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 
 // styles
 import styled from "styled-components"
@@ -50,6 +50,7 @@ const NavContainer = styled.nav`
 
 const MainNav = () => {
   const appDispatch = useContext(GlobalDispatchContext)
+  const appState = useContext(GlobalStateContext)
 
   const [session, isLoading] = useSession()
 
@@ -60,11 +61,13 @@ const MainNav = () => {
   return (
     <NavContainer>
       <ul>
-        <li>
-          <Link href="/">
-            <a onClick={() => appDispatch({ type: "gameReset" })}>Home</a>
-          </Link>
-        </li>
+        {!appState.gameOver && (
+          <li>
+            <Link href="/">
+              <a onClick={() => appDispatch({ type: "gameReset" })}>Back to Start</a>
+            </Link>
+          </li>
+        )}
 
         {!session && !isLoading && (
           <li>
