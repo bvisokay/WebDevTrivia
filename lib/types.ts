@@ -7,6 +7,10 @@ export type AnswerObject = {
   correctAnswer: string
 }
 
+export type CategoryObjectType = {
+  name: string
+}
+
 export type OptionsModalProps = {
   /* 
   Text inside a comment

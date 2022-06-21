@@ -1,37 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
-import { connectToDatabase, getCategories } from "../../lib/db"
+import { connectToDatabase } from "../../lib/db"
 import { validateQuestionsArray } from "../../lib/util"
 import { Question } from "../../lib/types"
-
-/*
-*
-*
-*
-  type Question = {
-  category: string
-  correct_answer: string
-  difficulty: string
-  incorrect_answers: string[]
-  question: string
-  type: string
-}
-
-*
-*
-*/
-
-/* TESTING API WITH JSON
-
-[{
-    "category": "hello",
-    "question": "test0",
-    "correct_answer": "test1",
-    "incorrect_answers": ["ia1", "ia2", "ia3"]
-}]
-
-
-*/
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -39,12 +10,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   if (req.method === "POST") {
     const MAX_QUESTIONS_ALLOWED = 100
-    /* const session = await getSession({ req: req })
+    const session = await getSession({ req: req })
     if (!session) {
       res.status(401).json({ message: "Not authenticated" })
       return
-    } */
-    console.log("ping_01")
+    }
     // Hold off for now
     // need to extract username from the session
     // using the session username lok upc
@@ -73,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // and cleanup to strip bogus properties
     // append the hard-coded type and hard-coded difficulty and the date as createdDate to each question object
-    let cleanedCsvData = csvData.map((item: any) => {
+    const cleanedCsvData = csvData.map((item: Question) => {
       return {
         category: item.category.trim().toLowerCase().replace(/ /g, "-"),
         difficulty: "easy",
@@ -88,7 +58,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // look up the authorId - holding off for now
 
     // run through server side validation function that can take array of arguments
-    const valiResult = validateQuestionsArray(cleanedCsvData)
+    interface valiResultTypes {
+      message: string
+      data?: Question[]
+      errors?: string | string[]
+    }
+    const valiResult: valiResultTypes = validateQuestionsArray(cleanedCsvData)
 
     // if validation fails then throw necessary errors
     if (valiResult && valiResult?.message !== "success") {
@@ -116,20 +91,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       // extract attempted categories
       const attemptedCategoryNamesSet = new Set()
-      valiResult.data?.forEach(question => {
+      valiResult.data?.forEach((question: Question) => {
         attemptedCategoryNamesSet.add(question.category)
       })
       //console.log("attemptedCategoryNamesSet: ", attemptedCategoryNamesSet)
       // lookup existing categories
       const existingCategoryObj = await client.db().collection("categories").find().project({ _id: 0, name: 1 }).toArray()
       //console.log("existingCategoryObj", existingCategoryObj)
-      const existingCategoryNamesArr = existingCategoryObj.map(category => category.name)
+      const existingCategoryNamesArr = existingCategoryObj.map(category => category.name as string)
       //console.log("existingCategoryNamesArr: ", existingCategoryNamesArr)
       //
       const newAttemptedCategoriesSet = new Set()
       //let newAttemptedCategories: string[] = []
       attemptedCategoryNamesSet?.forEach(item => {
-        if (!existingCategoryNamesArr.includes(item)) {
+        if (!existingCategoryNamesArr.includes(item as string)) {
           newAttemptedCategoriesSet.add(item)
         }
       })
@@ -147,9 +122,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for adding a new question
     try {
       // add to the databases using insertMany
-      const insertManyResult = await client.db().collection("questions").insertMany(valiResult.data!)
-      void client.close()
-      return res.status(200).json({ message: "success", data: `${insertManyResult.insertedCount} of ${valiResult.data!.length} questions added` })
+      if (valiResult.data && valiResult.data.length) {
+        const insertManyResult = await client.db().collection("questions").insertMany(valiResult.data)
+        void client.close()
+        return res.status(200).json({ message: "success", data: `${insertManyResult.insertedCount} of ${valiResult.data.length} questions added` })
+      }
     } catch (err: unknown) {
       void client.close()
       // handled result (How do we know all inserts were a success?)
