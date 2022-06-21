@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
 import { connectToDatabase, addQuestionDocument, getQuestions, updateQuestionDocument, deleteQuestionDocument } from "../../lib/db"
+import { Question, QuestionDoc } from "../../lib/types"
 import { validateNewQs } from "../../lib/util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,11 +13,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
+    const data = req.body as Question[]
+
     let newQArray
 
-    if (req.body.length && req.body instanceof Array) {
+    if (data.length && data instanceof Array) {
       // cleanup each question object in the array regardless of how many there are
-      newQArray = req.body.map(qObj => {
+      newQArray = data.map(qObj => {
         return {
           category: qObj.category.trim(),
           type: "multiple",
@@ -47,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         //error handling for adding a new question
         for (let i = 0; i < newQArray.length; i++) {
-          let newQ = newQArray[i] || {}
+          const newQ = newQArray[i] || {}
           try {
             await addQuestionDocument(client, newQ)
           } catch (error) {
@@ -100,6 +103,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
+    const data = req.body as QuestionDoc
+
     let client
     //error handling for connection to database
     try {
@@ -112,13 +117,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for adding a new question
     try {
       await updateQuestionDocument(client, {
-        _id: req.body._id,
-        category: req.body.category,
-        type: req.body.type,
-        difficulty: req.body.difficulty,
-        question: req.body.question,
-        correct_answer: req.body.correct_answer,
-        incorrect_answers: req.body.incorrect_answers
+        _id: data._id,
+        category: data.category,
+        type: data.type,
+        difficulty: data.difficulty,
+        question: data.question,
+        correct_answer: data.correct_answer,
+        incorrect_answers: data.incorrect_answers
       })
       res.status(201).json({ message: "success" })
     } catch (error) {
@@ -141,6 +146,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
+    const catToDelete = req.body as string
+
     let client
     //error handling for connection to database
     try {
@@ -152,15 +159,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //error handling for deleting question
     try {
-      await deleteQuestionDocument(client, {
-        _id: req.body.id,
-        category: req.body.category,
-        type: req.body.type,
-        difficulty: req.body.difficulty,
-        question: req.body.question,
-        correct_answer: req.body.correct_answer,
-        incorrect_answers: req.body.incorrect_answers
-      })
+      await deleteQuestionDocument(client, catToDelete)
       res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: "Deleting question failed." })

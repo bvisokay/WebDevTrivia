@@ -1,12 +1,21 @@
+import { QuestionOnClientTypes, ResponseType } from "../../lib/types"
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
 
-const DeleteQuestionModal = (props: any) => {
-  const actuallyDeleteQuestionInDB = (qToDelete: any) => {
+interface DeleteModalPropTypes {
+  allQuestions: QuestionOnClientTypes[]
+  closeModalHandler: () => void
+  setAllQuestions: (arg: QuestionOnClientTypes[]) => void
+  tgtQuestion: QuestionOnClientTypes
+}
+
+const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
+  console.log(props)
+  const actuallyDeleteQuestionInDB = (qToDelete: QuestionOnClientTypes) => {
     // send a patch request to an api route
     //send valid data
     fetch("/api/questions", {
       method: "DELETE",
-      body: JSON.stringify(qToDelete),
+      body: JSON.stringify(qToDelete.id),
       headers: {
         "Content-Type": "application/json"
       }
@@ -14,11 +23,11 @@ const DeleteQuestionModal = (props: any) => {
       .then(response => {
         return response.json()
       })
-      .then(data => {
+      .then((data: ResponseType) => {
         // only update UI if the db operation was a success
         if (data.message == "success") {
           // update the UI
-          const updatedQuestions = props.allQuestions.filter((item: any) => {
+          const updatedQuestions = props.allQuestions.filter((item: QuestionOnClientTypes) => {
             if (item.id !== props.tgtQuestion.id) {
               return item
             }

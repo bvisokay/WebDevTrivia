@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb"
 import { Question } from "../lib/types"
 import type { NextApiRequest } from "next"
-const ObjectId = require("mongodb").ObjectId
+import { ObjectId } from "mongodb"
 
 export async function connectToDatabase() {
   const uri = process.env.MONGODB_URI
@@ -166,9 +166,9 @@ export async function updateQsWithNewCategoryName(client: MongoClient, objWithOl
 
 // DELETE
 
-export async function deleteQuestionDocument(client: MongoClient, document: any) {
+export async function deleteQuestionDocument(client: MongoClient, id: string) {
   const db = client.db()
-  const result = await db.collection("questions").deleteOne({ _id: new ObjectId(document._id) })
+  const result = await db.collection("questions").deleteOne({ _id: new ObjectId(id) })
   return result
 }
 
