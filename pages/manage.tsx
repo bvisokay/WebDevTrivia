@@ -27,6 +27,7 @@ const CategoryBtn = styled.button`
   background-color: transparent;
   font-family: var(--font-primary);
   font-weight: 700;
+  border: none;
 
   :hover {
     border-bottom: 2px solid var(--primary);

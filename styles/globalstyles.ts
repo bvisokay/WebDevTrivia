@@ -85,7 +85,7 @@ export const GlobalStyles = createGlobalStyle`
   a {
     text-decoration: none;
     :hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     :visited {

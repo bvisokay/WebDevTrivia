@@ -38,6 +38,8 @@ type SectionTitleProps = {
 }
 
 export const SectionTitle = styled.h2<SectionTitleProps>`
+  font-size: 1.875rem;
+  letter-spacing: 1.25px;
   font-weight: 700;
   margin: 0.5rem 0;
   color: ${props => (props.dark ? "var(--primary)" : "white")};
@@ -52,9 +54,17 @@ export const SectionTitle2 = styled.h4`
   color: #fff;
 `
 export const SectionText = styled.p`
-  font-size: 1rem;
-  line-height: 1.25;
-  color: #fff;
+  font-size: 0.775rem;
+  line-height: 1;
+  color: cornflowerblue;
+
+  @media ${breakpoints.xs} {
+    font-size: 0.9rem;
+  }
+  @media ${breakpoints.md} {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
 `
 
 export const SectionDivider = styled.div`
@@ -78,6 +88,21 @@ export const ListItem = styled.div`
   border-radius: 10px;
   font-weight: 700;
   //border: 1px solid var(--primary);
+`
+
+export const LiveValidateMessage = styled.div`
+  background-color: orangered;
+  font-size: 0.75rem;
+  top: 0.1rem;
+  position: absolute;
+  z-index: 1;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 `
 
 export const QuestionCardEl = styled.div`
