@@ -443,7 +443,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   } catch (err) {
     throw { message: "error", errors: err }
   }
-  client.close()
+  void client.close()
 
   return {
     props: {

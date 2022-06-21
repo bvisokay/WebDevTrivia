@@ -11,6 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
+    // extract data
+    const categoryName = req.body as string
+
     let client
     //error handling for connection to database
     try {
@@ -23,14 +26,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for adding a new category
     try {
       await addCategoryDocument(client, {
-        name: req.body
+        name: categoryName
       })
       res.status(201).json({ message: "New category added!" })
     } catch (error) {
       res.status(500).json({ message: "Inserting data failed." })
     }
 
-    client.close()
+    void client.close()
   }
 
   if (req.method === "GET") {
@@ -52,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "There was an error retrieving the categories" })
     }
 
-    client.close()
+    void client.close()
   } // end GET request
 
   if (req.method === "PATCH") {
@@ -63,8 +66,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
+    // extract data
+    interface UpdateCategoryTypes {
+      oldCategoryName: string
+      newCategoryName: string
+    }
+    const { oldCategoryName, newCategoryName } = req.body as UpdateCategoryTypes
+
     let client
-    //error handling for connection to database
+    // error handling for connection to database
     try {
       client = await connectToDatabase()
     } catch (error) {
@@ -75,19 +85,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for updating a category name
     try {
       await updateCategoryDocument(client, {
-        oldCategoryName: req.body.oldCategoryName,
-        newCategoryName: req.body.newCategoryName
+        oldCategoryName,
+        newCategoryName
       })
       await updateQsWithNewCategoryName(client, {
-        oldCategoryName: req.body.oldCategoryName,
-        newCategoryName: req.body.newCategoryName
+        oldCategoryName,
+        newCategoryName
       })
       res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: "Updating category name failed." })
     }
 
-    client.close()
+    void client.close()
   } // end PATCH request
 
   if (req.method === "DELETE") {
@@ -97,6 +107,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(401).json({ message: "Not authenticated" })
       return
     }
+
+    const catToDelete = req.body as string
 
     let client
     //error handling for connection to database
@@ -109,7 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //error handling for adding a new category
     try {
-      let result = await deleteCategoryDocument(client, req.body)
+      const result = await deleteCategoryDocument(client, catToDelete)
       if (result) {
         res.status(201).json({ message: "success" })
       }
@@ -117,6 +129,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "Deleting category failed." })
     }
 
-    client.close()
+    void client.close()
   } // end DELETE request
 } // end handler function

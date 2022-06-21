@@ -32,7 +32,7 @@ export async function getCategories(client: MongoClient) {
   const cleanedResults = results.map(categoryObj => {
     return categoryObj.name
   })
-  //client.close()
+  //void client.close()
 
   const data = cleanedResults
   return data
@@ -48,7 +48,7 @@ export async function getCategoryObjs(client: MongoClient) {
       tally: 0
     }
   })
-  //client.close()
+  //void client.close()
   return cleanedResults
 }
 
@@ -84,7 +84,7 @@ export async function getQuestions(client: MongoClient, req: NextApiRequest) {
     }
   })
 
-  client.close()
+  void client.close()
 
   const data = cleanedResults
   return data
@@ -108,7 +108,7 @@ export async function getAllQuestions(client: MongoClient) {
     }
   })
 
-  //client.close()
+  //void client.close()
 
   const data = cleanedResults
   return data

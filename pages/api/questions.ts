@@ -52,12 +52,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await addQuestionDocument(client, newQ)
           } catch (error) {
             res.status(500).json({ message: "Inserting data failed." })
-            client.close()
+            void client.close()
             return
           }
         } // end for loop
 
-        client.close()
+        void client.close()
         res.status(201).json({ message: "success" })
       }
     } else {
@@ -84,7 +84,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "There was an error retrieving the questions" })
     }
 
-    client.close()
+    void client.close()
   } // end GET request
 
   if (req.method === "PATCH") {
@@ -125,7 +125,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "Updating question failed." })
     }
 
-    client.close()
+    void client.close()
   } // end PATCH request
 
   if (req.method === "DELETE") {
@@ -166,6 +166,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "Deleting question failed." })
     }
 
-    client.close()
+    void client.close()
   } // end DELETE request
 } // end handler function

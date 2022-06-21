@@ -38,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // cannot find user
     if (!user) {
       res.status(404).json({ message: "User not found" })
-      client.close()
+      void client.close()
       return
     }
     const currentPassword = user.password
@@ -47,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!passwordsAreEqual) {
       res.status(422).json({ message: "Could not update the password" })
-      client.close()
+      void client.close()
       return
     }
 
@@ -59,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } catch (error) {
     res.status(500).json({ message: "There was an error updating the password." })
   }
-  client.close()
+  void client.close()
 }
 
 export default handler

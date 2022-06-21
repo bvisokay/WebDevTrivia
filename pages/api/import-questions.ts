@@ -140,7 +140,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await client.db().collection("categories").insertOne({ name: item })
       }
     } catch (err) {
-      client.close()
+      void client.close()
       console.log(err)
     }
 
@@ -148,16 +148,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       // add to the databases using insertMany
       const insertManyResult = await client.db().collection("questions").insertMany(valiResult.data!)
-      client.close()
+      void client.close()
       return res.status(200).json({ message: "success", data: `${insertManyResult.insertedCount} of ${valiResult.data!.length} questions added` })
     } catch (err: unknown) {
-      client.close()
+      void client.close()
       // handled result (How do we know all inserts were a success?)
       res.status(500).json({ message: "error", errors: err })
     }
 
     // END db work
-    if (client) client.close()
+    if (client) void client.close()
     console.log("Error: End of API Route")
   } // end POST request
 }
