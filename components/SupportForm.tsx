@@ -104,6 +104,11 @@ const SupportForm: React.FC = () => {
 
   const [state, dispatch] = useImmerReducer(supportReducer, initialState)
 
+  interface SupportResponseType {
+    message: string
+    errors?: string
+  }
+
   async function fetchSupportResults(signal: AbortSignal) {
     try {
       const response = await fetch("/api/support", {
@@ -119,10 +124,6 @@ const SupportForm: React.FC = () => {
         })
       })
 
-      interface SupportResponseType {
-        message: string
-        errors?: string
-      }
       const responseData: SupportResponseType = await response.json()
       if (responseData.message !== "success") {
         appDispatch({ type: "flashMessage", value: `${responseData.errors ? responseData.errors : "Message could not be sent"}` })
@@ -144,10 +145,9 @@ const SupportForm: React.FC = () => {
     if (state.sendCount) {
       const controller = new AbortController()
       const signal = controller.signal
-      void fetchSupportResults(signal)
+      fetchSupportResults(signal)
       return () => controller.abort()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps": "off"
   }, [state.sendCount])
 
   function submitHandler(e: React.FormEvent) {
