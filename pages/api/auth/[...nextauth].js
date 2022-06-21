@@ -13,39 +13,39 @@ export default NextAuth({
     Providers.Credentials({
       async authorize(credentials) {
         // error handling for connection to database
-        let client
         try {
-          client = await connectToDatabase()
-        } catch (error) {
-          res.status(500).json({ message: "There was an error connecting to the database." })
-          return
+          const client = await connectToDatabase()
+          const usersCollection = client.db().collection("users")
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const user = await usersCollection.findOne({ email: credentials.email })
+          if (!user) {
+            // when you throw an error inside of authorize
+            // authorize will reject the promise it generates
+            void client.close()
+            throw new Error("No user found")
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          const isValid = await verifyPassword(credentials.password, user.password)
+          if (!isValid) {
+            void client.close()
+            throw new Error("Incorrect username/password")
+          }
+          //
+          // returning object inside of authorize let NextAuth know auth succeeded
+          //
+          // this is what gets encoded in the token
+          //
+          // don't send entire user obj to avoid sending pw
+          //
+          // close db before return
+          //
+          void client.close()
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          return { username: user.username, email: user.email }
+        } catch (err) {
+          throw { message: "Error attempting authorization", errors: err }
         }
-
-        const usersCollection = client.db().collection("users")
-        const user = await usersCollection.findOne({ email: credentials.email })
-
-        if (!user) {
-          // when you throw an error inside of authorize
-          // authorize will reject the promise it generates
-          client.close()
-          throw new Error("No user found...")
-        }
-
-        const isValid = await verifyPassword(credentials.password, user.password)
-
-        if (!isValid) {
-          client.close()
-          throw new Error("Could not log you in.")
-        }
-
-        // if we return an object inside of authorize
-        // we let next-auth know that authorization succeeded
-        // encoded into token
-
-        client.close()
-        // return { email: user.email }
-        return { username: user.username, email: user.email }
-      }
-    })
-  ]
-})
+      } // end authorize
+    }) // end Providers.Credentials
+  ] // end providers key
+}) // end NextAuth()

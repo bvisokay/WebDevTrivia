@@ -6,7 +6,11 @@ import { connectToDatabase, getCategories } from "../lib/db"
 import React from "react"
 import Import from "../components/Import"
 
-const addQ = (props: any) => {
+interface AddQPropTypes {
+  categories: string[]
+}
+
+const addQ = (props: AddQPropTypes) => {
   return (
     <div>
       <AddQuestionForm categories={props.categories} />
@@ -30,8 +34,9 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   let client
   try {
     client = await connectToDatabase()
-  } catch (e) {
-    console.log(`There was an error: ${e}`)
+  } catch (err) {
+    console.log(`There was an error`)
+    console.log(err)
   }
 
   let categories
@@ -39,8 +44,8 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     if (client) {
       categories = await getCategories(client)
     }
-  } catch (e) {
-    console.log(`There was an error: ${e}`)
+  } catch (err) {
+    console.warn(err)
   }
 
   return {

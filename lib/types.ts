@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb"
+//import { ObjectId } from "mongodb"
 
 export type AnswerObject = {
   question: string
@@ -29,4 +29,9 @@ export type Question = {
 
 export type QuestionsState = Question & {
   answers: string[]
+}
+
+export interface RegAttemptTypes {
+  email: string
+  password: string
 }

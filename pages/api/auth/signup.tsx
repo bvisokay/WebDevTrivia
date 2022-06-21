@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../../../lib/db"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { hashPassword } from "../../../lib/auth"
+import { RegAttemptTypes } from "../../../lib/types"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -9,7 +10,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return
   }
 
-  const data = req.body
+  const data = req.body as RegAttemptTypes
 
   const { email, password } = data
 
@@ -36,7 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const existingUser = await db.collection("users").findOne({ email: email })
     if (existingUser) {
       res.status(422).json({ message: "A user with that email already exists." })
-      client.close()
+      void client.close()
       return
     }
 
@@ -44,16 +45,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const hashedPassword = await hashPassword(password)
 
     // store new unique user in the database
-    const result = await db.collection("users").insertOne({
+    await db.collection("users").insertOne({
       email: email,
       password: hashedPassword
     })
-
-    res.status(201).json({ message: "Created user." })
+    return res.status(201).json({ message: "Created user." })
   } catch (error) {
-    res.status(500).json({ message: "There was an error creating the user." })
+    void client.close()
+    return res.status(500).json({ message: "There was an error creating the user." })
   }
-  client.close()
-  res.status(201).json({ message: "Created user." })
 }
 export default handler

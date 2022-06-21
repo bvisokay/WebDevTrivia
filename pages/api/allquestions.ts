@@ -30,6 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "There was an error retrieving the questions" })
     }
 
-    client.close()
+    if (client) void client.close()
   } // end GET request
 } // end handler function
