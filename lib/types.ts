@@ -64,3 +64,8 @@ export interface ResponseType {
   data?: string
   errors?: string | string[]
 }
+
+export interface UpdatePassTypes {
+  oldPassword: string
+  newPassword: string
+}

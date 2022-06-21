@@ -2,24 +2,25 @@ import { getSession } from "next-auth/client"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { connectToDatabase } from "../../../lib/db"
 import { hashPassword, verifyPassword } from "../../../lib/auth"
+import { UpdatePassTypes } from "../../../lib/types"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "PATCH") {
-    return
+    return res.status(405).json({ message: "error" })
   }
 
   const session = await getSession({ req: req })
 
   if (!session) {
-    res.status(401).json({ message: "Not authenticated" })
-
-    //need to redirect to the auth page
-    return
+    return res.status(401).json({ message: "Not authenticated" })
   }
 
-  const userEmail = session.user!.email
-  const oldPassword = req.body.oldPassword
-  const newPassword = req.body.newPassword
+  let userEmail
+  if (session && session.user && session.user.email) {
+    userEmail = session.user.email
+  }
+
+  const { oldPassword, newPassword } = req.body as UpdatePassTypes
 
   let client
   //error handling for connection to database
@@ -41,7 +42,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       void client.close()
       return
     }
-    const currentPassword = user.password
+    const currentPassword = user.password as string
 
     const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword)
 
@@ -52,9 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const hashedPassword = await hashPassword(newPassword)
-
-    const result = await usersCollection.updateOne({ email: userEmail }, { $set: { password: hashedPassword } })
-
+    await usersCollection.updateOne({ email: userEmail }, { $set: { password: hashedPassword } })
     res.status(200).json({ message: "password updated" })
   } catch (error) {
     res.status(500).json({ message: "There was an error updating the password." })

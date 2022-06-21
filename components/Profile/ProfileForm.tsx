@@ -1,9 +1,10 @@
 import React, { useRef } from "react"
+import { UpdatePassTypes } from "../../lib/types"
 import { FormControl } from "../../styles/GlobalComponents"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 type userProfileProps = {
-  onChangePassword: ({}) => void
+  onChangePassword: (arg: UpdatePassTypes) => Promise<void>
 }
 
 const ProfileForm = (props: userProfileProps) => {
@@ -12,10 +13,12 @@ const ProfileForm = (props: userProfileProps) => {
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const enteredNewPassword = newPasswordRef.current!.value
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const enteredOldPassword = oldPasswordRef.current!.value
     // add validation
-    props.onChangePassword({
+    void props.onChangePassword({
       oldPassword: enteredOldPassword,
       newPassword: enteredNewPassword
     })
