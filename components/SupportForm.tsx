@@ -4,7 +4,7 @@ import { useImmer, useImmerReducer } from "use-immer"
 import { useRouter } from "next/router"
 
 // styles
-import { FormControl, SectionNarrow } from "../styles/GlobalComponents"
+import { FormControl, SectionNarrow, LiveValidateMessage } from "../styles/GlobalComponents"
 import { BtnPrimary } from "../styles/GlobalComponents/Button"
 
 type SupportFormActionTypes = { type: "clearFields" } | { type: "nameCheck"; value: string } | { type: "emailCheck"; value: string } | { type: "messageCheck"; value: string } | { type: "saveRequestStarted" } | { type: "saveRequestFinished" } | { type: "submitRequest" }
@@ -41,7 +41,7 @@ const SupportForm: React.FC = () => {
     sendCount: 0
   }
 
-  function supportReducer(draft: typeof initialState, action: SupportFormActionTypes) {
+  function supportReducer(draft: InitialStateType, action: SupportFormActionTypes) {
     switch (action.type) {
       case "nameCheck":
         draft.name.hasErrors = false
@@ -50,11 +50,7 @@ const SupportForm: React.FC = () => {
           draft.name.hasErrors = true
           draft.name.message = "Enter a name"
         }
-        if (draft.name.value && !/^([a-zA-Z0-9]+)$/.test(draft.name.value)) {
-          draft.name.hasErrors = true
-          draft.name.message = "Name can only contain letters and numbers."
-        }
-        if (draft.name.value.length > 100) {
+        if (draft.name.value.length > 50) {
           draft.name.hasErrors = true
           draft.name.message = "Enter a shorter name"
         }
@@ -64,11 +60,15 @@ const SupportForm: React.FC = () => {
         draft.email.value = action.value
         if (draft.email.value === "") {
           draft.email.hasErrors = true
-          draft.email.message = "Enter a email"
+          draft.email.message = "Enter an email"
         }
         if (!/^\S+@\S+$/.test(draft.email.value)) {
           draft.email.hasErrors = true
-          draft.email.message = "You must provide a valid email address."
+          draft.email.message = "You must provide a valid email address"
+        }
+        if (draft.email.value.length > 100) {
+          draft.email.hasErrors = true
+          draft.email.message = "Enter a shorter email"
         }
         return
       case "messageCheck":
@@ -78,7 +78,7 @@ const SupportForm: React.FC = () => {
           draft.message.hasErrors = true
           draft.message.message = "Enter a message"
         }
-        if (draft.message.value.length > 10) {
+        if (draft.message.value.length > 255) {
           draft.message.hasErrors = true
           draft.message.message = "Enter a shorter message"
         }
@@ -86,8 +86,6 @@ const SupportForm: React.FC = () => {
       case "submitRequest":
         if (!draft.name.hasErrors && !draft.email.hasErrors && !draft.message.hasErrors) {
           draft.sendCount++
-        } else {
-          appDispatch({ type: "flashMessage", value: "Could Not Submit Form" })
         }
         return
       case "saveRequestStarted":
@@ -106,17 +104,51 @@ const SupportForm: React.FC = () => {
 
   const [state, dispatch] = useImmerReducer(supportReducer, initialState)
 
-  //useEffect(()=>{}, [state.sendCount])
+  async function fetchSupportResults(signal: AbortSignal) {
+    try {
+      const response = await fetch("/api/support", {
+        signal: signal,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: state.name.value,
+          email: state.email.value,
+          message: state.message.value
+        })
+      })
 
-  /* 
-    //send request to /api/support
+      interface SupportResponseType {
+        message: string
+        errors?: string
+      }
+      const responseData: SupportResponseType = await response.json()
+      if (responseData.message !== "success") {
+        appDispatch({ type: "flashMessage", value: `${responseData.errors ? responseData.errors : "Message could not be sent"}` })
+        return
+      }
+      if (responseData.message === "success") {
+        appDispatch({ type: "flashMessage", value: "Your message has been sent" })
+        dispatch({ type: "clearFields" })
+        router.push("/")
+        return
+      }
+    } catch (err) {
+      appDispatch({ type: "flashMessage", value: "There was a problem" })
+      console.warn(err)
+    }
+  }
 
-    // if (!response === "success")
-    // {appDispatch({type: "flashMessages", value: "Message sent"})}
-    // {appDispatch({type: "clearFields"})}
-
-    // if (!response === "success") {appDispatch({type: "flashMessages", value: "Message not sent"})}
-  */
+  useEffect(() => {
+    if (state.sendCount) {
+      const controller = new AbortController()
+      const signal = controller.signal
+      void fetchSupportResults(signal)
+      return () => controller.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps": "off"
+  }, [state.sendCount])
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault()
@@ -132,14 +164,17 @@ const SupportForm: React.FC = () => {
         <FormControl light={true}>
           <label htmlFor="name">Name</label>
           <input autoFocus aria-label="Name" type="text" value={state.name.value} onChange={e => dispatch({ type: "nameCheck", value: e.target.value })} />
+          {state.name.hasErrors && <LiveValidateMessage>{state.name.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="email">Email</label>
           <input aria-label="Email" type="text" value={state.email.value} onChange={e => dispatch({ type: "emailCheck", value: e.target.value })} />
+          {state.email.hasErrors && <LiveValidateMessage>{state.email.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="message">Your Message</label>
           <textarea aria-label="Message" rows={8} value={state.message.value} onChange={e => dispatch({ type: "messageCheck", value: e.target.value })} />
+          {state.message.hasErrors && <LiveValidateMessage>{state.message.message}</LiveValidateMessage>}
         </FormControl>
         <BtnPrimary>Submit</BtnPrimary>
       </form>
