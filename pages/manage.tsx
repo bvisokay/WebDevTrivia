@@ -1,4 +1,3 @@
-import { useRouter } from "next/router"
 import { getSession } from "next-auth/client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -19,8 +18,7 @@ import { BtnSmall } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
-import { GrDocumentCsv } from "react-icons/gr"
-import { BiImport } from "react-icons/bi"
+import { QuestionOnClientTypes } from "../lib/types"
 
 const CategoryBtn = styled.button`
   color: white;
@@ -121,7 +119,12 @@ interface CategoryObj {
   tally: number
 }
 
-const AdminPage = (props: any) => {
+interface AdminPageProps {
+  categoryData: CategoryObj[]
+  questionData: QuestionOnClientTypes[]
+}
+
+const AdminPage = (props: AdminPageProps) => {
   //categories state
   /* const [isLoading, setIsLoading] = useState(true)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
@@ -129,15 +132,15 @@ const AdminPage = (props: any) => {
   const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false)
   const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] = useState(false)
   //questions state
-  const [allQuestions, setAllQuestions] = useState<any>(props.questionData)
-  const [questionsToExport, setQuestionsToExport] = useState<any>(props.questionData)
+  const [allQuestions, setAllQuestions] = useState<QuestionOnClientTypes[]>(props.questionData)
+  const [questionsToExport, setQuestionsToExport] = useState<QuestionOnClientTypes[]>(props.questionData)
   const [editQuestionModalIsOpen, setEditQuestionModalIsOpen] = useState(false)
   const [deleteQuestionModalIsOpen, setDeleteQuestionModalIsOpen] = useState(false)
   const [catFilter, setCatFilter] = useState<string>("")
 
   // Tgt sent to modals
   const [tgtCategory, setTgtCategory] = useState<CategoryObj>()
-  const [tgtQuestion, setTgtQuestion] = useState<{} | any>()
+  const [tgtQuestion, setTgtQuestion] = useState<QuestionOnClientTypes | undefined>()
 
   //
   // Begin export using { CSVLink } from "react-csv"
@@ -148,7 +151,7 @@ const AdminPage = (props: any) => {
       if (!catFilter) {
         return [...allQuestions]
       } else {
-        let filteredQsToExport = allQuestions.filter((Q: any) => {
+        const filteredQsToExport = allQuestions.filter(Q => {
           if (catFilter && Q.category === catFilter) {
             return Q
           }
@@ -179,9 +182,9 @@ const AdminPage = (props: any) => {
 
   useEffect(() => {
     if (categories) {
-      categories.forEach((categoryObj: any) => {
+      categories.forEach(categoryObj => {
         categoryObj.tally = 0
-        allQuestions.forEach((question: any) => {
+        allQuestions.forEach(question => {
           if (question.category === categoryObj.name) {
             categoryObj.tally++
           }
@@ -207,12 +210,12 @@ const AdminPage = (props: any) => {
     // if not they will never been seen
   }
 
-  function EditQuestionHandler(qObj: any) {
+  function EditQuestionHandler(qObj: QuestionOnClientTypes) {
     setTgtQuestion(qObj)
     setEditQuestionModalIsOpen(true)
   }
 
-  function DeleteQuestionHandler(qObj: any) {
+  function DeleteQuestionHandler(qObj: QuestionOnClientTypes) {
     setTgtQuestion(qObj)
     setDeleteQuestionModalIsOpen(true)
     // Should questions with this category be deleted?
@@ -316,7 +319,7 @@ const AdminPage = (props: any) => {
 
       <ul className="question">
         {allQuestions
-          .filter((Q: any) => {
+          .filter(Q => {
             if (!catFilter) {
               return Q
             }
@@ -324,14 +327,14 @@ const AdminPage = (props: any) => {
               return Q
             }
           })
-          .sort((a: any, b: any) => {
+          .sort((a, b) => {
             if (a.createdDate < b.createdDate) {
               return 1
             } else {
               return -1
             }
           })
-          .map((questionObj: any) => {
+          .map((questionObj: QuestionOnClientTypes) => {
             return (
               <QuestionCardRow key={questionObj.id}>
                 <div>
@@ -426,15 +429,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   } catch (err) {
     throw { message: "error", errors: err }
   }
-  let categoryData: {}[] = []
-  let questionData: {}[] = []
+  let categoryData: CategoryObj[] = []
+  let questionData: QuestionOnClientTypes[] = []
   try {
     categoryData = await getCategoryObjs(client)
     questionData = await getAllQuestions(client)
 
-    categoryData.forEach((categoryObj: any) => {
+    categoryData.forEach(categoryObj => {
       categoryObj.tally = 0
-      questionData.forEach((question: any) => {
+      questionData.forEach(question => {
         if (question.category === categoryObj.name) {
           categoryObj.tally++
         }

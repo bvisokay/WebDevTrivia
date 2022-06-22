@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb"
+import type { WithId, Document } from "mongodb"
 
 export type AnswerObject = {
   question: string
@@ -8,7 +9,9 @@ export type AnswerObject = {
 }
 
 export type CategoryObjectType = {
+  id?: ObjectId | string
   name: string
+  tally?: number
 }
 
 export type OptionsModalProps = {
@@ -28,10 +31,9 @@ export type Question = {
   incorrect_answers: string[]
   question: string
   type: string
-  /* createdDate: Date */
 }
 
-export type QuestionDoc = {
+export interface QuestionDoc extends WithId<Document> {
   _id: ObjectId
   category: string
   type: string
@@ -39,7 +41,9 @@ export type QuestionDoc = {
   question: string
   correct_answer: string
   incorrect_answers: string[]
+  createdDate: Date
 }
+
 export type QuestionOnClientTypes = {
   id: string
   category: string
@@ -48,6 +52,7 @@ export type QuestionOnClientTypes = {
   question: string
   correct_answer: string
   incorrect_answers: string[]
+  createdDate: string
 }
 
 export type QuestionsState = Question & {

@@ -1,5 +1,5 @@
-import { MongoClient } from "mongodb"
-import { Question } from "../lib/types"
+import { Document, MongoClient, WithId } from "mongodb"
+import { Question, QuestionDoc } from "../lib/types"
 import type { NextApiRequest } from "next"
 import { ObjectId } from "mongodb"
 
@@ -93,10 +93,10 @@ export async function getQuestions(client: MongoClient, req: NextApiRequest) {
 export async function getAllQuestions(client: MongoClient) {
   const db = client.db()
 
-  const results = await db.collection("questions").find().toArray()
+  const results = (await db.collection("questions").find().toArray()) as QuestionDoc[]
 
   // removes _id from each question object
-  const cleanedResults = results.map((questionObj: any) => {
+  const cleanedResults = results.map(questionObj => {
     return {
       id: questionObj._id.toString(),
       category: questionObj.category,
@@ -104,7 +104,8 @@ export async function getAllQuestions(client: MongoClient) {
       difficulty: questionObj.difficulty,
       question: questionObj.question,
       correct_answer: questionObj.correct_answer,
-      incorrect_answers: questionObj.incorrect_answers
+      incorrect_answers: questionObj.incorrect_answers,
+      createdDate: questionObj.createdDate.toString()
     }
   })
 

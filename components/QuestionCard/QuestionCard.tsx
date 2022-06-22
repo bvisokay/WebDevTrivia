@@ -13,7 +13,7 @@ export type QuestionCardProps = {
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ score, question, answers, callback, userAnswer, questionNr, totalQuestions }) => {
-  let percentComplete = (questionNr / totalQuestions) * 100
+  const percentComplete = (questionNr / totalQuestions) * 100
 
   return (
     <Wrapper>

@@ -3,7 +3,6 @@ import React, { useState, useContext, useEffect } from "react"
 import Head from "next/head"
 import { shuffleArray } from "../lib/util"
 import { defaultTotalQuestions, GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
-import styled from "styled-components"
 
 //comps
 import StartBtns from "../components/StartBtns"
@@ -13,21 +12,10 @@ import QuestionCard from "../components/QuestionCard/QuestionCard"
 import OptionsModal from "../components/OptionsModal/OptionsModal"
 
 //styles
-import { SectionTitle } from "../styles/GlobalComponents"
 import { BtnPrimary } from "../styles/GlobalComponents/Button"
 
 // types
 import { AnswerObject, Question, QuestionsState } from "../lib/types"
-
-const Debug = styled.div`
-  border: 1px solid white;
-  border-radius: 0.5rem;
-  margin: 1rem auto;
-  padding: 0 0.5rem;
-  p {
-    line-height: 0.5rem;
-  }
-`
 
 // Home: NextPage =
 const Home: NextPage = () => {
@@ -46,8 +34,6 @@ const Home: NextPage = () => {
   const appState = useContext(GlobalStateContext)
 
   const fetchQuizQuestions = async (selectedCategory: string, selectedTotalQs: number) => {
-    //console.log(selectedCategory)
-    //console.log(selectedTotalQs)
     const trimmedCategory = selectedCategory.trim().replace(/ /g, "")
 
     try {
@@ -57,11 +43,9 @@ const Home: NextPage = () => {
       } else {
         endpoint = `/api/questions?category=${trimmedCategory}&amount=${selectedTotalQs}`
       }
-      //console.log(endpoint)
 
       const response = await fetch(endpoint)
-      const data = await response.json()
-      //console.log("data", data)
+      const data = (await response.json()) as Question[]
 
       return data.map((question: Question) => {
         return { ...question, answers: shuffleArray([...question.incorrect_answers, question.correct_answer]) }
@@ -72,7 +56,6 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    //console.log("questions.length", questions.length)
     if (!appState.gameOver && questions.length === 0) {
       appDispatch({ type: "flashMessage", value: "Error: No questions for that category" })
       appDispatch({ type: "gameReset" })
@@ -105,8 +88,10 @@ const Home: NextPage = () => {
     appDispatch({ type: "gameOver", value: false })
   }
 
-  const checkAnswer = (e: any) => {
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!appState.gameOver) {
+      console.log("e.target: ", e.target)
+      console.log("e.currentTarget: ", e.currentTarget)
       // User's answer
       const answer = e.currentTarget.value
       // Check answer against correct answer
@@ -114,7 +99,7 @@ const Home: NextPage = () => {
       // Add score if answer is correct
       if (correct) setScore(prev => prev + 1)
       // Save the answer in the array for user answers
-      const answerObject = {
+      const answerObject: AnswerObject = {
         question: questions[number].question,
         answer,
         correct,
@@ -136,11 +121,11 @@ const Home: NextPage = () => {
     }
   }
 
-  const saveSettingsHandler = async (event: React.FormEvent) => {
+  const saveSettingsHandler = (event: React.FormEvent) => {
     event.preventDefault()
     setSettingsOpen(false)
     appDispatch({ type: "gameOver", value: true })
-    startGameHandler()
+    void startGameHandler()
   }
 
   const closeSettingsHandler = () => {
@@ -167,13 +152,6 @@ const Home: NextPage = () => {
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
       {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && <BtnPrimary onClick={nextQuestion}>Next Question</BtnPrimary>}
       {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
-
-      {/*  <Debug>
-        <p style={{ color: "white" }}>questions.length: {questions.length}</p>
-        <p style={{ color: "white" }}>Number: {number}</p>
-        <p style={{ color: "white" }}>SelectedCategory: {appState.selectedCategory}</p>
-        <p style={{ color: "white" }}>selectedTotalQs: {appState.selectedTotalQs}</p>
-      </Debug> */}
     </>
   )
 }

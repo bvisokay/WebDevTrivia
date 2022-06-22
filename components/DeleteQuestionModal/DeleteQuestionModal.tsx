@@ -5,7 +5,7 @@ interface DeleteModalPropTypes {
   allQuestions: QuestionOnClientTypes[]
   closeModalHandler: () => void
   setAllQuestions: (arg: QuestionOnClientTypes[]) => void
-  tgtQuestion: QuestionOnClientTypes
+  tgtQuestion: QuestionOnClientTypes | undefined
 }
 
 const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
@@ -28,7 +28,7 @@ const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
         if (data.message == "success") {
           // update the UI
           const updatedQuestions = props.allQuestions.filter((item: QuestionOnClientTypes) => {
-            if (item.id !== props.tgtQuestion.id) {
+            if (item.id !== props.tgtQuestion?.id) {
               return item
             }
           })
@@ -39,14 +39,11 @@ const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
   }
 
   const deleteHandler = () => {
-    //console.log(props.tgtQuestion)
-
     // delete in DB
     // probably don't need to send the entire questionObj
     // refactor to just send the id, and maybe the category?
-    actuallyDeleteQuestionInDB(props.tgtQuestion)
-
-    // close the modal after deleting
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    actuallyDeleteQuestionInDB(props.tgtQuestion!)
     props.closeModalHandler()
   }
 

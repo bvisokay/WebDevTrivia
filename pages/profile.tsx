@@ -12,13 +12,18 @@ const Profile = () => {
   const router = useRouter()
 
   useEffect(() => {
-    getSession().then(session => {
-      if (!session) {
-        router.replace("/auth")
-      } else {
-        setIsLoading(false)
-      }
-    })
+    getSession()
+      .then(session => {
+        if (!session) {
+          void router.replace("/auth")
+        } else {
+          setIsLoading(false)
+        }
+      })
+      .catch(err => {
+        console.log("There was an error")
+        console.log(err)
+      })
   }, [router])
 
   if (isLoading) {
