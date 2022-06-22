@@ -9,13 +9,18 @@ const AuthPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    getSession().then(session => {
-      if (session) {
-        router.replace("/")
-      } else {
-        setIsLoading(false)
-      }
-    })
+    getSession()
+      .then(session => {
+        if (session) {
+          void router.replace("/")
+        } else {
+          setIsLoading(false)
+        }
+      })
+      .catch(err => {
+        console.log("You are not logged in")
+        console.warn(err)
+      })
   }, [router])
 
   if (isLoading) {
