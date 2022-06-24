@@ -1,6 +1,6 @@
-import { useRef, useContext, useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { GlobalDispatchContext } from "../store/GlobalContext"
-import { useImmer, useImmerReducer } from "use-immer"
+import { useImmerReducer } from "use-immer"
 import { useRouter } from "next/router"
 
 // styles
@@ -124,7 +124,7 @@ const SupportForm: React.FC = () => {
         })
       })
 
-      const responseData: SupportResponseType = await response.json()
+      const responseData = (await response.json()) as SupportResponseType
       if (responseData.message !== "success") {
         appDispatch({ type: "flashMessage", value: `${responseData.errors ? responseData.errors : "Message could not be sent"}` })
         return
@@ -132,7 +132,7 @@ const SupportForm: React.FC = () => {
       if (responseData.message === "success") {
         appDispatch({ type: "flashMessage", value: "Your message has been sent" })
         dispatch({ type: "clearFields" })
-        router.push("/")
+        void router.push("/")
         return
       }
     } catch (err) {
@@ -145,7 +145,7 @@ const SupportForm: React.FC = () => {
     if (state.sendCount) {
       const controller = new AbortController()
       const signal = controller.signal
-      fetchSupportResults(signal)
+      void fetchSupportResults(signal)
       return () => controller.abort()
     }
   }, [state.sendCount])

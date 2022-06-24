@@ -3,6 +3,9 @@ import { useImmerReducer } from "use-immer"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 import { useRouter } from "next/router"
 
+// types
+import { Question, ResponseType } from "../../lib/types"
+
 // styles
 import { CSSTransition } from "react-transition-group"
 import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
@@ -12,6 +15,43 @@ import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 // The page guard is server side in parent component
 // The parent comp pre-fetches categories in GSSP
 // This comp needs a button to open simple modal to add category?
+
+type AddQuestionActionTypes = { type: "categoryImmediately"; value: string } | { type: "questionImmediately"; value: string } | { type: "correctAnswerImmediately"; value: string } | { type: "incorrectAnswer1Immediately"; value: string } | { type: "incorrectAnswer2Immediately"; value: string } | { type: "incorrectAnswer3Immediately"; value: string } | { type: "submitForm" } | { type: "saveRequestStarted" } | { type: "saveRequestFinished" } | { type: "clearFields" }
+
+interface InitialStateType {
+  category: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  question: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  correctAnswer: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  incorrectAnswer1: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  incorrectAnswer2: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  incorrectAnswer3: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  submitCount: number
+  isSaving: boolean
+}
 
 // Initial State for Reducer
 const initialState = {
@@ -50,7 +90,7 @@ const initialState = {
 }
 
 // Reducer Function (Switch)
-function ourReducer(draft: any, action: any) {
+function ourReducer(draft: InitialStateType, action: AddQuestionActionTypes) {
   switch (action.type) {
     case "categoryImmediately":
       /* alert(action.value) */
@@ -152,13 +192,17 @@ function ourReducer(draft: any, action: any) {
   }
 }
 
+interface AddQuestionFormPropTypes {
+  categories: string[]
+}
+
 // Main Componemt Function
-const AddQuestionForm = (props: any) => {
+const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
   const appDispatch = useContext(GlobalDispatchContext)
   const router = useRouter()
 
   // Receive categories as props from parent component via GSSP
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState<string[]>([])
 
   // component throws error if this not in useEffect - something about infinite loop
   useEffect(() => {
@@ -185,7 +229,7 @@ const AddQuestionForm = (props: any) => {
           incorrect_answers: [state.incorrectAnswer1.value.trim(), state.incorrectAnswer2.value.trim(), state.incorrectAnswer3.value.trim()]
         }
       ]
-      const saveNewQ = async (newQuestionArr: any) => {
+      const saveNewQ = async (newQuestionArr: Question[]) => {
         try {
           const response = await fetch("/api/questions", {
             method: "POST",
@@ -194,19 +238,19 @@ const AddQuestionForm = (props: any) => {
               "Content-Type": "application/json"
             }
           })
-          const data = await response.json()
+          const data = (await response.json()) as ResponseType
           dispatch({ type: "saveRequestFinished" })
           if (data.message == "success") {
             //console.log("New question was added")
             //dispatch({ type: "clearFields" })
             appDispatch({ type: "flashMessage", value: "New Question Added" })
-            router.push("/manage")
+            void router.push("/manage")
           }
         } catch (e) {
           console.log("New question could not be added")
         }
       }
-      saveNewQ(newQ)
+      void saveNewQ(newQ)
       // teardown function needed here
     }
   }, [state.submitCount, dispatch, appDispatch, router, state.correctAnswer.value, state.incorrectAnswer1.value, state.incorrectAnswer2.value, state.incorrectAnswer3.value, state.question.value, state.category.value])

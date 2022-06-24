@@ -67,7 +67,7 @@ const Home: NextPage = () => {
     }
   }, [appState.gameOver, questions, appState.selectedTotalQs, appDispatch])
 
-  const startGameHandler = async () => {
+  /*   const startGameHandler = async () => {
     //fresh start
     setLoadingError(false)
     setLoading(true)
@@ -80,6 +80,29 @@ const Home: NextPage = () => {
       setLoading(false)
       throw { message: "error", errors: err }
     }
+    // end fetch questions
+    setScore(0)
+    setUserAnswers([])
+    setNumber(0)
+    setLoading(false)
+    appDispatch({ type: "gameOver", value: false })
+  } */
+
+  const startGameHandler = () => {
+    //fresh start
+    setLoadingError(false)
+    setLoading(true)
+    //get questions
+
+    fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
+      .then(newQuestions => {
+        setQuestions(newQuestions)
+      })
+      .catch((err: unknown) => {
+        setLoadingError(true)
+        setLoading(false)
+        throw { message: "error", errors: err }
+      })
     // end fetch questions
     setScore(0)
     setUserAnswers([])
