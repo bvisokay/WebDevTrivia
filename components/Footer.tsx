@@ -3,9 +3,7 @@ import styled from "styled-components"
 import { Wrapper } from "../styles/GlobalComponents"
 import { breakpoints } from "../styles/breakpoints"
 
-import { useSession, signOut } from "next-auth/client"
-import { useContext } from "react"
-import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import { useSession } from "next-auth/client"
 
 const FooterContainer = styled.div`
   background: var(--transparent-light);
@@ -46,14 +44,7 @@ const Help = styled.li`
 `
 
 const Footer = () => {
-  const appDispatch = useContext(GlobalDispatchContext)
-  const appState = useContext(GlobalStateContext)
-
   const [session, isLoading] = useSession()
-
-  function logoutHandler() {
-    signOut()
-  }
 
   return (
     <FooterContainer>
