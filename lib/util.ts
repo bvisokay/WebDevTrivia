@@ -1,6 +1,8 @@
 //import { Question } from "../pages"
 
-export async function validateNewQs(newQArray: any[]) {
+import { ImportedAndSetQuestionType } from "./types"
+
+export function validateNewQs(newQArray: any[]) {
   for (let i = 0; i < newQArray.length; i++) {
     //console.log("hello")
 

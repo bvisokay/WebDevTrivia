@@ -1,5 +1,6 @@
-import { useState, useRef, useContext } from "react"
-import Papa from "papaparse"
+import React, { useState, useRef, useContext } from "react"
+//import Papa from "papaparse"
+import { parse, ParseResult } from "papaparse"
 import { GlobalDispatchContext } from "../store/GlobalContext"
 import { useRouter } from "next/router"
 import { clientValidateQuestionsArray } from "../lib/util"
@@ -8,6 +9,7 @@ import { clientValidateQuestionsArray } from "../lib/util"
 import { BtnPrimary } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
+import { ImportedAndSetQuestionType, ResponseType } from "../lib/types"
 
 const ImportContainer = styled.div`
   color: white;
@@ -36,20 +38,22 @@ const ImportContainer = styled.div`
   }
 `
 
-const Import = props => {
+const Import = () => {
   //console.log("props.categories: ", props.categories) // front-end validation to see if categories exist
   const [uploading, setUploading] = useState(false)
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
   const appDispatch = useContext(GlobalDispatchContext)
   const router = useRouter()
 
   //
   const resetFileInput = () => {
-    inputRef.current.value = ""
+    if (inputRef.current) {
+      inputRef.current.value = ""
+    }
   }
 
   //
-  const requestHandler = async arrayOfQuestions => {
+  const requestHandler = async (arrayOfQuestions: ImportedAndSetQuestionType[]) => {
     // send request
 
     // CANNOT USE await in non-async function
@@ -62,13 +66,13 @@ const Import = props => {
           "Content-Type": "application/json"
         }
       })
-      const data = await response.json()
+      const data = (await response.json()) as ResponseType
       console.log(data)
       // is api request set up to return a success message?
       if (data.message === "success") {
         setUploading(false)
         appDispatch({ type: "flashMessage", value: data.data ? data.data : "Successfully imported questions" })
-        router.push("/manage")
+        void router.push("/manage")
         return
       } else {
         appDispatch({ type: "flashMessage", value: "There was a problem" })
@@ -77,7 +81,7 @@ const Import = props => {
     } catch (err) {
       appDispatch({ type: "flashMessage", value: "Something went wrong" })
       setUploading(false)
-      throw { message: "error", errors: `${err.errors ? err.errors : `Catch Error: ${err}`}` }
+      throw { message: "error", errors: err }
     }
   }
 
@@ -86,24 +90,55 @@ const Import = props => {
     setUploading(true)
     const input = inputRef?.current
     const reader = new FileReader()
-    const [file] = input.files
 
-    let csv
-    reader.onloadend = async ({ target }) => {
+    if (input && !input.files) {
+      appDispatch({ type: "flashMessage", value: "Please select a file to import" })
+      setUploading(false)
+      return
+    }
+    //eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
+    const [file]: any = input!.files
+
+    /* interface CSVProps {
+      data: ImportedQuestionType[] | []
+      errors: string[]
+      meta: object
+    }
+
+    let csv: CSVProps */
+
+    let csv: ParseResult<Record<string, unknown>>
+
+    reader.onloadend = async event => {
+      console.log(event?.target?.result)
+
+      const csvString = event?.target?.result as string
+
       try {
         if (reader.error) {
-          throw { message: "error", errors: `Error with upload: ${reader.error}` }
+          throw { message: "error", errors: reader.error }
         }
-        csv = Papa.parse(target.result, { header: true })
+        if (!event) {
+          throw { message: "error", errors: "Problem with the uploaded data" }
+        }
+        if (event && event.target && event.target.result) {
+          //csv = parse(csvString, { header: true })
+          parse(csvString, {
+            header: true,
+            complete: function (results: ParseResult<Record<string, unknown>>) {
+              csv = results
+            }
+          })
+        }
 
-        if (csv.errors.length) {
+        if (csv && csv.errors && csv.errors.length) {
           console.log("csv.errors: ", csv.errors)
           //file = null throws error that the file is read-only
           //throw { message: "error", errors: "Check the imported file and try again" }
         }
 
-        if (csv.data == null) {
-          console.log("csv.data is null...")
+        if (csv && csv.data == null) {
+          console.log("csv.data is null")
           appDispatch({ type: "flashMessage", value: "Problem with the uploaded file format" })
           throw { message: "error", errors: "Problem with the uploaded data" }
         }
@@ -132,9 +167,14 @@ const Import = props => {
             }
           })
 
-        let vArrayOfQuestions
+        let vArrayOfQuestions: ImportedAndSetQuestionType[]
 
-        const result = clientValidateQuestionsArray(arrayOfQuestions)
+        interface ResultTypes {
+          message: string
+          data: ImportedAndSetQuestionType[]
+        }
+
+        const result: ResultTypes = clientValidateQuestionsArray(arrayOfQuestions)
 
         if (result.message !== "success") {
           throw { message: "error", errors: "client side validation failed" }
@@ -142,15 +182,16 @@ const Import = props => {
 
         if (result.message === "success") {
           vArrayOfQuestions = result.data
-        }
-
-        if (vArrayOfQuestions && vArrayOfQuestions.length) {
-          //console.log("arrayOfQuestions: ", arrayOfQuestions)
           await requestHandler(vArrayOfQuestions)
         }
+
+        /*  if (vArrayOfQuestions && vArrayOfQuestions.length) {
+          //console.log("arrayOfQuestions: ", arrayOfQuestions)
+          await requestHandler(vArrayOfQuestions)
+        } */
       } catch (err) {
-        console.log(`Catch Error: ${err.errors ? err.errors : err}`)
-        appDispatch({ type: "flashMessage", value: `Error: ${err.errors ? err.errors : err}` })
+        console.log(`Catch Error: `, err)
+        appDispatch({ type: "flashMessage", value: "Problem with the uploaded data" })
         return { message: "error", errors: "Problem with the uploaded data" }
       }
     } // end onloadend function
@@ -159,11 +200,15 @@ const Import = props => {
     setUploading(false)
 
     // Ensure there is a file selected
-    if (file == null) {
+    if (!file) {
       appDispatch({ type: "flashMessage", value: "Please select a file to import" })
       setUploading(false)
-    } else {
+      return { message: "error", errors: "Please select a file to import" }
+    }
+
+    if (file) {
       // this is what automaticaly calls onloadend
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       reader.readAsText(file)
     }
   }
@@ -172,7 +217,7 @@ const Import = props => {
     <ImportContainer>
       <p>Uploading Questions via a CSV file is suppported.</p>
       <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
-      <input ref={inputRef} disabled={uploading} type="file" onChange={e => e.target.value} />
+      <input disabled={uploading} type="file" ref={inputRef} onChange={e => e.target.value} />
       <BtnPrimary onClick={importCsvHandler} disabled={uploading}>
         {uploading ? "Importing..." : "Import"}
       </BtnPrimary>

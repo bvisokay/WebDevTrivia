@@ -56,10 +56,10 @@ const MainNav = () => {
   const appDispatch = useContext(GlobalDispatchContext)
   const appState = useContext(GlobalStateContext)
 
-  const [session, isLoading] = useSession()
+  const [session /* isLoading */] = useSession()
 
   function logoutHandler() {
-    signOut()
+    void signOut()
   }
 
   return (

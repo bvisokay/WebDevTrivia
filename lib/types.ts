@@ -25,6 +25,22 @@ export interface CategoryObj {
   tally: number
 }
 
+export type ImportedQuestionType = {
+  category: string
+  question: string
+  correct_answer: string
+  incorrect_answer_1: string
+  incorrect_answer_2: string
+  incorrect_answer_3: string
+}
+
+export type ImportedAndSetQuestionType = {
+  category: string
+  question: string
+  correct_answer: string
+  incorrect_answers: string[]
+}
+
 export type OptionsModalProps = {
   /* 
   Text inside a comment
