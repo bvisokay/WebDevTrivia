@@ -388,7 +388,8 @@ const AdminPage = (props: AdminPageProps) => {
       {editCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <EditCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
+          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+          <EditCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory!} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
         </>
       )}
       {deleteQuestionModalIsOpen && (

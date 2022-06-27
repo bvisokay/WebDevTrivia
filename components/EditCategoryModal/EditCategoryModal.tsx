@@ -1,14 +1,30 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { GlobalDispatchContext } from "../../store/GlobalContext"
+//types
+import { CategoryObj, QuestionOnClientTypes, ResponseType, UpdateCatNamesTypes } from "../../lib/types"
+//styles
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
 import { FormControl } from "../../styles/GlobalComponents"
 
-const EditCategoryModal = (props: any) => {
+interface EditCategoryModalProps {
+  tgtCategory: CategoryObj
+  closeModalHandler: () => void
+  categories: CategoryObj[]
+  setCategories: (arg: CategoryObj[]) => void
+  catFilter: string
+  setCatFilter: (arg: string) => void
+  allQuestions: QuestionOnClientTypes[]
+  setAllQuestions: (arg: QuestionOnClientTypes[]) => void
+}
+
+const EditCategoryModal = (props: EditCategoryModalProps) => {
+  const appDispatch = useContext(GlobalDispatchContext)
   const [newCategoryName, setNewCategoryName] = useState<string>(props.tgtCategory.name)
   console.log("props.tgtCategory: ", props.tgtCategory)
   console.log("props keys: ", Object.keys(props))
   console.log("props.categories: ", props.categories)
 
-  const actuallyUpdatecategoryInDB = (objToSend: any) => {
+  const actuallyUpdatecategoryInDB = (objToSend: UpdateCatNamesTypes) => {
     // send a patch request to an api route
     //send valid data
     fetch("/api/categories", {
@@ -21,13 +37,13 @@ const EditCategoryModal = (props: any) => {
       .then(response => {
         return response.json()
       })
-      .then(data => {
+      .then((data: ResponseType) => {
         //console.log(data)
         if (data.message == "success") {
           // update successful so update the UI on Admin comp
           // categories was originally just an array of strings
           // categories is now an array of objects
-          const updatedCategories = props.categories.map((item: any) => {
+          const updatedCategories = props.categories.map((item: CategoryObj) => {
             if (item.name === objToSend.oldCategoryName) {
               item.name = objToSend.newCategoryName
               return item
@@ -38,7 +54,7 @@ const EditCategoryModal = (props: any) => {
           console.log(updatedCategories)
           props.setCategories([...updatedCategories])
           // we also need to loop through questions and update those
-          const updatedQuestions = props.allQuestions.filter((qObj: any) => {
+          const updatedQuestions = props.allQuestions.filter((qObj: QuestionOnClientTypes) => {
             if (qObj.category === objToSend.oldCategoryName) {
               qObj.category = objToSend.newCategoryName
             }
@@ -60,7 +76,7 @@ const EditCategoryModal = (props: any) => {
 
   const cancelEditHandler = () => {
     // reset state back to default and close modal
-    setNewCategoryName(props.tgtCategory)
+    setNewCategoryName(props.tgtCategory.name)
     props.closeModalHandler()
   }
 
@@ -68,20 +84,20 @@ const EditCategoryModal = (props: any) => {
     console.log(newCategoryName)
     // client side validation
     if (newCategoryName == "") {
-      setNewCategoryName(props.tgtCategory)
-      alert("New name can not be left empty")
+      setNewCategoryName(props.tgtCategory.name)
+      appDispatch({ type: "flashMessage", value: "New name can not be left empty" })
     }
     if (newCategoryName.length <= 2) {
-      setNewCategoryName(props.tgtCategory)
-      alert("New name must be at least 3 characters.")
+      setNewCategoryName(props.tgtCategory.name)
+      appDispatch({ type: "flashMessage", value: "New name must be at least 3 characters" })
     }
     if (newCategoryName.length >= 41) {
-      setNewCategoryName(props.tgtCategory)
-      alert("New name cannot exceed 40 characters.")
+      setNewCategoryName(props.tgtCategory.name)
+      appDispatch({ type: "flashMessage", value: "New name cannot exceed 40 characters" })
     }
     // check that it is different
-    if (newCategoryName == props.tgtCategory) {
-      console.log("The new name cannot be the same as the current name.")
+    if (newCategoryName == props.tgtCategory.name) {
+      appDispatch({ type: "flashMessage", value: "New name cannot match the current name." })
       props.closeModalHandler()
     }
     // define object to send in HTTP request
