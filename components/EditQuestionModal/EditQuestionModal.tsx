@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 
+//types
+import { QuestionOnClientTypes, CategoryObj, ResponseType } from "../../lib/types"
+//styles
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
 import { FormControl, SectionTitle } from "../../styles/GlobalComponents"
 
-const EditQuestionModal = (props: any) => {
+interface EditQuestionModalProps {
+  tgtQuestion: QuestionOnClientTypes
+  categories: CategoryObj[]
+  closeModalHandler: () => void
+  allQuestions: QuestionOnClientTypes[]
+  setAllQuestions: (arg: QuestionOnClientTypes[]) => void
+}
+
+const EditQuestionModal = (props: EditQuestionModalProps) => {
   console.log("Object.keys(props): ", Object.keys(props))
   console.log("props.categories: ", props.categories)
 
@@ -16,7 +27,7 @@ const EditQuestionModal = (props: any) => {
 
   const cancelHandler = () => {
     // Set the state back to the original
-    setNewCategory(props.tgtQuestion.category.name)
+    setNewCategory(props.tgtQuestion.category)
     setNewQuestion(props.tgtQuestion.question)
     setNewCorrectAnswer(props.tgtQuestion.correct_answer)
     setNewIncorrectAnswer01(props.tgtQuestion.incorrect_answers[0])
@@ -26,7 +37,7 @@ const EditQuestionModal = (props: any) => {
     props.closeModalHandler()
   }
 
-  const actuallyUpdateQuestionInDB = (updatedQuestion: any) => {
+  const actuallyUpdateQuestionInDB = (updatedQuestion: QuestionOnClientTypes) => {
     // send a patch request to an api route
     //send valid data
     fetch("/api/questions", {
@@ -39,13 +50,13 @@ const EditQuestionModal = (props: any) => {
       .then(response => {
         return response.json()
       })
-      .then(data => {
+      .then((data: ResponseType) => {
         // if the db operation is successful then update the UI
         // need to configure data.message == "success"
         if (data.message == "success") {
-          const updatedQuestions = props.allQuestions.map((item: any) => {
-            if (item.id == updatedQuestion._id) {
-              return { ...updatedQuestion, id: updatedQuestion._id }
+          const updatedQuestions = props.allQuestions.map(item => {
+            if (item.id == updatedQuestion.id) {
+              return { ...updatedQuestion, id: updatedQuestion.id }
             } else {
               return item
             }
@@ -64,8 +75,9 @@ const EditQuestionModal = (props: any) => {
       //console.log("Changes Made")
       // only if there are changes made then create the new Question object you want to send to the database
       // format the updated question to prep it being sent to the database
-      const formattedQuestion = { _id: props.tgtQuestion.id, category: newCategory, type: "multiple", difficulty: "easy", question: newQuestion, correct_answer: newCorrectAnswer, incorrect_answers: [newIncorrectAnswer01, newIncorrectAnswer02, newIncorrectAnswer03] }
-      console.log(`formattedQuestion: ${formattedQuestion}`)
+      const formattedQuestion = { id: props.tgtQuestion.id, category: newCategory, type: "multiple", difficulty: "easy", question: newQuestion, correct_answer: newCorrectAnswer, incorrect_answers: [newIncorrectAnswer01, newIncorrectAnswer02, newIncorrectAnswer03], createdDate: props.tgtQuestion.createdDate }
+
+      //console.log(`formattedQuestion: ${formattedQuestion}`)
       // Call function to update the database passing it the object
       actuallyUpdateQuestionInDB(formattedQuestion)
       //close modal
@@ -102,13 +114,13 @@ const EditQuestionModal = (props: any) => {
           >
             <option value={newCategory}>{newCategory}</option>
             {props.categories
-              .filter((category: any) => {
+              .filter(category => {
                 //console.log("filter category.name: ", category.name)
                 //console.log("filter props.tgtQuestion.category: ", props.tgtQuestion.category)
                 return category.name !== props.tgtQuestion.category
               })
               .sort()
-              .map((category: any, index: any) => {
+              .map((category, index: number) => {
                 return (
                   <option key={index} value={category.name}>
                     {category.name}
