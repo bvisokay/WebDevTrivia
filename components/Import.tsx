@@ -71,12 +71,12 @@ const Import = () => {
       // is api request set up to return a success message?
       if (data.message === "success") {
         setUploading(false)
-        appDispatch({ type: "flashMessage", value: data.data ? data.data : "Successfully imported questions" })
+        appDispatch({ type: "flashMessage", value: "Successfully imported questions" })
         void router.push("/manage")
         return
       } else {
         appDispatch({ type: "flashMessage", value: "There was a problem" })
-        throw { message: "error", errors: data.errors ? data.errors : `Import was not successful.` }
+        throw { message: "error", errors: "Import was not successful." }
       }
     } catch (err) {
       appDispatch({ type: "flashMessage", value: "Something went wrong" })
@@ -107,7 +107,7 @@ const Import = () => {
 
     let csv: CSVProps */
 
-    let csv: ParseResult<Record<string, unknown>>
+    let csv: ParseResult<Record<string, string>>
 
     reader.onloadend = async event => {
       console.log(event?.target?.result)
@@ -125,7 +125,7 @@ const Import = () => {
           //csv = parse(csvString, { header: true })
           parse(csvString, {
             header: true,
-            complete: function (results: ParseResult<Record<string, unknown>>) {
+            complete: function (results: ParseResult<Record<string, string>>) {
               csv = results
             }
           })
@@ -160,6 +160,8 @@ const Import = () => {
           })
           .map(QRow => {
             return {
+              type: "multiple",
+              difficulty: "easy",
               category: QRow.category,
               question: QRow.question,
               correct_answer: QRow.correct_answer,

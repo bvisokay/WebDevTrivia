@@ -1,8 +1,6 @@
-//import { Question } from "../pages"
+import { Question } from "./types"
 
-import { ImportedAndSetQuestionType } from "./types"
-
-export function validateNewQs(newQArray: any[]) {
+export function validateNewQs(newQArray: Question[]) {
   for (let i = 0; i < newQArray.length; i++) {
     //console.log("hello")
 
@@ -23,11 +21,11 @@ export function validateNewQs(newQArray: any[]) {
   } // end for loop
 } // end validateNewQs
 
-export function validateQuestionsArray(questionArray: any[]) {
+export function validateQuestionsArray(questionArray: Question[]) {
   console.log("Validation Input: ", questionArray)
-  let errors: string[] = []
+  const errors: string[] = []
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
-  questionArray.map((question: any) => {
+  questionArray.map(question => {
     // Need a type guard here to only allow strings
 
     if (question.type !== "multiple") {
@@ -64,11 +62,10 @@ export function validateQuestionsArray(questionArray: any[]) {
   }
 } // end validateQuestionsArray
 
-export function clientValidateQuestionsArray(questionArray: any[]) {
+export function clientValidateQuestionsArray(questionArray: Question[]) {
   //console.log("Validation Input: ", questionArray)
-  let errors
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
-  questionArray.map((question: any) => {
+  questionArray.map(question => {
     // Need a type guard here to only allow strings
 
     // prevent empty fields
@@ -91,6 +88,6 @@ export function clientValidateQuestionsArray(questionArray: any[]) {
   return { message: "success", data: questionArray }
 } // end validateQuestionsArray
 
-export const shuffleArray = (array: any[]) => {
+export const shuffleArray = (array: string[]) => {
   return [...array].sort(() => Math.random() - 0.5)
 }
