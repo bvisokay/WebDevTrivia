@@ -1,11 +1,24 @@
 import { useRouter } from "next/router"
 import React, { useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
+import { ResponseType } from "../../lib/types"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 
 //styles
 import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
+
+type NewCategoryActionTypes = { type: "clearField" } | { type: "nameChange"; value: string } | { type: "submitRequest" } | { type: "saveRequestStarted" } | { type: "saveRequestFinished" }
+
+type OriginalStateTypes = {
+  name: {
+    value: string
+    hasErrors: boolean
+    message: string
+  }
+  isSaving: boolean
+  sendCount: number
+}
 
 const NewQuestionForm: React.FC = () => {
   const appDispatch = useContext(GlobalDispatchContext)
@@ -21,7 +34,7 @@ const NewQuestionForm: React.FC = () => {
     sendCount: 0
   }
 
-  function ourReducer(draft: any, action: any) {
+  function ourReducer(draft: OriginalStateTypes, action: NewCategoryActionTypes) {
     switch (action.type) {
       case "clearField":
         draft.name.value = ""
@@ -53,38 +66,44 @@ const NewQuestionForm: React.FC = () => {
   useEffect(() => {
     if (state.sendCount) {
       dispatch({ type: "saveRequestStarted" })
-      let controller = new AbortController()
-      const addCat = async () => {
+      const controller = new AbortController()
+      const signal = controller.signal
+      const addCat = async (signal: AbortSignal) => {
         try {
           // Trim and replace with dash, category ends up in url
           const trimmedCategory = state.name.value.trim().toLowerCase().replace(/ /g, "-")
           const response = await fetch("/api/categories", {
+            signal: signal,
             method: "POST",
             body: JSON.stringify(trimmedCategory),
             headers: {
               "Content-Type": "application/json"
-            },
-            signal: controller.signal
+            }
           })
-          const data = await response.json()
-          console.log(`data: ${data}`)
-          dispatch({ type: "saveRequestFinished" })
-          //dispatch({ type: "clearField" })
-          appDispatch({ type: "flashMessage", value: "Category Added" })
-          router.push("/manage")
+          const data = (await response.json()) as ResponseType
+          if (data.message !== "success") {
+            appDispatch({ type: "flashMessage", value: "Category could not be added" })
+            throw { message: "error", errors: "There was a problem" }
+          }
+          if (data.message === "success") {
+            dispatch({ type: "saveRequestFinished" })
+            //dispatch({ type: "clearField" })
+            appDispatch({ type: "flashMessage", value: "Category Added" })
+            void router.push("/manage")
+          }
         } catch (e) {
           console.log("There was a problem or the request was cancelled")
           // handle fetch error
         }
       }
-      addCat()
+      void addCat(signal)
       return () => controller?.abort()
     } // close if state.sendCount
   }, [state.sendCount, appDispatch, router, dispatch, state.name.value])
 
   function newCategoryHandler(e: React.FormEvent) {
     e.preventDefault()
-    dispatch({ type: "nameRules", value: state.name.value })
+    dispatch({ type: "nameChange", value: state.name.value })
     dispatch({ type: "submitRequest" })
   }
 
