@@ -3,14 +3,14 @@ import { useImmerReducer } from "use-immer"
 
 export const defaultTotalQuestions = 5
 
-export const GlobalDispatchContext = createContext((() => {}) as React.Dispatch<GlobalActionTypes>)
+export const GlobalDispatchContext = createContext({} as React.Dispatch<GlobalActionTypes>)
 
 export const GlobalStateContext = createContext({
   selectedCategory: "",
   selectedTotalQs: defaultTotalQuestions,
   gameOver: true,
   loggedIn: false,
-  flashMessages: [] as any,
+  flashMessages: [] as string[],
   language: "",
   theme: ""
 })
@@ -23,7 +23,7 @@ export const GlobalContextProvider: React.FC = props => {
     selectedTotalQs: defaultTotalQuestions,
     gameOver: true,
     loggedIn: false,
-    flashMessages: [] as any,
+    flashMessages: [] as string[],
     language: "english",
     theme: "dark"
   }
@@ -43,6 +43,7 @@ export const GlobalContextProvider: React.FC = props => {
         return
       case "gameOver":
         draft.gameOver = action.value
+        return
       case "login":
         draft.loggedIn = true
         return
