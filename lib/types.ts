@@ -93,7 +93,7 @@ export interface RegAttemptTypes {
 
 export interface ResponseType {
   message: string
-  data?: string
+  data?: string | string[]
   errors?: string | string[]
 }
 

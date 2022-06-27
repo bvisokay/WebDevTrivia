@@ -4,7 +4,7 @@ import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 
-import { OptionsModalProps } from "../../lib/types"
+import { OptionsModalProps, ResponseType } from "../../lib/types"
 
 const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, */ saveSettingsHandler, closeSettingsHandler }) => {
   const appDispatch = useContext(GlobalDispatchContext)
@@ -22,14 +22,19 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, *
     const getCategoriesOnLoad = async () => {
       try {
         const response = await fetch("/api/categories")
-        const data = await response.json()
-        setCategories(data)
-        setIsCategoriesLoading(false)
+        const result = (await response.json()) as ResponseType
+        if (result.message !== "success") {
+          throw { message: "error", errors: "Something went wrong" }
+        }
+        if (result.message === "success" && result.data && result.data instanceof Array) {
+          setCategories(result.data)
+          setIsCategoriesLoading(false)
+        }
       } catch (error) {
         throw new Error()
       }
     }
-    getCategoriesOnLoad()
+    void getCategoriesOnLoad()
     // teardown function goes here
   }, []) // end useEfect
 

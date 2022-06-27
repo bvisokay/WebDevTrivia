@@ -50,12 +50,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let cleanedResults
     try {
       cleanedResults = await getCategories(client)
-      res.status(200).json(cleanedResults)
+      void client.close()
+      return res.status(200).json({ message: "success", data: cleanedResults })
     } catch (error) {
-      res.status(500).json({ message: "There was an error retrieving the categories" })
+      void client.close()
+      return res.status(500).json({ message: "error", errors: "There was an error retrieving the categories" })
     }
-
-    void client.close()
   } // end GET request
 
   if (req.method === "PATCH") {

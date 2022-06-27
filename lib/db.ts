@@ -34,9 +34,7 @@ export async function getCategories(client: MongoClient) {
   const cleanedResults = results.map(categoryObj => {
     return categoryObj.name
   })
-
-  const data = cleanedResults
-  return data
+  return cleanedResults
 }
 
 export async function getCategoryObjs(client: MongoClient) {
