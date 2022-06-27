@@ -402,7 +402,8 @@ const AdminPage = (props: AdminPageProps) => {
       {editQuestionModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <EditQuestionModal categories={categories} tgtQuestion={tgtQuestion} closeModalHandler={closeModalHandler} allQuestions={allQuestions} setAllQuestions={setAllQuestions} />
+          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+          <EditQuestionModal categories={categories} tgtQuestion={tgtQuestion!} closeModalHandler={closeModalHandler} allQuestions={allQuestions} setAllQuestions={setAllQuestions} />
         </>
       )}
     </Section>
@@ -425,25 +426,42 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     client = await connectToDatabase()
   } catch (err) {
+    console.log("error connecting to the database")
+    console.log(err)
     throw { message: "error", errors: err }
   }
+
+  // GET CATEGORIES AND TALLY
   let categoryData: CategoryObj[] = []
-  let questionData: QuestionOnClientTypes[] = []
   try {
     categoryData = await getCategoryObjs(client)
-    questionData = await getAllQuestions(client)
-
-    categoryData.forEach(categoryObj => {
-      categoryObj.tally = 0
-      questionData.forEach(question => {
-        if (question.category === categoryObj.name) {
-          categoryObj.tally++
-        }
-      })
-    })
   } catch (err) {
+    void client.close()
+    //console.log("Error getting categories")
+    //console.log("Error Msg: ", err)
+  }
+
+  let questionData: QuestionOnClientTypes[] = []
+  try {
+    questionData = await getAllQuestions(client)
+  } catch (err) {
+    void client.close()
+    //console.log("Error getting questions")
+    //console.log("Error Msg: ", err)
     throw { message: "error", errors: err }
   }
+
+  // ONce we have both cats and Qs then caluckate tally
+  categoryData.forEach(categoryObj => {
+    categoryObj.tally = 0
+    questionData.forEach(question => {
+      if (question.category === categoryObj.name) {
+        categoryObj.tally++
+      }
+    })
+  })
+
+  // Tidy up
   void client.close()
 
   return {

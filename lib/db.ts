@@ -34,7 +34,6 @@ export async function getCategories(client: MongoClient) {
   const cleanedResults = results.map(categoryObj => {
     return categoryObj.name
   })
-  //void client.close()
 
   const data = cleanedResults
   return data
@@ -50,7 +49,6 @@ export async function getCategoryObjs(client: MongoClient) {
       tally: 0
     }
   })
-  //void client.close()
   return cleanedResults
 }
 
@@ -96,27 +94,27 @@ export async function getQuestions(client: MongoClient, req: NextApiRequest) {
 
 export async function getAllQuestions(client: MongoClient) {
   const db = client.db()
-
-  const results = (await db.collection("questions").find().toArray()) as QuestionDoc[]
-
-  // removes _id from each question object
-  const cleanedResults = results.map(questionObj => {
-    return {
-      id: questionObj._id.toString(),
-      category: questionObj.category,
-      type: questionObj.type,
-      difficulty: questionObj.difficulty,
-      question: questionObj.question,
-      correct_answer: questionObj.correct_answer,
-      incorrect_answers: questionObj.incorrect_answers,
-      createdDate: questionObj.createdDate.toString()
-    }
-  })
-
-  //void client.close()
-
-  const data = cleanedResults
-  return data
+  try {
+    const results = (await db.collection("questions").find().toArray()) as QuestionDoc[]
+    // removes _id from each question object
+    const cleanedResults = results.map(questionObj => {
+      return {
+        id: questionObj._id.toString(),
+        category: questionObj.category,
+        type: questionObj.type,
+        difficulty: questionObj.difficulty,
+        question: questionObj.question,
+        correct_answer: questionObj.correct_answer,
+        incorrect_answers: questionObj.incorrect_answers,
+        createdDate: questionObj.createdDate.toString()
+      }
+    })
+    return cleanedResults
+  } catch (err) {
+    console.log("getAllQuestion Catch Error")
+    console.log(err)
+    throw { message: "failure", errors: err }
+  }
 }
 
 // UPDATE

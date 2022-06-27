@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
-import { connectToDatabase, addQuestionDocument, getQuestions, updateQuestionDocument, deleteQuestionDocument } from "../../lib/db"
-import { Question, QuestionDoc } from "../../lib/types"
+import { ObjectId } from "mongodb"
+import { connectToDatabase, addQuestionDocument, getQuestions, deleteQuestionDocument } from "../../lib/db"
+import { Question, QuestionOnClientTypes } from "../../lib/types"
 import { validateNewQs } from "../../lib/util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,7 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           difficulty: "easy",
           question: qObj.question.trim(),
           correct_answer: qObj.correct_answer.trim(),
-          incorrect_answers: [qObj.incorrect_answers[0].trim(), qObj.incorrect_answers[1].trim(), qObj.incorrect_answers[2].trim()]
+          incorrect_answers: [qObj.incorrect_answers[0].trim(), qObj.incorrect_answers[1].trim(), qObj.incorrect_answers[2].trim()],
+          createdDate: new Date()
         }
       }) // end newQArray
 
@@ -103,7 +105,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(422).json({ message: "Invalid category. " })
     } */
 
-    const data = req.body as QuestionDoc
+    const data = req.body as QuestionOnClientTypes
 
     let client
     //error handling for connection to database
@@ -114,23 +116,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    //error handling for adding a new question
     try {
-      await updateQuestionDocument(client, {
-        _id: data._id,
-        category: data.category,
-        type: data.type,
-        difficulty: data.difficulty,
-        question: data.question,
-        correct_answer: data.correct_answer,
-        incorrect_answers: data.incorrect_answers
-      })
-      res.status(201).json({ message: "success" })
-    } catch (error) {
-      res.status(500).json({ message: "Updating question failed." })
+      const result = await client
+        .db()
+        .collection("questions")
+        .findOneAndUpdate(
+          { _id: new ObjectId(data.id) },
+          {
+            $set: {
+              category: data.category,
+              type: data.type,
+              difficulty: data.difficulty,
+              question: data.question,
+              correct_answer: data.correct_answer,
+              incorrect_answers: data.incorrect_answers
+            }
+          }
+        )
+      console.log("result: ", result)
+      void client.close()
+      return res.status(201).json({ message: "success", data: result })
+    } catch (err) {
+      void client.close()
+      return res.status(500).json({ message: "failure", errors: err })
     }
-
-    void client.close()
   } // end PATCH request
 
   if (req.method === "DELETE") {

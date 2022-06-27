@@ -275,6 +275,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
         <FormControl light={true}>
           <label htmlFor="">Category</label>
           <select
+            autoFocus
             onChange={e => {
               dispatch({ type: "categoryImmediately", value: e.target.value })
             }}
