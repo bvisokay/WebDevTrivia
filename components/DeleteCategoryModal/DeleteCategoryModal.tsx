@@ -1,6 +1,11 @@
+//comps
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
+//types
+import { CategoryObj, QuestionOnClientTypes, ResponseType } from "../../lib/types"
+//styles
 import { IoWarning } from "react-icons/io5"
 import styled from "styled-components"
+import React from "react"
 
 const ModalTitle = styled.div`
   display: flex;
@@ -14,7 +19,20 @@ const ModalTitle = styled.div`
   }
 `
 
-const DeleteCategoryModal = (props: any) => {
+interface DeleteCategoryModalProps {
+  tgtCategory: CategoryObj
+  closeModalHandler: () => void
+  categories: CategoryObj[]
+  setCategories: (arg: CategoryObj[]) => void
+  //setCategories: (arg: React.Dispatch<React.SetStateAction<CategoryObj[]>>) => void
+  catFilter: string
+  setCatFilter: (arg: string) => void
+  allQuestions: QuestionOnClientTypes[]
+  //setAllQuestions: (arg: React.Dispatch<React.SetStateAction<QuestionOnClientTypes[]>>) => void
+  setAllQuestions: (arg: QuestionOnClientTypes[]) => void
+}
+
+const DeleteCategoryModal = (props: DeleteCategoryModalProps) => {
   //
   //
   //
@@ -36,12 +54,12 @@ const DeleteCategoryModal = (props: any) => {
       }
     })
       .then(response => response.json())
-      .then(data => {
+      .then((data: ResponseType) => {
         // if the db operation is successful then update the UI
         if (data.message == "success") {
           // deletion of category successful so update the UI on Admin comp
           // categories
-          const updatedCategories = props.categories.filter((item: any) => {
+          const updatedCategories = props.categories.filter(item => {
             return item.name !== catToDelete
           })
           props.setCategories([...updatedCategories])
@@ -50,7 +68,7 @@ const DeleteCategoryModal = (props: any) => {
             props.setCatFilter("")
           }
           // questions with deleted category need to be updated
-          const updatedQuestions = props.allQuestions.filter((item: any) => {
+          const updatedQuestions = props.allQuestions.filter(item => {
             if (item.category !== catToDelete) {
               return item
             }

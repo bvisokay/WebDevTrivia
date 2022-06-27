@@ -12,13 +12,15 @@ import EditCategoryModal from "../components/EditCategoryModal/EditCategoryModal
 import DeleteQuestionModal from "../components/DeleteQuestionModal/DeleteQuestionModal"
 import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal"
 
+//types
+import { QuestionOnClientTypes, CategoryObj } from "../lib/types"
+
 // styles
 import { Section, SectionNarrow, ListItem, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
 import { BtnSmall } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
-import { QuestionOnClientTypes } from "../lib/types"
 
 const CategoryBtn = styled.button`
   color: white;
@@ -113,12 +115,6 @@ const BtnContainer = styled.div`
   }
 `
 
-interface CategoryObj {
-  id: string
-  name: string
-  tally: number
-}
-
 interface AdminPageProps {
   categoryData: CategoryObj[]
   questionData: QuestionOnClientTypes[]
@@ -182,7 +178,7 @@ const AdminPage = (props: AdminPageProps) => {
 
   useEffect(() => {
     if (categories) {
-      categories.forEach(categoryObj => {
+      categories.forEach((categoryObj: CategoryObj) => {
         categoryObj.tally = 0
         allQuestions.forEach(question => {
           if (question.category === categoryObj.name) {
@@ -384,7 +380,8 @@ const AdminPage = (props: AdminPageProps) => {
       {deleteCategoryModalIsOpen && (
         <>
           <Backdrop closeModalHandler={closeModalHandler} />
-          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
+          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+          <DeleteCategoryModal closeModalHandler={closeModalHandler} tgtCategory={tgtCategory!} setCategories={setCategories} categories={categories} allQuestions={allQuestions} setAllQuestions={setAllQuestions} catFilter={catFilter} setCatFilter={setCatFilter} />
         </>
       )}
 

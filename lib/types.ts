@@ -19,6 +19,12 @@ export type CategoryObjectType = {
   tally?: number
 }
 
+export interface CategoryObj {
+  id: string
+  name: string
+  tally: number
+}
+
 export type OptionsModalProps = {
   /* 
   Text inside a comment
