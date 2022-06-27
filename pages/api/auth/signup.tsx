@@ -49,10 +49,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       email: email,
       password: hashedPassword
     })
-    return res.status(201).json({ message: "Created user." })
+    return res.status(201).json({ message: "success" })
   } catch (error) {
     void client.close()
-    return res.status(500).json({ message: "There was an error creating the user." })
+    return res.status(500).json({ message: "failure", errors: "There was an error creating the user." })
   }
 }
 export default handler

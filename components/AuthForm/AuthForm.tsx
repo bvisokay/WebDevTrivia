@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 
 import { SectionNarrow, FormControl, SectionTitle } from "../../styles/GlobalComponents"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
+import { ResponseType } from "../../lib/types"
 
 async function createUser(email: string, password: string) {
   const response = await fetch("/api/auth/signup", {
@@ -14,10 +15,10 @@ async function createUser(email: string, password: string) {
     }
   })
 
-  const data = response.json()
+  const data = (await response.json()) as ResponseType
 
   if (!response.ok) {
-    throw new Error("Something went wrong...")
+    throw { message: "failure", errors: "something went wrong" }
   }
 
   return data
@@ -38,7 +39,9 @@ const AuthForm = () => {
   async function submitHandler(event: React.FormEvent) {
     event.preventDefault()
 
+    //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const enteredEmail = emailInputRef.current!.value
+    //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const enteredPassword = passwordInputRef.current!.value
 
     // add client-side validation here
@@ -46,8 +49,9 @@ const AuthForm = () => {
     if (isLogin) {
       // log user in with redirect to prevent redirect on login error
       const result = await signIn("credentials", { redirect: false, email: enteredEmail, password: enteredPassword })
+      //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       if (!result!.error) {
-        router.replace("/manage")
+        void router.replace("/manage")
       }
     } else {
       try {
@@ -62,7 +66,7 @@ const AuthForm = () => {
   return (
     <SectionNarrow>
       <SectionTitle>{isLogin ? "Login" : "Sign Up"}</SectionTitle>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={void submitHandler}>
         <FormControl light={true}>
           <label htmlFor="email">Email</label>
           <input autoFocus autoComplete="off" type="email" id="email" required ref={emailInputRef} />

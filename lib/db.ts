@@ -1,10 +1,12 @@
-import { Document, MongoClient, WithId } from "mongodb"
-import { Question, QuestionDoc } from "../lib/types"
+import { MongoClient } from "mongodb"
+//import type { Document, WithId } from "mongodb"
+import { Question, QuestionDoc, CategoryDocType, CategoryObjectType, UpdateCatNamesTypes } from "../lib/types"
 import type { NextApiRequest } from "next"
 import { ObjectId } from "mongodb"
 
 export async function connectToDatabase() {
   const uri = process.env.MONGODB_URI
+  //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const client = await MongoClient.connect(uri!)
 
   return client
@@ -12,7 +14,7 @@ export async function connectToDatabase() {
 
 // CREATE
 
-export async function addCategoryDocument(client: MongoClient, document: {}) {
+export async function addCategoryDocument(client: MongoClient, document: CategoryObjectType) {
   const db = client.db()
   const result = await db.collection("categories").insertOne(document)
   return result
@@ -28,7 +30,7 @@ export async function addQuestionDocument(client: MongoClient, document: Questio
 
 export async function getCategories(client: MongoClient) {
   const db = client.db()
-  const results = await db.collection("categories").find().toArray()
+  const results = (await db.collection("categories").find().toArray()) as CategoryDocType[]
   const cleanedResults = results.map(categoryObj => {
     return categoryObj.name
   })
@@ -40,7 +42,7 @@ export async function getCategories(client: MongoClient) {
 
 export async function getCategoryObjs(client: MongoClient) {
   const db = client.db()
-  const results = await db.collection("categories").find().toArray()
+  const results = (await db.collection("categories").find().toArray()) as CategoryDocType[]
   const cleanedResults = results.map(categoryObj => {
     return {
       id: categoryObj._id.toString(),
@@ -57,6 +59,7 @@ export async function getQuestions(client: MongoClient, req: NextApiRequest) {
 
   let amount: number | string = 5
   if (req.query.amount) {
+    //eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     amount = parseInt(`${req.query.amount}`)
   }
 
@@ -64,16 +67,17 @@ export async function getQuestions(client: MongoClient, req: NextApiRequest) {
   let categoryMatch = {}
   if (req.query.category) {
     category = req.query.category
+    //eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     categoryMatch = { category: `${category}` }
   }
 
-  const results = await db
+  const results = (await db
     .collection("questions")
     .aggregate([{ $match: categoryMatch }, { $sample: { size: amount } }])
-    .toArray()
+    .toArray()) as QuestionDoc[]
 
   // removes _id from each question object
-  const cleanedResults = results.map((questionObj: any) => {
+  const cleanedResults = results.map(questionObj => {
     return {
       category: questionObj.category,
       type: questionObj.type,
@@ -117,7 +121,7 @@ export async function getAllQuestions(client: MongoClient) {
 
 // UPDATE
 
-export async function updateQuestionDocument(client: MongoClient, document: any) {
+export async function updateQuestionDocument(client: MongoClient, document: QuestionDoc) {
   const db = client.db()
   const result = await db.collection("questions").findOneAndUpdate(
     { _id: new ObjectId(document._id) },
@@ -135,7 +139,7 @@ export async function updateQuestionDocument(client: MongoClient, document: any)
   return result
 }
 
-export async function updateCategoryDocument(client: MongoClient, objWithOldAndNewNames: any) {
+export async function updateCategoryDocument(client: MongoClient, objWithOldAndNewNames: UpdateCatNamesTypes) {
   const db = client.db()
   // update the category name
   const result = await db.collection("categories").findOneAndUpdate(
@@ -150,7 +154,7 @@ export async function updateCategoryDocument(client: MongoClient, objWithOldAndN
   return result
 }
 
-export async function updateQsWithNewCategoryName(client: MongoClient, objWithOldAndNewNames: any) {
+export async function updateQsWithNewCategoryName(client: MongoClient, objWithOldAndNewNames: UpdateCatNamesTypes) {
   const db = client.db()
   // update the category name
   const result = await db.collection("questions").updateMany(

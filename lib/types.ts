@@ -8,6 +8,11 @@ export type AnswerObject = {
   correctAnswer: string
 }
 
+export interface CategoryDocType extends WithId<Document> {
+  _id: ObjectId
+  name: string
+}
+
 export type CategoryObjectType = {
   id?: ObjectId | string
   name: string
@@ -68,6 +73,11 @@ export interface ResponseType {
   message: string
   data?: string
   errors?: string | string[]
+}
+
+export interface UpdateCatNamesTypes {
+  oldCategoryName: string
+  newCategoryName: string
 }
 
 export interface UpdatePassTypes {
