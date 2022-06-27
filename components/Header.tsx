@@ -1,11 +1,11 @@
 import { useContext } from "react"
-import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import { GlobalDispatchContext /* GlobalStateContext */ } from "../store/GlobalContext"
 import Container, { HeaderContainer } from "./HeaderStyles"
 import Link from "next/link"
 import { SITENAME } from "../pages/_app"
-import { FaSun } from "react-icons/fa"
-import { RiMoonClearLine } from "react-icons/ri"
-import { GiHamburgerMenu } from "react-icons/gi"
+//import { FaSun } from "react-icons/fa"
+//import { RiMoonClearLine } from "react-icons/ri"
+//import { GiHamburgerMenu } from "react-icons/gi"
 
 //styles
 import { breakpoints } from "../styles/breakpoints"
@@ -28,7 +28,7 @@ const LogoText = styled.div`
 `
 
 const Header: React.FC = () => {
-  const appState = useContext(GlobalStateContext)
+  //const appState = useContext(GlobalStateContext)
   const appDispatch = useContext(GlobalDispatchContext)
 
   return (
