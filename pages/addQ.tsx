@@ -14,7 +14,7 @@ const addQ = (props: AddQPropTypes) => {
   return (
     <div>
       <AddQuestionForm categories={props.categories} />
-      <Import categories={props.categories} />
+      <Import />
     </div>
   )
 }

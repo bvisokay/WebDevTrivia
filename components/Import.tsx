@@ -39,7 +39,6 @@ const ImportContainer = styled.div`
 `
 
 const Import = () => {
-  //console.log("props.categories: ", props.categories) // front-end validation to see if categories exist
   const [uploading, setUploading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const appDispatch = useContext(GlobalDispatchContext)
