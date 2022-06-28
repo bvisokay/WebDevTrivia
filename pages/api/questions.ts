@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }) // end newQArray
 
       // validate every question object in the array regardless of how many there are
-      const valResult = await validateNewQs(newQArray)
+      const valResult = validateNewQs(newQArray)
 
       if (!valResult) {
         console.log("Validation failed, operation aborted")
