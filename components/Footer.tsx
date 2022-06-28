@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Wrapper } from "../styles/GlobalComponents"
 import { breakpoints } from "../styles/breakpoints"
 
-import { useSession } from "next-auth/client"
+//import { useSession } from "next-auth/client"
 
 const FooterContainer = styled.div`
   background: var(--transparent-light);
@@ -12,7 +12,7 @@ const FooterContainer = styled.div`
   ul {
     display: flex;
     padding: 1rem 0;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   li {
@@ -44,7 +44,7 @@ const Help = styled.li`
 `
 
 const Footer = () => {
-  const [session, isLoading] = useSession()
+  /* const [session, isLoading] = useSession() */
 
   return (
     <FooterContainer>
@@ -62,13 +62,13 @@ const Footer = () => {
             </Link>
           </li> */}
 
-          {!session && !isLoading && (
+          {/*  {!session && !isLoading && (
             <li>
               <Link href="/auth">
                 <a>Login</a>
               </Link>
             </li>
-          )}
+          )} */}
         </ul>
       </Wrapper>
     </FooterContainer>
