@@ -56,7 +56,7 @@ export const SectionTitle2 = styled.h4`
 export const SectionText = styled.p`
   font-size: 0.775rem;
   line-height: 1;
-  color: cornflowerblue;
+  color: #fff;
 
   @media ${breakpoints.xs} {
     font-size: 0.9rem;

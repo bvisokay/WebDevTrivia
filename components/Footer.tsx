@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { GlobalStateContext } from "../store/GlobalContext"
 import Link from "next/link"
 import styled from "styled-components"
 import { Wrapper } from "../styles/GlobalComponents"
@@ -45,16 +47,19 @@ const Help = styled.li`
 
 const Footer = () => {
   /* const [session, isLoading] = useSession() */
+  const appState = useContext(GlobalStateContext)
 
   return (
     <FooterContainer>
       <Wrapper>
         <ul>
-          <Help>
-            <Link href="/support">
-              <a>&#63;{/* Question Mark */}</a>
-            </Link>
-          </Help>
+          {appState.gameOver && (
+            <Help>
+              <Link href="/support">
+                <a>&#63;{/* Question Mark */}</a>
+              </Link>
+            </Help>
+          )}
 
           {/* <li>
             <Link href="/about">
