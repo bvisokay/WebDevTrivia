@@ -2,8 +2,6 @@ import { Question } from "./types"
 
 export function validateNewQs(newQArray: Question[]) {
   for (let i = 0; i < newQArray.length; i++) {
-    //console.log("hello")
-
     // need to make sure type exists
 
     // server-side validation to prevent empty fields
@@ -22,7 +20,6 @@ export function validateNewQs(newQArray: Question[]) {
 } // end validateNewQs
 
 export function validateQuestionsArray(questionArray: Question[]) {
-  console.log("Validation Input: ", questionArray)
   const errors: string[] = []
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
   questionArray.map(question => {
@@ -54,7 +51,6 @@ export function validateQuestionsArray(questionArray: Question[]) {
     }
   })
 
-  //console.log("questionArray", questionArray)
   if (errors.length) {
     return { message: "error", errors: [...errors] }
   } else {
@@ -63,7 +59,6 @@ export function validateQuestionsArray(questionArray: Question[]) {
 } // end validateQuestionsArray
 
 export function clientValidateQuestionsArray(questionArray: Question[]) {
-  //console.log("Validation Input: ", questionArray)
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
   questionArray.map(question => {
     // Need a type guard here to only allow strings
@@ -84,7 +79,6 @@ export function clientValidateQuestionsArray(questionArray: Question[]) {
     }
   })
 
-  //console.log("questionArray", questionArray)
   return { message: "success", data: questionArray }
 } // end validateQuestionsArray
 

@@ -17,9 +17,8 @@ const AuthPage = () => {
           setIsLoading(false)
         }
       })
-      .catch(err => {
-        console.log("You are not logged in")
-        console.warn(err)
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
       })
   }, [router])
 

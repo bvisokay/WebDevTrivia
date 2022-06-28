@@ -19,7 +19,6 @@ import { AnswerObject, Question, QuestionsState } from "../lib/types"
 
 // Home: NextPage =
 const Home: NextPage = () => {
-  //console.log("Home Comp Rendered")
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<QuestionsState[]>([])
   const [number, setNumber] = useState(0)
@@ -64,7 +63,6 @@ const Home: NextPage = () => {
     if (!appState.gameOver && questions.length && questions.length < appState.selectedTotalQs) {
       appDispatch({ type: "setSelectedTotalQs", value: questions.length })
       appDispatch({ type: "flashMessage", value: "As many Qs as possible" })
-      console.log("Question number reset down to what's available")
     }
   }, [appState.gameOver, questions, appState.selectedTotalQs, appDispatch])
 
@@ -93,8 +91,6 @@ const Home: NextPage = () => {
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!appState.gameOver) {
-      console.log("e.target: ", e.target)
-      console.log("e.currentTarget: ", e.currentTarget)
       // User's answer
       const answer = e.currentTarget.value
       // Check answer against correct answer

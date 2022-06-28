@@ -36,8 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const valResult = validateNewQs(newQArray)
 
       if (!valResult) {
-        console.log("Validation failed, operation aborted")
-        return
+        throw { message: "error", errors: "Validation failed, operation aborted" }
       }
 
       if (valResult) {
@@ -46,8 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
           client = await connectToDatabase()
         } catch (err) {
-          res.status(500).json({ message: "There was an error connecting to the data", errors: err })
-          return
+          return res.status(500).json({ message: "There was an error connecting to the data", errors: err })
         }
 
         //error handling for adding a new question
@@ -55,10 +53,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const newQ = newQArray[i] || {}
           try {
             await addQuestionDocument(client, newQ)
-          } catch (error) {
-            res.status(500).json({ message: "Inserting data failed." })
+          } catch (err) {
             void client.close()
-            return
+            return res.status(500).json({ message: "Inserting data failed.", errors: err })
           }
         } // end for loop
 
@@ -133,7 +130,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
           }
         )
-      console.log("result: ", result)
       void client.close()
       return res.status(201).json({ message: "success", data: result })
     } catch (err) {
@@ -146,8 +142,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // api-route protection from non-logged in users
     const session = await getSession({ req: req })
     if (!session) {
-      res.status(401).json({ message: "Not authenticated" })
-      return
+      return res.status(401).json({ message: "Not authenticated" })
     }
 
     // add server-side validation to prevent empty fields
@@ -161,19 +156,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for connection to database
     try {
       client = await connectToDatabase()
-    } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
-      return
+    } catch (err) {
+      return res.status(500).json({ message: "There was an error connecting to the data.", errors: err })
     }
 
     //error handling for deleting question
     try {
       await deleteQuestionDocument(client, catToDelete)
-      res.status(201).json({ message: "success" })
-    } catch (error) {
-      res.status(500).json({ message: "Deleting question failed." })
+      return res.status(201).json({ message: "success" })
+    } catch (err) {
+      return res.status(500).json({ message: "Deleting question failed.", errors: err })
     }
-
-    void client.close()
   } // end DELETE request
 } // end handler function

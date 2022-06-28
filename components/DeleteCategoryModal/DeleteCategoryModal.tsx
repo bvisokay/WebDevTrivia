@@ -33,16 +33,6 @@ interface DeleteCategoryModalProps {
 }
 
 const DeleteCategoryModal = (props: DeleteCategoryModalProps) => {
-  //
-  //
-  //
-  console.log("props.tgtCategory: ", props.tgtCategory)
-  console.log("props keys: ", Object.keys(props))
-  //console.log("props.categories: ", props.categories)
-  //
-  //
-  //
-
   const actuallyDeleteCategoryInDB = (catToDelete: string) => {
     // send a patch request to an api route
     //send valid data
@@ -73,11 +63,12 @@ const DeleteCategoryModal = (props: DeleteCategoryModalProps) => {
               return item
             }
           })
-          console.log("updatedQuestions: ", updatedQuestions)
           props.setAllQuestions([...updatedQuestions])
         }
       })
-      .catch(err => console.log(err))
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
+      })
   }
 
   const confirmDeleteHandler = () => {

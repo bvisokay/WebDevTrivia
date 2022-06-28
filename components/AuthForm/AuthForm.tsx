@@ -7,7 +7,6 @@ import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 import { ResponseType } from "../../lib/types"
 
 async function createUser(email: string, password: string) {
-  console.log("createUser ping")
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -56,10 +55,9 @@ const AuthForm = () => {
       }
     } else {
       try {
-        const result = await createUser(enteredEmail, enteredPassword)
-        console.log(result)
+        await createUser(enteredEmail, enteredPassword)
       } catch (error) {
-        console.log(error)
+        console.warn(error)
       }
     }
   }

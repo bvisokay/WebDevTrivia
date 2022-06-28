@@ -54,9 +54,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const hashedPassword = await hashPassword(newPassword)
     await usersCollection.updateOne({ email: userEmail }, { $set: { password: hashedPassword } })
-    res.status(200).json({ message: "password updated" })
+    res.status(200).json({ message: "success" })
   } catch (error) {
-    res.status(500).json({ message: "There was an error updating the password." })
+    res.status(500).json({ message: "error" })
   }
   void client.close()
 }

@@ -87,13 +87,11 @@ const NewQuestionForm: React.FC = () => {
           }
           if (data.message === "success") {
             dispatch({ type: "saveRequestFinished" })
-            //dispatch({ type: "clearField" })
             appDispatch({ type: "flashMessage", value: "Category Added" })
             void router.push("/manage")
           }
-        } catch (e) {
-          console.log("There was a problem or the request was cancelled")
-          // handle fetch error
+        } catch (err) {
+          appDispatch({ type: "flashMessage", value: "There was a problem or the request was cancelled" })
         }
       }
       void addCat(signal)

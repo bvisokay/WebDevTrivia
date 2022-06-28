@@ -20,9 +20,8 @@ const Profile = () => {
           setIsLoading(false)
         }
       })
-      .catch(err => {
-        console.log("There was an error")
-        console.log(err)
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
       })
   }, [router])
 

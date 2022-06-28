@@ -35,8 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   try {
     client = await connectToDatabase()
   } catch (err) {
-    console.log(`There was an error`)
-    console.log(err)
+    throw { message: "Error", errors: err }
   }
 
   let categories
@@ -45,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
       categories = await getCategories(client)
     }
   } catch (err) {
-    console.warn(err)
+    throw { message: "error", errors: err }
   }
 
   return {

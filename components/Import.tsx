@@ -44,20 +44,14 @@ const Import = () => {
   const appDispatch = useContext(GlobalDispatchContext)
   const router = useRouter()
 
-  //
   const resetFileInput = () => {
     if (inputRef.current) {
       inputRef.current.value = ""
     }
   }
 
-  //
   const requestHandler = async (arrayOfQuestions: ImportedAndSetQuestionType[]) => {
-    // send request
-
-    // CANNOT USE await in non-async function
     try {
-      console.log("Sending Request")
       const response = await fetch("/api/import-questions", {
         method: "POST",
         body: JSON.stringify(arrayOfQuestions),
@@ -66,8 +60,6 @@ const Import = () => {
         }
       })
       const data = (await response.json()) as ResponseType
-      console.log(data)
-      // is api request set up to return a success message?
       if (data.message === "success") {
         setUploading(false)
         appDispatch({ type: "flashMessage", value: "Successfully imported questions" })
@@ -98,19 +90,9 @@ const Import = () => {
     //eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
     const [file]: any = input!.files
 
-    /* interface CSVProps {
-      data: ImportedQuestionType[] | []
-      errors: string[]
-      meta: object
-    }
-
-    let csv: CSVProps */
-
     let csv: ParseResult<Record<string, string>>
 
     reader.onloadend = async event => {
-      console.log(event?.target?.result)
-
       const csvString = event?.target?.result as string
 
       try {
@@ -130,20 +112,10 @@ const Import = () => {
           })
         }
 
-        if (csv && csv.errors && csv.errors.length) {
-          console.log("csv.errors: ", csv.errors)
-          //file = null throws error that the file is read-only
-          //throw { message: "error", errors: "Check the imported file and try again" }
-        }
-
         if (csv && csv.data == null) {
-          console.log("csv.data is null")
           appDispatch({ type: "flashMessage", value: "Problem with the uploaded file format" })
           throw { message: "error", errors: "Problem with the uploaded data" }
         }
-
-        //console.log("csv: ", csv)
-        console.log("csv.data: ", csv.data)
 
         resetFileInput()
 
@@ -185,15 +157,9 @@ const Import = () => {
           vArrayOfQuestions = result.data
           await requestHandler(vArrayOfQuestions)
         }
-
-        /*  if (vArrayOfQuestions && vArrayOfQuestions.length) {
-          //console.log("arrayOfQuestions: ", arrayOfQuestions)
-          await requestHandler(vArrayOfQuestions)
-        } */
       } catch (err) {
-        console.log(`Catch Error: `, err)
         appDispatch({ type: "flashMessage", value: "Problem with the uploaded data" })
-        return { message: "error", errors: "Problem with the uploaded data" }
+        throw { message: "Error", errors: err }
       }
     } // end onloadend function
 

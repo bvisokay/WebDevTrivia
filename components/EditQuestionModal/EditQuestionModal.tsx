@@ -15,9 +15,6 @@ interface EditQuestionModalProps {
 }
 
 const EditQuestionModal = (props: EditQuestionModalProps) => {
-  console.log("Object.keys(props): ", Object.keys(props))
-  console.log("props.categories: ", props.categories)
-
   const [newCategory, setNewCategory] = useState<string>(props.tgtQuestion.category)
   const [newQuestion, setNewQuestion] = useState<string>(props.tgtQuestion.question)
   const [newCorrectAnswer, setNewCorrectAnswer] = useState<string>(props.tgtQuestion.correct_answer)
@@ -64,7 +61,9 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
           props.setAllQuestions([...updatedQuestions])
         }
       })
-      .catch(err => console.log(err))
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
+      })
   }
 
   const editHandler = () => {
@@ -72,18 +71,15 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
 
     // check to see if the tgtQuestion and the updatedQuestion are different
     if (newCategory !== props.tgtQuestion.category || newQuestion !== props.tgtQuestion.question || newCorrectAnswer !== props.tgtQuestion.correct_answer || newIncorrectAnswer01 !== props.tgtQuestion.incorrect_answers[0] || newIncorrectAnswer02 !== props.tgtQuestion.incorrect_answers[1] || newIncorrectAnswer03 !== props.tgtQuestion.incorrect_answers[2]) {
-      //console.log("Changes Made")
       // only if there are changes made then create the new Question object you want to send to the database
       // format the updated question to prep it being sent to the database
       const formattedQuestion = { id: props.tgtQuestion.id, category: newCategory, type: "multiple", difficulty: "easy", question: newQuestion, correct_answer: newCorrectAnswer, incorrect_answers: [newIncorrectAnswer01, newIncorrectAnswer02, newIncorrectAnswer03], createdDate: props.tgtQuestion.createdDate }
 
-      //console.log(`formattedQuestion: ${formattedQuestion}`)
       // Call function to update the database passing it the object
       actuallyUpdateQuestionInDB(formattedQuestion)
       //close modal
       props.closeModalHandler()
     } else {
-      //console.log("No Changes Made")
       props.closeModalHandler()
     }
 
@@ -115,8 +111,6 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
             <option value={newCategory}>{newCategory}</option>
             {props.categories
               .filter(category => {
-                //console.log("filter category.name: ", category.name)
-                //console.log("filter props.tgtQuestion.category: ", props.tgtQuestion.category)
                 return category.name !== props.tgtQuestion.category
               })
               .sort()
@@ -127,13 +121,6 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
                   </option>
                 )
               })}
-            {/*  {props.categories.sort().map((category: any, index: any) => {
-              return (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              )
-            })} */}
           </select>
         </FormControl>
         <FormControl>

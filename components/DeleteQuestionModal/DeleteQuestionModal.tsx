@@ -9,7 +9,6 @@ interface DeleteModalPropTypes {
 }
 
 const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
-  console.log(props)
   const actuallyDeleteQuestionInDB = (qToDelete: QuestionOnClientTypes) => {
     // send a patch request to an api route
     //send valid data
@@ -35,7 +34,9 @@ const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
           props.setAllQuestions([...updatedQuestions])
         }
       })
-      .catch(err => console.log(err))
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
+      })
   }
 
   const deleteHandler = () => {

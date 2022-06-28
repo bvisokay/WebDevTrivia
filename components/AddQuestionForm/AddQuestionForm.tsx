@@ -181,7 +181,6 @@ function ourReducer(draft: InitialStateType, action: AddQuestionActionTypes) {
       draft.isSaving = false
       return
     case "clearFields":
-      console.log("clearFields ran")
       draft.question.value = ""
       draft.correctAnswer.value = ""
       draft.incorrectAnswer1.value = ""
@@ -241,13 +240,12 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
           const data = (await response.json()) as ResponseType
           dispatch({ type: "saveRequestFinished" })
           if (data.message == "success") {
-            //console.log("New question was added")
-            //dispatch({ type: "clearFields" })
             appDispatch({ type: "flashMessage", value: "New Question Added" })
             void router.push("/manage")
           }
-        } catch (e) {
-          console.log("New question could not be added")
+        } catch (err) {
+          appDispatch({ type: "flashMessage", value: "New question could not be added" })
+          throw { message: "Error", errors: err }
         }
       }
       void saveNewQ(newQ)

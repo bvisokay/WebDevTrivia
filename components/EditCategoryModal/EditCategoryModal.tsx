@@ -20,9 +20,6 @@ interface EditCategoryModalProps {
 const EditCategoryModal = (props: EditCategoryModalProps) => {
   const appDispatch = useContext(GlobalDispatchContext)
   const [newCategoryName, setNewCategoryName] = useState<string>(props.tgtCategory.name)
-  console.log("props.tgtCategory: ", props.tgtCategory)
-  console.log("props keys: ", Object.keys(props))
-  console.log("props.categories: ", props.categories)
 
   const actuallyUpdatecategoryInDB = (objToSend: UpdateCatNamesTypes) => {
     // send a patch request to an api route
@@ -38,7 +35,6 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
         return response.json()
       })
       .then((data: ResponseType) => {
-        //console.log(data)
         if (data.message == "success") {
           // update successful so update the UI on Admin comp
           // categories was originally just an array of strings
@@ -51,7 +47,6 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
               return item
             }
           })
-          console.log(updatedCategories)
           props.setCategories([...updatedCategories])
           // we also need to loop through questions and update those
           const updatedQuestions = props.allQuestions.filter((qObj: QuestionOnClientTypes) => {
@@ -60,7 +55,7 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
             }
             return qObj
           })
-          console.log("updatedQuestions", updatedQuestions)
+
           props.setAllQuestions([...updatedQuestions])
           // remove filter if it matches deleted category
           if (props.catFilter === objToSend.oldCategoryName) {
@@ -68,10 +63,11 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
           }
           // Note: When a category is the current filter and is then edited successfully, the question tally total is lost and the filter, although updated, doesn't show the question
           // try to do the work here?
-          console.log(props.categories)
         }
       })
-      .catch(err => console.log(err))
+      .catch((err: unknown) => {
+        throw { message: "Error", errors: err }
+      })
   }
 
   const cancelEditHandler = () => {
@@ -81,7 +77,6 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
   }
 
   const confirmEditHandler = () => {
-    console.log(newCategoryName)
     // client side validation
     if (newCategoryName == "") {
       setNewCategoryName(props.tgtCategory.name)

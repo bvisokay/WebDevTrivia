@@ -109,8 +109,6 @@ export async function getAllQuestions(client: MongoClient) {
     })
     return cleanedResults
   } catch (err) {
-    console.log("getAllQuestion Catch Error")
-    console.log(err)
     throw { message: "failure", errors: err }
   }
 }

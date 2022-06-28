@@ -20,9 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // using the session username lok upc
     // later append user's _id as authorId property
 
-    //console.log("req.body: ", req.body)
-    console.log(typeof req.body)
-
     if (!req.body) {
       res.status(422).json({ message: "error", errors: "data error" })
       return { message: "error", errors: "data error" }
@@ -70,13 +67,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(422).json(valiResult?.errors)
     }
 
-    // if validation passes then connect to database
-    if (valiResult && valiResult?.message === "success") {
-      //console.log("valiResult.data: ", valiResult.data)
-    }
-
-    //console.log("valiResult", valiResult)
-
     // BEGIN db work
     let client
     try {
@@ -94,15 +84,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       valiResult.data?.forEach((question: Question) => {
         attemptedCategoryNamesSet.add(question.category)
       })
-      //console.log("attemptedCategoryNamesSet: ", attemptedCategoryNamesSet)
       // lookup existing categories
       const existingCategoryObj = await client.db().collection("categories").find().project({ _id: 0, name: 1 }).toArray()
-      //console.log("existingCategoryObj", existingCategoryObj)
       const existingCategoryNamesArr = existingCategoryObj.map(category => category.name as string)
-      //console.log("existingCategoryNamesArr: ", existingCategoryNamesArr)
-      //
       const newAttemptedCategoriesSet = new Set()
-      //let newAttemptedCategories: string[] = []
       attemptedCategoryNamesSet?.forEach(item => {
         if (!existingCategoryNamesArr.includes(item as string)) {
           newAttemptedCategoriesSet.add(item)
@@ -111,12 +96,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // automatically add the categories. Best case for full restoration from data backup
       // necessary to use .length condition on a set, didn't throw error so maybe skipped
       for (const item of newAttemptedCategoriesSet) {
-        //console.log(`tick: ${item}`)
         await client.db().collection("categories").insertOne({ name: item })
       }
     } catch (err) {
       void client.close()
-      console.log(err)
+      throw { message: "error", errors: err }
     }
 
     //error handling for adding a new question
@@ -135,6 +119,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // END db work
     if (client) void client.close()
-    console.log("Error: End of API Route")
   } // end POST request
 }

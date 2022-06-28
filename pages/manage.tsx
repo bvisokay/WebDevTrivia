@@ -426,8 +426,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     client = await connectToDatabase()
   } catch (err) {
-    console.log("error connecting to the database")
-    console.log(err)
     throw { message: "error", errors: err }
   }
 
@@ -437,8 +435,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     categoryData = await getCategoryObjs(client)
   } catch (err) {
     void client.close()
-    //console.log("Error getting categories")
-    //console.log("Error Msg: ", err)
+    throw { message: "error", errors: err }
   }
 
   let questionData: QuestionOnClientTypes[] = []
@@ -446,8 +443,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     questionData = await getAllQuestions(client)
   } catch (err) {
     void client.close()
-    //console.log("Error getting questions")
-    //console.log("Error Msg: ", err)
     throw { message: "error", errors: err }
   }
 
