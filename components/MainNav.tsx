@@ -40,14 +40,14 @@ const NavContainer = styled.nav`
         margin: 0 0.5rem;
         padding: 0.35rem;
       }
+    }
 
-      a:hover {
-        cursor: pointer;
-      }
-      a:visited {
-        color: white;
-        text-decoration: none;
-      }
+    a:hover {
+      cursor: pointer;
+    }
+    a:visited {
+      color: white;
+      text-decoration: none;
     }
   }
 `
