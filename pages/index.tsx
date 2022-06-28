@@ -56,37 +56,17 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    if (!appState.gameOver && questions.length === 0) {
+    /* This code causes broken start on click after refresh */
+    /* if (!appState.gameOver && questions.length === 0) {
       appDispatch({ type: "flashMessage", value: "Error: No questions for that category" })
       appDispatch({ type: "gameReset" })
-    }
+    } */
     if (!appState.gameOver && questions.length && questions.length < appState.selectedTotalQs) {
       appDispatch({ type: "setSelectedTotalQs", value: questions.length })
       appDispatch({ type: "flashMessage", value: "As many Qs as possible" })
       console.log("Question number reset down to what's available")
     }
   }, [appState.gameOver, questions, appState.selectedTotalQs, appDispatch])
-
-  /*   const startGameHandler = async () => {
-    //fresh start
-    setLoadingError(false)
-    setLoading(true)
-    //get questions
-    try {
-      const newQuestions = await fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
-      setQuestions(newQuestions)
-    } catch (err) {
-      setLoadingError(true)
-      setLoading(false)
-      throw { message: "error", errors: err }
-    }
-    // end fetch questions
-    setScore(0)
-    setUserAnswers([])
-    setNumber(0)
-    setLoading(false)
-    appDispatch({ type: "gameOver", value: false })
-  } */
 
   const startGameHandler = () => {
     //fresh start

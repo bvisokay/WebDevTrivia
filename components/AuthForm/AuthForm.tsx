@@ -7,6 +7,7 @@ import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 import { ResponseType } from "../../lib/types"
 
 async function createUser(email: string, password: string) {
+  console.log("createUser ping")
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -36,7 +37,7 @@ const AuthForm = () => {
     setIsLogin(prevState => !prevState)
   }
 
-  async function submitHandler(event: React.FormEvent) {
+  async function submitHandler(event: React.FormEvent): Promise<void> {
     event.preventDefault()
 
     //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -66,7 +67,10 @@ const AuthForm = () => {
   return (
     <SectionNarrow>
       <SectionTitle>{isLogin ? "Login" : "Sign Up"}</SectionTitle>
-      <form onSubmit={void submitHandler}>
+      <form
+        /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+        onSubmit={submitHandler}
+      >
         <FormControl light={true}>
           <label htmlFor="email">Email</label>
           <input autoFocus autoComplete="off" type="email" id="email" required ref={emailInputRef} />

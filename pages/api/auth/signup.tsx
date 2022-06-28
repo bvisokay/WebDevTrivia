@@ -5,9 +5,7 @@ import { RegAttemptTypes } from "../../../lib/types"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
-    console.log("Not a POST request")
-    res.status(500).json({ message: "There was an error." })
-    return
+    return res.status(405).json({ message: "error", value: "Not supported" })
   }
 
   const data = req.body as RegAttemptTypes
