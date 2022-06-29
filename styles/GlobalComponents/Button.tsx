@@ -48,3 +48,19 @@ export const BtnSmall = styled.button`
     font-weight: 700;
   }
 `
+
+export const ResetBtn = styled.button`
+  margin: 4px 2px;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-secondary);
+  color: #fff;
+  cursor: pointer;
+  background: var(--primary);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+
+  @media ${breakpoints.md} {
+    font-size: 1.25rem;
+  }
+`

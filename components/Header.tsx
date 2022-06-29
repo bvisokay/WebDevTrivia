@@ -16,14 +16,18 @@ import MainNav from "./MainNav"
 
 const LogoText = styled.div`
   font-family: var(--font-secondary);
-  font-size: 2.25rem;
+  font-size: 3rem;
   letter-spacing: 1px;
   font-weight: 700;
   padding: 0.5rem 0;
   text-decoration: none;
 
   @media ${breakpoints.xs} {
-    font-size: 2.75rem;
+    font-size: 3.5rem;
+  }
+
+  @media ${breakpoints.sm} {
+    font-size: 4rem;
   }
 `
 

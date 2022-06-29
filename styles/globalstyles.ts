@@ -144,7 +144,7 @@ html {
   text-align: center;
   z-index: 10;
   position: fixed;
-  top: 1rem;
+  /* top: 1rem; */
   min-width: 260px;
   left: calc(50% - 130px);
   font-size: 0.6rem;
@@ -174,34 +174,8 @@ html {
       font-size: 0.9rem;
     }
   }
-
   
 }
-
-
-  .loading
-   {
-    text-transform: uppercase;
-    font-family: var(--font-secondary);
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-    margin: -0.5rem 0 0.5rem 0;
-    padding: 0;
-    color: var(--primary);
-    text-align: center;
-  }
-
-  .loading {
-    color: #fff;
-  }
-
-
-  .btn-container {
-    //border: 1px solid hotpink;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
 
   
   .login,

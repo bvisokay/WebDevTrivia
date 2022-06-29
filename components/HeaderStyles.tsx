@@ -29,7 +29,6 @@ const Container = styled.div`
     color: var(--color-text-primary);
     margin: 0;
     padding: 0;
-    //border: 1px solid violet;
     text-decoration: none;
 
     :visited {

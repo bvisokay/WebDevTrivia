@@ -11,7 +11,7 @@ const ToggleButton = styled.button`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   font-size: 1.5rem;
   line-height: 1;
   width: var(--toggle-width);

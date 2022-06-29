@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from "react"
 import Head from "next/head"
 import { shuffleArray } from "../lib/util"
 import { defaultTotalQuestions, GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import Link from "next/link"
 
 //comps
 import StartBtns from "../components/StartBtns"
@@ -12,7 +13,7 @@ import QuestionCard from "../components/QuestionCard/QuestionCard"
 import OptionsModal from "../components/OptionsModal/OptionsModal"
 
 //styles
-import { BtnPrimary } from "../styles/GlobalComponents/Button"
+import { BtnPrimary, ResetBtn } from "../styles/GlobalComponents/Button"
 
 // types
 import { AnswerObject, Question, QuestionsState } from "../lib/types"
@@ -74,6 +75,12 @@ const Home: NextPage = () => {
 
     fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
       .then(newQuestions => {
+        if (newQuestions.length === 0) {
+          console.log("No Questions for that category")
+          appDispatch({ type: "flashMessage", value: "No Questions for that category" })
+          appDispatch({ type: "gameReset" })
+          return
+        }
         setQuestions(newQuestions)
       })
       .catch((err: unknown) => {
@@ -144,10 +151,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="favicon.png" />
       </Head>
       {(appState.gameOver || userAnswers.length === appState.selectedTotalQs) && !loading && <StartBtns startGameHandler={startGameHandler} setSettingsOpen={setSettingsOpen} />}
+      {!appState.gameOver && (
+        <Link href="/">
+          <ResetBtn className="reset" onClick={() => appDispatch({ type: "gameReset" })}>
+            Reset
+          </ResetBtn>
+        </Link>
+      )}
 
       {!appState.gameOver && userAnswers.length === appState.selectedTotalQs && <ResultsCard score={score} />}
       {loadingError && <LoadingError />}
-      {loading && <div className="loading">Loading Questions...</div>}
+      {loading && <p>Loading Questions...</p>}
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
       {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && <BtnPrimary onClick={nextQuestion}>Next Question</BtnPrimary>}
       {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/client"
-import { useContext } from "react"
-import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+//import { useContext } from "react"
+//import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 
 import dynamic from "next/dynamic"
 const ThemeToggle = dynamic(() => import("./ThemeToggle"), {
@@ -16,23 +16,20 @@ import { breakpoints } from "../styles/breakpoints"
 // also the logout link
 
 const NavContainer = styled.nav`
-  //border: 1px solid aqua;
-
   ul {
-    //border: 1px solid green;
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
+    align-items: center;
 
     @media ${breakpoints.sm} {
       flex-direction: row;
-      align-items: center;
       flex-wrap: nowrap;
     }
 
     li {
-      //border: 1px solid red;
+      border: 1px solid aqua;
       text-align: center;
       white-space: nowrap;
       display: block;
@@ -66,8 +63,8 @@ const NavContainer = styled.nav`
 `
 
 const MainNav = () => {
-  const appDispatch = useContext(GlobalDispatchContext)
-  const appState = useContext(GlobalStateContext)
+  //const appDispatch = useContext(GlobalDispatchContext)
+  //const appState = useContext(GlobalStateContext)
 
   const [session /* isLoading */] = useSession()
 
@@ -78,14 +75,6 @@ const MainNav = () => {
   return (
     <NavContainer>
       <ul>
-        {!appState.gameOver && (
-          <li>
-            <Link href="/">
-              <a onClick={() => appDispatch({ type: "gameReset" })}>Back to Start</a>
-            </Link>
-          </li>
-        )}
-
         {/*  {!session && !isLoading && (
           <li>
             <Link href="/auth">
