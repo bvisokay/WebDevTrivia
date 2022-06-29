@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  color: white;
+  color: var(--color-text-primary);
   font-family: var(--font-secondary);
   padding: 1rem;
   max-width: var(--wrapper-width);

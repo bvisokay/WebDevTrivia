@@ -41,7 +41,7 @@ const FooterContainer = styled.div`
 
 const Help = styled.li`
   padding: 0.1rem;
-  background-color: var(--secondary);
+  background-color: var(--primary);
   border-radius: 50%;
 `
 

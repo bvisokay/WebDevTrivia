@@ -4,6 +4,15 @@ import { breakpoints } from "../styles/breakpoints"
 export const GlobalStyles = createGlobalStyle`
 
 
+* {
+  box-sizing: border-box;
+  font-family: monospace, sans-serif;  
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --primary: #5661ff; /* Was #1b262c */
   --secondary: #041E42;
@@ -24,16 +33,6 @@ export const GlobalStyles = createGlobalStyle`
   --font-secondary: 'Bebas Neue',  sans-serif;
 }
 
-  * {
-    box-sizing: border-box;
-    font-family: monospace, sans-serif;  
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  
   body[data-theme="light"] {
     --color-text-primary: var(--primary);
     /* --color-text-secondary: #27201a; */
@@ -43,8 +42,8 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   body[data-theme="dark"] {
-    --color-text-primary: #e3e3e3;
-    --color-text-secondary: #fff;
+    --color-text-primary: #fff;
+    --color-text-secondary: #e3e3e3;
     /* --color-bg-primary: #15232d; */
     --color-bg-primary: var(--secondary);
     --color-bg-toggle: var(--tertiary);
@@ -107,19 +106,11 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     :visited {
-      color: var(--primary);
+      color: var(--color-text-primary);
       text-decoration: underline;
     }
   }
 
-  .textLink {
-    color: var(--primary);
-    font-weight: 700;
-    :hover {
-      text-decoration: underline;
-    }
-  
-  }
 
   /* End Links */
 
@@ -188,10 +179,6 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 
-
-
-  .score,
-  .number,
   .loading
    {
     text-transform: uppercase;

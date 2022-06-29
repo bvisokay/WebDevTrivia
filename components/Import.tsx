@@ -12,8 +12,8 @@ import { breakpoints } from "../styles/breakpoints"
 import { ImportedAndSetQuestionType, ResponseType } from "../lib/types"
 
 const ImportContainer = styled.div`
-  color: white;
-  background-color: var(--transparent-dark);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-primary);
   border-radius: 0.5rem;
   margin: 0 auto;
   padding: 1rem;

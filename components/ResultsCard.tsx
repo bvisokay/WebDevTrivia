@@ -7,11 +7,9 @@ import { GlobalStateContext } from "../store/GlobalContext"
 const Wrapper = styled.div<Percentage>`
   width: 100%;
   max-width: 400px;
-  background: #ebfeff;
-  //background: #ebfeff;
-  border-radius: 10px;
-  // green if passing or red if failed?
-  border: 2px solid var(--primary);
+  background-color: var(--color-bg-primary);
+  border-radius: 0.5rem;
+  border: 2px solid ${props => (props.percentage >= 70 ? "var(--green)" : "var(--red)")};
   padding: 0.5rem;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
@@ -24,8 +22,7 @@ const Wrapper = styled.div<Percentage>`
     margin: 0;
     padding: 1rem;
     line-height: 1;
-    color: var(--primary);
-    //color: #56ccff;
+    color: var(--color-text-primary);
     font-size: 2rem;
   }
 
@@ -49,11 +46,10 @@ const GifWrapper = styled.div`
     display: block;
     max-width: 140px;
     margin: 1rem auto;
-    padding: 0;
+    padding: -2px;
     //border-radius: 50%;
     //filter: hue-rotate(145deg);
-    border: 3px solid #fff;
-    border-radius: 10px;
+    border-radius: 0.5rem;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
   }
 `

@@ -45,13 +45,21 @@ const NavContainer = styled.nav`
         margin: 0 0.5rem;
         padding: 0.35rem;
       }
+
+      /*   a:hover {
+        cursor: pointer;
+      }
+      a:visited {
+        color: var(--color-text-primary);
+        text-decoration: none;
+      } */
     }
 
     a:hover {
       cursor: pointer;
     }
     a:visited {
-      color: white;
+      color: var(--color-text-primary);
       text-decoration: none;
     }
   }
@@ -88,7 +96,7 @@ const MainNav = () => {
 
         {session && (
           <>
-            <li>
+            {/* <li>
               <Link href="/addQ">
                 <a>Add Question</a>
               </Link>
@@ -97,7 +105,7 @@ const MainNav = () => {
               <Link href="/addCategory">
                 <a>Add Category</a>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/manage">
                 <a>Manage</a>

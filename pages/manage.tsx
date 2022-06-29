@@ -23,7 +23,7 @@ import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
 
 const CategoryBtn = styled.button`
-  color: white;
+  color: var(--color-text-secondary);
   background-color: transparent;
   font-family: var(--font-primary);
   font-weight: 700;
