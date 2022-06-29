@@ -10,12 +10,10 @@ export const GlobalStateContext = createContext({
   selectedTotalQs: defaultTotalQuestions,
   gameOver: true,
   loggedIn: false,
-  flashMessages: [] as string[],
-  language: "",
-  theme: ""
+  flashMessages: [] as string[]
 })
 
-type GlobalActionTypes = { type: "gameReset" } | { type: "setSelectedCategory"; value: string } | { type: "setSelectedTotalQs"; value: number } | { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string } | { type: "setEnglish" } | { type: "setSpanish" } | { type: "setLatin" } | { type: "setLightTheme" } | { type: "setDarkTheme" }
+type GlobalActionTypes = { type: "gameReset" } | { type: "setSelectedCategory"; value: string } | { type: "setSelectedTotalQs"; value: number } | { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string }
 
 export const GlobalContextProvider: React.FC = props => {
   const initialState = {
@@ -23,9 +21,7 @@ export const GlobalContextProvider: React.FC = props => {
     selectedTotalQs: defaultTotalQuestions,
     gameOver: true,
     loggedIn: false,
-    flashMessages: [] as string[],
-    language: "english",
-    theme: "dark"
+    flashMessages: [] as string[]
   }
 
   function ourReducer(draft: typeof initialState, action: GlobalActionTypes): void {
@@ -52,21 +48,6 @@ export const GlobalContextProvider: React.FC = props => {
         return
       case "flashMessage":
         draft.flashMessages.push(action.value)
-        return
-      case "setEnglish":
-        draft.language = "english"
-        return
-      case "setSpanish":
-        draft.language = "spanish"
-        return
-      case "setLatin":
-        draft.language = "latin"
-        return
-      case "setLightTheme":
-        draft.theme = "light"
-        return
-      case "setDarkTheme":
-        draft.theme = "dark"
         return
       default:
         throw new Error("Bad action")
