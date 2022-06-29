@@ -3,6 +3,11 @@ import { useSession, signOut } from "next-auth/client"
 import { useContext } from "react"
 import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 
+import dynamic from "next/dynamic"
+const ThemeToggle = dynamic(() => import("./ThemeToggle"), {
+  ssr: false
+})
+
 // styles
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
@@ -111,6 +116,7 @@ const MainNav = () => {
             <a onClick={logoutHandler}>Logout</a>
           </li>
         )}
+        <ThemeToggle />
       </ul>
     </NavContainer>
   )

@@ -26,14 +26,14 @@ const Container = styled.div`
   }
 
   a.logoText {
-    color: white;
+    color: var(--color-text-primary);
     margin: 0;
     padding: 0;
     //border: 1px solid violet;
     text-decoration: none;
 
     :visited {
-      color: white;
+      color: var(--color-text-primary);
       text-decoration: none;
     }
   }

@@ -33,18 +33,36 @@ export const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  
+  body[data-theme="light"] {
+    --color-text-primary: var(--primary);
+    /* --color-text-secondary: #27201a; */
+    --color-text-secondary: var(--secondary);
+    --color-bg-primary: #fff;
+    --color-bg-toggle: var(--primary);
+  }
+  
+  body[data-theme="dark"] {
+    --color-text-primary: #e3e3e3;
+    --color-text-secondary: #fff;
+    /* --color-bg-primary: #15232d; */
+    --color-bg-primary: var(--secondary);
+    --color-bg-toggle: var(--tertiary);
+  }
+  
   body {
+    //background-image: url("Sprinkle.svg");
     //background-image: url("sebastian-unrau-unsplash.jpg");
-    background-image: url("Sprinkle.svg");
     //background-image: url("polygon-luminary-bg-jar.svg");
-    //background-color: var(--primary);
-    background-size: cover;
-    background-repeat: no-repeat;
+    //background-size: cover;
+    //background-repeat: no-repeat;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
     margin: 0;
     padding: 0;
   }
 
-  body::after {
+/*   body::after {
     content: "";
     background: rgba(0,0,0,.4);
     position: fixed;
@@ -53,7 +71,7 @@ export const GlobalStyles = createGlobalStyle`
     right: 0;
     bottom: 0;
     z-index: -2;
-  }
+  } */
 
   h1 {
     font-size: 1rem;
