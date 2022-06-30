@@ -56,11 +56,6 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    /* This code causes broken start on click after refresh */
-    /* if (!appState.gameOver && questions.length === 0) {
-      appDispatch({ type: "flashMessage", value: "Error: No questions for that category" })
-      appDispatch({ type: "gameReset" })
-    } */
     if (!appState.gameOver && questions.length && questions.length < appState.selectedTotalQs) {
       appDispatch({ type: "setSelectedTotalQs", value: questions.length })
       appDispatch({ type: "flashMessage", value: "As many Qs as possible" })
@@ -71,6 +66,8 @@ const Home: NextPage = () => {
     //fresh start
     setLoadingError(false)
     setLoading(true)
+    setQuestions([])
+    appDispatch({ type: "gameOver", value: false })
     //get questions
 
     fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
@@ -82,6 +79,11 @@ const Home: NextPage = () => {
           return
         }
         setQuestions(newQuestions)
+        setScore(0)
+        setUserAnswers([])
+        setNumber(0)
+        setLoading(false)
+        appDispatch({ type: "gameOver", value: false })
       })
       .catch((err: unknown) => {
         setLoadingError(true)
@@ -89,11 +91,6 @@ const Home: NextPage = () => {
         throw { message: "error", errors: err }
       })
     // end fetch questions
-    setScore(0)
-    setUserAnswers([])
-    setNumber(0)
-    setLoading(false)
-    appDispatch({ type: "gameOver", value: false })
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -143,6 +140,11 @@ const Home: NextPage = () => {
     /* setSelectedDifficulty("easy") */
   }
 
+  const resetBtnHandler = () => {
+    appDispatch({ type: "gameReset" })
+    setQuestions([])
+  }
+
   return (
     <>
       <Head>
@@ -150,20 +152,25 @@ const Home: NextPage = () => {
         <meta name="description" content="Trivia questions on web development" />
         <link rel="icon" href="favicon.png" />
       </Head>
+
       {(appState.gameOver || userAnswers.length === appState.selectedTotalQs) && !loading && <StartBtns startGameHandler={startGameHandler} setSettingsOpen={setSettingsOpen} />}
-      {!appState.gameOver && (
+
+      {!appState.gameOver && !loading && (
         <Link href="/">
-          <ResetBtn className="reset" onClick={() => appDispatch({ type: "gameReset" })}>
-            Reset
-          </ResetBtn>
+          <ResetBtn onClick={resetBtnHandler}>Reset</ResetBtn>
         </Link>
       )}
 
       {!appState.gameOver && userAnswers.length === appState.selectedTotalQs && <ResultsCard score={score} />}
+
       {loadingError && <LoadingError />}
+
       {loading && <p>Loading Questions...</p>}
+
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
+
       {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && <BtnPrimary onClick={nextQuestion}>Next Question</BtnPrimary>}
+
       {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
     </>
   )

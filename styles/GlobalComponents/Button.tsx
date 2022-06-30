@@ -50,7 +50,7 @@ export const BtnSmall = styled.button`
 `
 
 export const ResetBtn = styled.button`
-  margin: 4px 2px;
+  margin: 1rem 0.5rem;
   padding: 0.5rem 1rem;
   font-family: var(--font-secondary);
   color: #fff;

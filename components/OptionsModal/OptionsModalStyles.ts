@@ -17,7 +17,6 @@ export const SettingsPanel = styled.div`
   min-height: 300px;
   width: 85%;
   max-width: 400px;
-  background: #fff;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -25,6 +24,8 @@ export const SettingsPanel = styled.div`
   flex-direction: column;
   padding: 1rem;
   max-width: 400px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 
   form {
     width: 100%;

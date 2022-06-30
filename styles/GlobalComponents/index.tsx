@@ -78,7 +78,7 @@ export const SectionTitle = styled.h2<SectionTitleProps>`
   letter-spacing: 1.25px;
   font-weight: 700;
   margin: 0.5rem 0;
-  color: ${props => (props.dark ? "var(--primary)" : "var(--color-text-primary)")};
+  color: var(--color-text-primary);
   text-align: center;
 `
 

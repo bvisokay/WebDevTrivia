@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
 import { BackDrop, SettingsPanel } from "./OptionsModalStyles"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
-import { SectionTitle, FormControl } from "../../styles/GlobalComponents"
+import { SectionTitle, FormControl, SectionText } from "../../styles/GlobalComponents"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 
 import { OptionsModalProps, ResponseType } from "../../lib/types"
@@ -43,7 +43,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({ /* setSelectedDifficulty, *
       <SettingsPanel>
         <SectionTitle dark={true}>Settings</SectionTitle>
         {isCategoriesLoading ? (
-          <p>Loading...</p>
+          <SectionText>Loading...</SectionText>
         ) : (
           <form onSubmit={saveSettingsHandler}>
             <FormControl>
