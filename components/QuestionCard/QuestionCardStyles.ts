@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { breakpoints } from "../../styles/breakpoints"
 
 export const Wrapper = styled.div`
   max-width: 400px;
@@ -47,10 +48,6 @@ type ButtonWrapperProps = {
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
   transition: all 0.3s ease;
 
-  :hover {
-    opacity: 0.9;
-  }
-
   button {
     cursor: pointer;
     user-select: none;
@@ -64,5 +61,22 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     border-radius: 10px;
     color: #fff;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
+  }
+
+  :hover {
+    opacity: 0.9;
+  }
+`
+
+export const QuestionText = styled.p`
+  margin: 1rem 0;
+  font-size: 0.85rem;
+  @media ${breakpoints.xs} {
+    margin: 1.35rem 0;
+    font-size: 1rem;
+  }
+  @media ${breakpoints.sm} {
+    margin: 1.75rem 0;
+    font-size: 1.15rem;
   }
 `

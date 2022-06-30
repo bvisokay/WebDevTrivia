@@ -1,6 +1,6 @@
+import { useEffect, useRef } from "react"
 import { AnswerObject } from "../../lib/types"
-
-import { Wrapper, ProgressBar, ButtonWrapper } from "./QuestionCardStyles"
+import { Wrapper, ProgressBar, ButtonWrapper, QuestionText } from "./QuestionCardStyles"
 
 export type QuestionCardProps = {
   score: number
@@ -13,7 +13,20 @@ export type QuestionCardProps = {
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ score, question, answers, callback, userAnswer, questionNr, totalQuestions }) => {
+  const firstAnswerRef = useRef<HTMLButtonElement>(null)
   const percentComplete = (questionNr / totalQuestions) * 100
+
+  useEffect(() => {
+    if (firstAnswerRef.current) {
+      firstAnswerRef.current.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (firstAnswerRef.current) {
+      firstAnswerRef.current.focus()
+    }
+  }, [answers])
 
   return (
     <Wrapper>
@@ -23,15 +36,29 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ score, question, answers, c
       <h2>
         Question: {questionNr} / {totalQuestions}
       </h2>
-      <p dangerouslySetInnerHTML={{ __html: question }} />
+      <QuestionText dangerouslySetInnerHTML={{ __html: question }} />
       <div>
-        {answers.map(answer => (
-          <ButtonWrapper correct={userAnswer?.correctAnswer === answer} userClicked={userAnswer?.answer === answer} key={answer}>
-            <button autoFocus disabled={!!userAnswer} value={answer} onClick={callback}>
-              <span dangerouslySetInnerHTML={{ __html: answer }} />
-            </button>
-          </ButtonWrapper>
-        ))}
+        {answers.map((answer, index) => {
+          if (index === 0) {
+            return (
+              <ButtonWrapper correct={userAnswer?.correctAnswer === answer} userClicked={userAnswer?.answer === answer} key={index}>
+                <button ref={firstAnswerRef} disabled={!!userAnswer} value={answer} onClick={callback}>
+                  <span dangerouslySetInnerHTML={{ __html: answer }} />
+                </button>
+              </ButtonWrapper>
+            )
+          }
+
+          if (index !== 0) {
+            return (
+              <ButtonWrapper correct={userAnswer?.correctAnswer === answer} userClicked={userAnswer?.answer === answer} key={index}>
+                <button disabled={!!userAnswer} value={answer} onClick={callback}>
+                  <span dangerouslySetInnerHTML={{ __html: answer }} />
+                </button>
+              </ButtonWrapper>
+            )
+          }
+        })}
       </div>
     </Wrapper>
   )

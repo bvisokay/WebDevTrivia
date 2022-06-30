@@ -83,6 +83,19 @@ html {
     }
   }
 
+  h2 {
+    letter-spacing: 1.5px;
+    font-size: 1.35rem;
+
+    @media ${breakpoints.xs} {
+      font-size: 1.5rem;
+    }
+    @media ${breakpoints.sm} {
+      letter-spacing: 2px;
+      font-size: 2rem;
+    }
+  }
+
   h1,h2,h3,h4,h5,h6,button {
     font-family: var(--font-secondary);
     margin: 0;

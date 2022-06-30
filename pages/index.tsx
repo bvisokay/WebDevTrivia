@@ -1,5 +1,5 @@
 import type { NextPage } from "next"
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect, useRef } from "react"
 import Head from "next/head"
 import { shuffleArray } from "../lib/util"
 import { defaultTotalQuestions, GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
@@ -30,6 +30,8 @@ const Home: NextPage = () => {
   /* temporarily not implementating difficulty feature */
   /*   const [selectedDifficulty, setSelectedDifficulty] = useState("easy") */
 
+  const nextQuestionBtnRef = useRef<HTMLButtonElement>(null)
+
   const appDispatch = useContext(GlobalDispatchContext)
   const appState = useContext(GlobalStateContext)
 
@@ -55,6 +57,7 @@ const Home: NextPage = () => {
     }
   }
 
+  /* Handle Category Chosen with No Questions */
   useEffect(() => {
     if (!appState.gameOver && questions.length && questions.length < appState.selectedTotalQs) {
       appDispatch({ type: "setSelectedTotalQs", value: questions.length })
@@ -73,7 +76,6 @@ const Home: NextPage = () => {
     fetchQuizQuestions(appState.selectedCategory, appState.selectedTotalQs)
       .then(newQuestions => {
         if (newQuestions.length === 0) {
-          console.log("No Questions for that category")
           appDispatch({ type: "flashMessage", value: "No Questions for that category" })
           appDispatch({ type: "gameReset" })
           return
@@ -114,6 +116,13 @@ const Home: NextPage = () => {
     }
   }
 
+  // Focus on Next Question Button When it is visible for better keyboard navigation
+  useEffect(() => {
+    if (nextQuestionBtnRef.current) {
+      nextQuestionBtnRef.current.focus()
+    }
+  }, [userAnswers])
+
   const nextQuestion = () => {
     // move on to the next question if not the last question
     const nextQuestion = number + 1
@@ -153,15 +162,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="favicon.png" />
       </Head>
 
-      {(appState.gameOver || userAnswers.length === appState.selectedTotalQs) && !loading && <StartBtns startGameHandler={startGameHandler} setSettingsOpen={setSettingsOpen} />}
+      {appState.gameOver && !loading && <StartBtns startGameHandler={startGameHandler} setSettingsOpen={setSettingsOpen} />}
 
-      {!appState.gameOver && !loading && (
+      {!appState.gameOver && !loading && userAnswers.length !== appState.selectedTotalQs && (
         <Link href="/">
           <ResetBtn onClick={resetBtnHandler}>Reset</ResetBtn>
         </Link>
       )}
 
-      {!appState.gameOver && userAnswers.length === appState.selectedTotalQs && <ResultsCard score={score} />}
+      {!appState.gameOver && !loading && userAnswers.length === appState.selectedTotalQs && (
+        <Link href="/">
+          <ResetBtn autoFocus onClick={resetBtnHandler}>
+            Home
+          </ResetBtn>
+        </Link>
+      )}
+
+      {!appState.gameOver && userAnswers.length === appState.selectedTotalQs && !loading && <ResultsCard score={score} />}
 
       {loadingError && <LoadingError />}
 
@@ -169,7 +186,11 @@ const Home: NextPage = () => {
 
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
 
-      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && <BtnPrimary onClick={nextQuestion}>Next Question</BtnPrimary>}
+      {!appState.gameOver && !loading && userAnswers.length === number + 1 && number !== appState.selectedTotalQs - 1 && (
+        <BtnPrimary ref={nextQuestionBtnRef} onClick={nextQuestion}>
+          Next Question
+        </BtnPrimary>
+      )}
 
       {settingsOpen && <OptionsModal /* setSelectedDifficulty={setSelectedDifficulty} */ saveSettingsHandler={saveSettingsHandler} closeSettingsHandler={closeSettingsHandler} />}
     </>
