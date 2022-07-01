@@ -13,11 +13,13 @@ import { ImportedAndSetQuestionType, ResponseType } from "../lib/types"
 
 const ImportContainer = styled.div`
   color: var(--color-text-secondary);
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-secondary);
   border-radius: 0.5rem;
-  margin: 0 auto;
+  margin: 3rem auto;
   padding: 1rem;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  width: var(--wrapper-width-narrow);
+  border: 2px solid var(--primary);
 
   input {
     cursor: pointer;
@@ -33,6 +35,7 @@ const ImportContainer = styled.div`
     }
   }
 
+  h2,
   p {
     margin-left: 0.5rem;
   }
@@ -182,6 +185,7 @@ const Import = () => {
 
   return (
     <ImportContainer>
+      <h2>Import Questions</h2>
       <p>Uploading Questions via a CSV file is suppported.</p>
       <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
       <input disabled={uploading} type="file" ref={inputRef} onChange={e => e.target.value} />

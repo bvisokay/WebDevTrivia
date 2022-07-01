@@ -182,7 +182,7 @@ const Home: NextPage = () => {
 
       {loadingError && <LoadingError />}
 
-      {loading && <p>Loading Questions...</p>}
+      {loading && <h2>Loading Questions...</h2>}
 
       {!loading && !appState.gameOver && questions.length && <QuestionCard score={score} questionNr={number + 1} totalQuestions={appState.selectedTotalQs} question={questions[number].question} answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer}></QuestionCard>}
 

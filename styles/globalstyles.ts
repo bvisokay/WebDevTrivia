@@ -73,8 +73,9 @@ html {
     font-family: var(--font-secondary);
     margin: 0;
     padding: 0;
+    color: var(--color-text-primary)
   }
-  
+
   h1 {
     font-size: 1rem;
 
