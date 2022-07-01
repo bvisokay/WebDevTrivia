@@ -33,6 +33,7 @@ const Container = styled.div`
     letter-spacing: 1.5px;
     text-align: center;
     text-decoration: none;
+    margin-bottom: 4px;
 
     @media ${breakpoints.xs} {
       font-size: 3.5rem;

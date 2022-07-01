@@ -22,6 +22,12 @@ const ToggleButton = styled.button`
   cursor: pointer;
   background-color: var(--color-bg-toggle);
   transition: background-color 0.25s ease-in-out;
+  margin-top: 10px;
+
+  @media ${breakpoints.sm} {
+    margin-top: 0;
+    margin-left: 0.5rem;
+  }
 
   @media ${breakpoints.md} {
     --toggle-width: 80px;

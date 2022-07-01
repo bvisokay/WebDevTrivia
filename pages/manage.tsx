@@ -78,7 +78,7 @@ const BtnContainer = styled.div`
   /* Plus and export icon */
   a svg {
     font-size: 1.25rem;
-    color: white;
+    color: var(--color-text-primary);
     margin: 0 0.1rem;
 
     @media ${breakpoints.sm} {

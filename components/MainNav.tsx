@@ -19,7 +19,6 @@ const NavContainer = styled.nav`
   ul {
     display: flex;
     flex-direction: column;
-    margin: 0;
     padding: 0;
     align-items: center;
 
@@ -29,35 +28,44 @@ const NavContainer = styled.nav`
     }
 
     li {
-      //border: 1px solid aqua;
       text-align: center;
       white-space: nowrap;
       display: block;
       width: 100%;
-      margin: 0;
-      padding: 0.6rem 0;
 
       @media ${breakpoints.sm} {
         flex-direction: row;
-        margin: 0 0.5rem;
-        padding: 0.35rem;
       }
+    }
 
-      /*   a:hover {
+    a {
+      display: block;
+      :hover {
         cursor: pointer;
       }
-      a:visited {
+      :visited {
         color: var(--color-text-primary);
         text-decoration: none;
-      } */
+      }
     }
 
-    a:hover {
-      cursor: pointer;
-    }
-    a:visited {
+    button.main-nav__btn {
+      border: none;
+      background-color: transparent;
       color: var(--color-text-primary);
-      text-decoration: none;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      margin: 0;
+
+      :hover {
+        cursor: pointer;
+      }
+    }
+
+    li,
+    li > a,
+    button.main-nav__btn {
+      padding: 0.25rem 0.5rem;
     }
   }
 `
@@ -110,7 +118,9 @@ const MainNav = () => {
 
         {session && (
           <li>
-            <a onClick={logoutHandler}>Logout</a>
+            <button className="main-nav__btn" onClick={logoutHandler}>
+              Logout
+            </button>
           </li>
         )}
         <ThemeToggle />
