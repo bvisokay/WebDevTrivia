@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 
 export const HeaderContainer = styled.div`
-  background: var(--transparent-light);
+  background: transparent;
   width: 100%;
 `
 
@@ -13,7 +13,7 @@ const Container = styled.div`
   justify-content: space-between;
   color: var(--color-text-primary);
   font-family: var(--font-secondary);
-  padding: 1rem;
+  padding: 0.5rem;
   max-width: var(--wrapper-width);
   margin: 0 auto;
 
@@ -26,10 +26,25 @@ const Container = styled.div`
   }
 
   a.logoText {
+    font-family: var(--font-secondary);
     color: var(--color-text-primary);
-    margin: 0;
-    padding: 0;
     text-decoration: none;
+    font-size: 3rem;
+    letter-spacing: 1.5px;
+    text-align: center;
+    text-decoration: none;
+
+    @media ${breakpoints.xs} {
+      font-size: 3.5rem;
+    }
+
+    @media ${breakpoints.sm} {
+      font-size: 4rem;
+    }
+
+    @media ${breakpoints.sm} {
+      padding-top: 0.5rem;
+    }
 
     :visited {
       color: var(--color-text-primary);

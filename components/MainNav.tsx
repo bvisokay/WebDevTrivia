@@ -29,7 +29,7 @@ const NavContainer = styled.nav`
     }
 
     li {
-      border: 1px solid aqua;
+      //border: 1px solid aqua;
       text-align: center;
       white-space: nowrap;
       display: block;
