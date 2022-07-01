@@ -17,7 +17,7 @@ html {
   --primary: #5661ff; /* (86, 97, 255) */
   --secondary: #374147; /* orig 041e42 */
   --tertiary: #869397; /* (27, 38, 44) */
-  --cuatro: #0085a3;
+  --cuatro: orange;
   --green: #56ffa4;
   --greenmuted: #59bc86;
   --red: #ff5656;
@@ -28,6 +28,9 @@ html {
   --wrapper-width-narrow: 400px;
   --font-primary: monospace, sans-serif;
   --font-secondary: 'Bebas Neue',  sans-serif;
+  --font-size-xs: 0.7rem;
+  --font-size-sm: .85rem;
+  --font-size-md: 1rem;
 }
 
   body[data-theme="light"] {
@@ -47,11 +50,9 @@ html {
   }
   
   body {
-    //background-image: url("Sprinkle.svg");
-    //background-image: url("sebastian-unrau-unsplash.jpg");
-    //background-image: url("polygon-luminary-bg-jar.svg");
-    //background-size: cover;
-    //background-repeat: no-repeat;
+    background-image: url("poly.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     margin: 0;
@@ -60,7 +61,7 @@ html {
 
 /*   body::after {
     content: "";
-    background: rgba(0,0,0,.4);
+    background: rgba(0,0,0,.1);
     position: fixed;
     top: 0;
     left: 0;

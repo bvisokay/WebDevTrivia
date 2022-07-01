@@ -2,8 +2,7 @@ import styled from "styled-components"
 import { breakpoints } from "../../styles/breakpoints"
 
 export const Wrapper = styled.div`
-  max-width: 400px;
-  /* background: #ebfeff; */
+  max-width: 450px;
   background-color: var(--color-bg-primary);
   border-radius: 0.5rem;
   border: 2px solid var(--primary);
@@ -21,7 +20,6 @@ export const ProgressBar = styled.div<ProgressBarProps>`
   position: relative;
   width: 100%;
   height: 12px;
-  /* background: rgba(0, 0, 0, 0.1); */
   background: var(--tertiary);
   border-radius: 0.5rem;
   transition: transform 0.3s ease-out;
@@ -40,18 +38,33 @@ export const ProgressBar = styled.div<ProgressBarProps>`
   }
 `
 
+export const QuestionText = styled.p`
+  margin: 1rem 0;
+  font-size: var(--font-size-xs);
+  @media ${breakpoints.xs} {
+    margin: 1.35rem 0;
+  }
+  @media ${breakpoints.sm} {
+    margin: 1.75rem 0;
+    font-size: var(--font-size-sm);
+  }
+  @media ${breakpoints.md} {
+    font-size: var(--font-size-md);
+  }
+`
+
 type ButtonWrapperProps = {
   correct: boolean
   userClicked: boolean
 }
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
-  transition: all 0.3s ease;
+  transition: opacity 0.23s ease;
 
   button {
     cursor: pointer;
     user-select: none;
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     width: 100%;
     padding: 0.4rem;
     margin: 5px 0;
@@ -61,22 +74,22 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     border-radius: 10px;
     color: #fff;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
+
+    @media ${breakpoints.sm} {
+      font-size: var(--font-size-sm);
+    }
+    @media ${breakpoints.md} {
+      font-size: var(--font-size-md);
+    }
+
+    :focus,
+    :active {
+      outline: none;
+      border: 3px solid var(--cuatro);
+    }
   }
 
   :hover {
     opacity: 0.9;
-  }
-`
-
-export const QuestionText = styled.p`
-  margin: 1rem 0;
-  font-size: 0.85rem;
-  @media ${breakpoints.xs} {
-    margin: 1.35rem 0;
-    font-size: 1rem;
-  }
-  @media ${breakpoints.sm} {
-    margin: 1.75rem 0;
-    font-size: 1.15rem;
   }
 `

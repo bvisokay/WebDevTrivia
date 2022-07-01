@@ -17,6 +17,19 @@ const Support = () => {
       </SectionNarrow>
 
       <SupportForm />
+
+      <br></br>
+      <br></br>
+      <SectionNarrow>
+        <SectionTitle>Credits</SectionTitle>
+        <SectionDivider />
+        <SectionText style={{ textAlign: "center" }}>
+          Free SVG Background by{" "}
+          <a target="_blank" rel="noreferrer" href="https://bgjar.com">
+            BGJar
+          </a>
+        </SectionText>
+      </SectionNarrow>
     </div>
   )
 }
