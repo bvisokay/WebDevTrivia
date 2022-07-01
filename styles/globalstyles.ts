@@ -130,4 +130,10 @@ html {
       text-decoration: underline;
     }
   }
+
+  a.with-color {
+    color: var(--primary);
+    font-weight: 700;
+    border-bottom: 3px solid var(--primary);
+  }
 `
