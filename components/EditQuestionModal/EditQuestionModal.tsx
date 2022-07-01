@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { QuestionOnClientTypes, CategoryObj, ResponseType } from "../../lib/types"
 //styles
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
-import { FormControl, SectionTitle } from "../../styles/GlobalComponents"
+import { FormControl, SectionTitle, Modal } from "../../styles/GlobalComponents"
 
 interface EditQuestionModalProps {
   tgtQuestion: QuestionOnClientTypes
@@ -93,7 +93,7 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
   }
 
   return (
-    <div className="modal">
+    <Modal>
       {/* Title Area */}
       <SectionTitle dark={true}>Edit Question</SectionTitle>
       {/* Meat and Potatoes */}
@@ -149,7 +149,7 @@ const EditQuestionModal = (props: EditQuestionModalProps) => {
         <BtnSmall onClick={cancelHandler}>Cancel</BtnSmall>
         <BtnSmall onClick={editHandler}>Confirm</BtnSmall>
       </div>
-    </div>
+    </Modal>
   )
 }
 

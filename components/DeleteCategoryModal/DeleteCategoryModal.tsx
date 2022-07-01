@@ -1,8 +1,8 @@
-//comps
-import { BtnSmall } from "../../styles/GlobalComponents/Button"
 //types
 import { CategoryObj, QuestionOnClientTypes, ResponseType } from "../../lib/types"
 //styles
+import { BtnSmall } from "../../styles/GlobalComponents/Button"
+import { Modal } from "../../styles/GlobalComponents"
 import { IoWarning } from "react-icons/io5"
 import styled from "styled-components"
 import React from "react"
@@ -80,7 +80,7 @@ const DeleteCategoryModal = (props: DeleteCategoryModalProps) => {
   }
 
   return (
-    <div className="modal">
+    <Modal>
       <ModalTitle>
         <IoWarning />
         <strong>Delete Category?</strong>
@@ -93,7 +93,7 @@ const DeleteCategoryModal = (props: DeleteCategoryModalProps) => {
         Cancel
       </BtnSmall>
       <BtnSmall onClick={confirmDeleteHandler}>Confirm</BtnSmall>
-    </div>
+    </Modal>
   )
 }
 

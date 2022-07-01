@@ -1,5 +1,6 @@
 import { QuestionOnClientTypes, ResponseType } from "../../lib/types"
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
+import { Modal } from "../../styles/GlobalComponents"
 
 interface DeleteModalPropTypes {
   allQuestions: QuestionOnClientTypes[]
@@ -49,13 +50,13 @@ const DeleteQuestionModal = (props: DeleteModalPropTypes) => {
   }
 
   return (
-    <div className="modal">
+    <Modal>
       <p>Are you sure you want to delete this item?</p>
       <BtnSmall autoFocus onClick={props.closeModalHandler}>
         Cancel
       </BtnSmall>
       <BtnSmall onClick={deleteHandler}>Confirm</BtnSmall>
-    </div>
+    </Modal>
   )
 }
 

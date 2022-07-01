@@ -23,14 +23,15 @@ import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
 
 const CategoryBtn = styled.button`
-  color: var(--color-text-secondary);
-  background-color: transparent;
-  font-family: var(--font-primary);
-  font-weight: 700;
   border: none;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-primary);
+  padding: 0.75rem 0.5rem;
 
   :hover {
-    border-bottom: 2px solid var(--primary);
+    //border-bottom: 2px solid var(--primary);
+    cursor: pointer;
   }
 `
 
@@ -259,7 +260,7 @@ const AdminPage = (props: AdminPageProps) => {
               return (
                 <ListItem key={category.id}>
                   <div>
-                    <CategoryBtn onClick={catFilterHandler.bind(null, category.name)} className="categoryItem">
+                    <CategoryBtn onClick={catFilterHandler.bind(null, category.name)}>
                       {category.name} ({category.tally})
                     </CategoryBtn>
                   </div>

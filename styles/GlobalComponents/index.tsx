@@ -46,6 +46,74 @@ export const FormControl = styled.div<FormControlProps>`
   }
 `
 
+export const ListItem = styled.div`
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+  //border: 1px solid var(--primary);
+`
+
+export const LiveValidateMessage = styled.div`
+  color: white;
+  background-color: orangered;
+  font-size: 0.75rem;
+  top: 6px;
+  position: absolute;
+  z-index: 1;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+`
+
+export const Modal = styled.div`
+  //box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-color: var(--color-bg-secondary);
+  padding: 0.5rem;
+  text-align: center;
+  z-index: 10;
+  position: fixed;
+  top: 1rem;
+  min-width: 260px;
+  left: calc(50% - 130px);
+  font-size: 0.6rem;
+  max-width: 90%;
+  margin: 0 auto;
+
+  @media ${breakpoints.xs} {
+    position: fixed;
+    font-size: 0.8rem;
+    width: 20rem;
+    left: calc(50% - 10rem);
+  }
+  @media ${breakpoints.sm} {
+    position: fixed;
+    font-size: 0.9rem;
+    width: 26rem;
+    left: calc(50% - 13rem);
+  }
+
+  input, textarea, select, label {
+    font-size: 0.6rem;
+    @media ${breakpoints.xs} {
+      font-size: 0.8rem;
+    }
+    @media ${breakpoints.sm} {
+      font-size: 0.9rem;
+    }
+`
+
 export const Section = styled.section`
   padding: 0 1rem;
   margin: 0.5rem auto;
@@ -110,36 +178,6 @@ export const SectionDivider = styled.div`
   border-radius: 10px;
   background-color: var(--color-text-primary);
   background: linear-gradient(270deg, var(--primary) 0%, var(--primary) 100%);
-`
-
-export const ListItem = styled.div`
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  margin: 0.5rem 0;
-  padding: 0 0.5rem;
-  border-radius: 10px;
-  font-weight: 700;
-  //border: 1px solid var(--primary);
-`
-
-export const LiveValidateMessage = styled.div`
-  color: white;
-  background-color: orangered;
-  font-size: 0.75rem;
-  top: 6px;
-  position: absolute;
-  z-index: 1;
-  padding-top: 7px;
-  padding-bottom: 5px;
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
 `
 
 export const TitleArea = styled.div`

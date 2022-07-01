@@ -4,7 +4,7 @@ import { GlobalDispatchContext } from "../../store/GlobalContext"
 import { CategoryObj, QuestionOnClientTypes, ResponseType, UpdateCatNamesTypes } from "../../lib/types"
 //styles
 import { BtnSmall } from "../../styles/GlobalComponents/Button"
-import { FormControl } from "../../styles/GlobalComponents"
+import { FormControl, Modal } from "../../styles/GlobalComponents"
 
 interface EditCategoryModalProps {
   tgtCategory: CategoryObj
@@ -111,14 +111,14 @@ const EditCategoryModal = (props: EditCategoryModalProps) => {
   }
 
   return (
-    <div className="modal">
+    <Modal>
       <FormControl>
         <label htmlFor="">Edit Category Name</label>
         <input autoFocus aria-label="Category" type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
       </FormControl>
       <BtnSmall onClick={cancelEditHandler}>Cancel</BtnSmall>
       <BtnSmall onClick={confirmEditHandler}>Confirm</BtnSmall>
-    </div>
+    </Modal>
   )
 }
 
