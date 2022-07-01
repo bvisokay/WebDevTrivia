@@ -5,7 +5,7 @@ import { ResponseType } from "../../lib/types"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 
 //styles
-import { SectionNarrow, SectionTitle, FormControl } from "../../styles/GlobalComponents"
+import { SectionNarrow, SectionTitle, FormControl, LiveValidateMessage } from "../../styles/GlobalComponents"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 type NewCategoryActionTypes = { type: "clearField" } | { type: "nameChange"; value: string } | { type: "submitRequest" } | { type: "saveRequestStarted" } | { type: "saveRequestFinished" }
@@ -112,7 +112,7 @@ const NewQuestionForm: React.FC = () => {
         <FormControl light={true}>
           <label htmlFor="category-name">Category</label>
           <input autoFocus aria-label="Category" type="text" value={state.name.value} onChange={e => dispatch({ type: "nameChange", value: e.target.value })} />
-          {state.name.hasErrors && <div className="liveValidateMessage">{state.name.message}</div>}
+          {state.name.hasErrors && <LiveValidateMessage>{state.name.message}</LiveValidateMessage>}
         </FormControl>
         <BtnPrimary type="submit" disabled={state.isSaving}>
           {state.isSaving ? "Saving..." : "Add"}

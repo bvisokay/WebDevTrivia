@@ -7,8 +7,7 @@ import { useRouter } from "next/router"
 import { Question, ResponseType } from "../../lib/types"
 
 // styles
-import { CSSTransition } from "react-transition-group"
-import { SectionTitle, FormControl, SectionNarrow } from "../../styles/GlobalComponents"
+import { SectionTitle, FormControl, SectionNarrow, LiveValidateMessage } from "../../styles/GlobalComponents"
 import { BtnPrimary } from "../../styles/GlobalComponents/Button"
 
 // Parent component is "pages/addQ"
@@ -289,9 +288,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
               )
             })}
           </select>
-          <CSSTransition in={state.category.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.category.message}</div>
-          </CSSTransition>
+          {state.category.hasErrors && <LiveValidateMessage>{state.category.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="">Question</label>
@@ -305,9 +302,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             rows={3}
             autoComplete="off"
           />
-          <CSSTransition in={state.question.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.question.message}</div>
-          </CSSTransition>
+          {state.question.hasErrors && <LiveValidateMessage>{state.question.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="correctAnswer">Correct Answer</label>
@@ -321,9 +316,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             type="text"
             autoComplete="off"
           />
-          <CSSTransition in={state.correctAnswer.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.correctAnswer.message}</div>
-          </CSSTransition>
+          {state.correctAnswer.hasErrors && <LiveValidateMessage>{state.correctAnswer.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="incorrectAnswer1">Incorrect Answer 1</label>
@@ -337,9 +330,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             type="text"
             autoComplete="off"
           />
-          <CSSTransition in={state.incorrectAnswer1.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.incorrectAnswer1.message}</div>
-          </CSSTransition>
+          {state.incorrectAnswer1.hasErrors && <LiveValidateMessage>{state.incorrectAnswer1.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="">Incorrect Answer 2</label>
@@ -353,9 +344,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             type="text"
             autoComplete="off"
           />
-          <CSSTransition in={state.incorrectAnswer2.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.incorrectAnswer2.message}</div>
-          </CSSTransition>
+          {state.incorrectAnswer2.hasErrors && <LiveValidateMessage>{state.incorrectAnswer2.message}</LiveValidateMessage>}
         </FormControl>
         <FormControl light={true}>
           <label htmlFor="">Incorrect Answer 3</label>
@@ -369,10 +358,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             type="text"
             autoComplete="off"
           />
-
-          <CSSTransition in={state.incorrectAnswer3.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="liveValidateMessage">{state.incorrectAnswer3.message}</div>
-          </CSSTransition>
+          {state.incorrectAnswer3.hasErrors && <LiveValidateMessage>{state.incorrectAnswer3.message}</LiveValidateMessage>}
         </FormControl>
         <BtnPrimary disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Submit"}</BtnPrimary>
       </form>
