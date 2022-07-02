@@ -2,13 +2,14 @@ import { getSession } from "next-auth/client"
 import { GetServerSideProps, GetServerSidePropsContext } from "next"
 // comps
 import NewCategoryForm from "../components/NewCategoryForm/NewCategoryForm"
+import { SectionNarrow } from "../styles/GlobalComponents"
 
-const addCategory = () => {
+const AddCategory = () => {
   // redirect away if not logged in
   return (
-    <div>
+    <SectionNarrow>
       <NewCategoryForm />
-    </div>
+    </SectionNarrow>
   )
 }
 
@@ -28,4 +29,4 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   }
 }
 
-export default addCategory
+export default AddCategory
