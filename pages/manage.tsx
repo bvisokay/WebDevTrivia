@@ -284,7 +284,7 @@ const AdminPage = (props: AdminPageProps) => {
         <SectionTitle2>
           Questions{" "}
           {!catFilter ? (
-            allQuestions.length
+            `(${allQuestions.length})`
           ) : (
             <>
               <p>Filtering - {catFilter}</p>
