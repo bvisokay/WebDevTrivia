@@ -17,6 +17,12 @@ export const FormControl = styled.div<FormControlProps>`
   label {
     font-size: 1rem;
     padding: 0;
+    display: flex;
+    align-items: center;
+
+    &.split {
+      justify-content: space-between;
+    }
   }
 
   textarea {
@@ -27,12 +33,14 @@ export const FormControl = styled.div<FormControlProps>`
   input,
   textarea,
   select {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
     padding: 0.5rem 0.25rem;
     margin-top: 0.1rem;
     width: 98%;
     position: relative;
     z-index: 2;
-    border-radius: 0.65rem;
+    border-radius: 0.5rem;
     border: 2px solid var(--primary);
 
     @media ${breakpoints.xs} {
@@ -42,6 +50,17 @@ export const FormControl = styled.div<FormControlProps>`
     @media ${breakpoints.sm} {
       padding: 0.5rem 0.25rem;
       margin-top: 0.5rem;
+    }
+
+    :hover {
+      opacity: 0.9;
+      border: 2px solid var(--cuatro);
+    }
+
+    /* Focusing the button with a keyboard */
+    :focus-visible {
+      border: 0;
+      outline: 2px solid var(--cuatro);
     }
   }
 `
@@ -126,10 +145,11 @@ export const SectionNarrow = styled.section<SectionProps>`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width-narrow);
-  //background: var(--transparent-dark);
   border-radius: 10px;
-  //background-color: ${props => (props.dark ? "var(--primary)" : "white")};
+  background-color: var(--color-bg-tertiary);
+  //border: 2px solid var(--primary);
 `
+
 export const PageTitle = styled.h2`
   font-weight: 700;
   margin-bottom: 16px;

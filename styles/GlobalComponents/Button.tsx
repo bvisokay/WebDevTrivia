@@ -31,9 +31,13 @@ export const BtnPrimary = styled.button`
   }
 
   :hover {
-    background: transparent;
+    opacity: 0.9;
     border: 3px solid var(--primary);
-    color: var(--primary);
+  }
+
+  /* Focusing the button with a keyboard */
+  :focus-visible {
+    outline: 3px solid var(--cuatro);
   }
 `
 
@@ -61,11 +65,21 @@ export const ResetBtn = styled.button`
   color: #fff;
   cursor: pointer;
   background: var(--primary);
-  border: none;
+  border: 3px solid var(--primary);
   border-radius: 0.5rem;
   font-size: 1rem;
 
   @media ${breakpoints.md} {
     font-size: 1.25rem;
+  }
+
+  :hover {
+    opacity: 0.9;
+    border: 3px solid var(--primary);
+  }
+
+  /* Focusing the button with a keyboard */
+  :focus-visible {
+    outline: 3px solid var(--cuatro);
   }
 `

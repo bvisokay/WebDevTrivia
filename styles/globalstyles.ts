@@ -38,6 +38,7 @@ html {
     --color-text-secondary: var(--secondary);
     --color-bg-primary: #fff;
     --color-bg-secondary: #fff;
+    --color-bg-tertiary: whitesmoke;
     --color-bg-toggle: var(--primary);
   }
   
@@ -46,6 +47,7 @@ html {
     --color-text-secondary: #e3e3e3;
     --color-bg-primary: #15232d;
     --color-bg-secondary: var(--secondary);
+    --color-bg-tertiary: #243d4f;
     --color-bg-toggle: var(--tertiary);
   }
   
