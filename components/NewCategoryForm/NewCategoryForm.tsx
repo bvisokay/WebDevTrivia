@@ -20,46 +20,46 @@ type OriginalStateTypes = {
   sendCount: number
 }
 
-const NewQuestionForm: React.FC = () => {
+const originalState = {
+  name: {
+    value: "",
+    hasErrors: false,
+    message: ""
+  },
+  isSaving: false, // to gray out button while processing
+  sendCount: 0
+}
+
+function ourReducer(draft: OriginalStateTypes, action: NewCategoryActionTypes) {
+  switch (action.type) {
+    case "clearField":
+      draft.name.value = ""
+      return
+    case "nameChange":
+      draft.name.hasErrors = false
+      draft.name.value = action.value
+      return
+    case "submitRequest":
+      if (draft.name.value.trim() == "") {
+        draft.name.hasErrors = true
+        draft.name.message = "You must provide a value."
+      }
+      if (!draft.name.hasErrors) {
+        draft.sendCount++
+      }
+      return
+    case "saveRequestStarted":
+      draft.isSaving = true
+      return
+    case "saveRequestFinished":
+      draft.isSaving = false
+      return
+  }
+}
+
+const NewCategoryForm: React.FC = () => {
   const appDispatch = useContext(GlobalDispatchContext)
   const router = useRouter()
-
-  const originalState = {
-    name: {
-      value: "",
-      hasErrors: false,
-      message: ""
-    },
-    isSaving: false, // to gray out button while processing
-    sendCount: 0
-  }
-
-  function ourReducer(draft: OriginalStateTypes, action: NewCategoryActionTypes) {
-    switch (action.type) {
-      case "clearField":
-        draft.name.value = ""
-        return
-      case "nameChange":
-        draft.name.hasErrors = false
-        draft.name.value = action.value
-        return
-      case "submitRequest":
-        if (draft.name.value.trim() == "") {
-          draft.name.hasErrors = true
-          draft.name.message = "You must provide a value."
-        }
-        if (!draft.name.hasErrors) {
-          draft.sendCount++
-        }
-        return
-      case "saveRequestStarted":
-        draft.isSaving = true
-        return
-      case "saveRequestFinished":
-        draft.isSaving = false
-        return
-    }
-  }
 
   const [state, dispatch] = useImmerReducer(ourReducer, originalState)
 
@@ -91,6 +91,7 @@ const NewQuestionForm: React.FC = () => {
             void router.push("/manage")
           }
         } catch (err) {
+          console.log("err: ", err)
           appDispatch({ type: "flashMessage", value: "There was a problem or the request was cancelled" })
         }
       }
@@ -122,4 +123,4 @@ const NewQuestionForm: React.FC = () => {
   )
 }
 
-export default NewQuestionForm
+export default NewCategoryForm
