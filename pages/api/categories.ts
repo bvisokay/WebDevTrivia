@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // api-route protection from non-logged in users
     const session = await getSession({ req: req })
     if (!session) {
-      res.status(401).json({ message: "Not authenticated" })
+      res.status(401).json({ message: "error", errors: "Not authenticated" })
       return
     }
 
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       client = await connectToDatabase()
     } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
+      res.status(500).json({ message: "error", errors: "There was an error connecting to the data." })
       return
     }
 
@@ -28,9 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await addCategoryDocument(client, {
         name: categoryName
       })
-      res.status(201).json({ message: "New category added!" })
+      res.status(201).json({ message: "success" })
     } catch (error) {
-      res.status(500).json({ message: "Inserting data failed." })
+      res.status(422).json({ message: "error", errors: "Inserting data failed." })
     }
 
     void client.close()
@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       client = await connectToDatabase()
     } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
+      res.status(500).json({ message: "error", errors: "There was an error connecting to the data." })
       return
     }
 
@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // api-route protection from non-logged in users
     const session = await getSession({ req: req })
     if (!session) {
-      res.status(401).json({ message: "Not authenticated" })
+      res.status(401).json({ message: "error", errors: "Not authenticated" })
       return
     }
 
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       client = await connectToDatabase()
     } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
+      res.status(500).json({ message: "error", errors: "There was an error connecting to the data." })
       return
     }
 
@@ -94,7 +94,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
       res.status(201).json({ message: "success" })
     } catch (error) {
-      res.status(500).json({ message: "Updating category name failed." })
+      res.status(500).json({ message: "error", errors: "Updating category name failed." })
     }
 
     void client.close()
@@ -104,7 +104,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // api-route protection from non-logged in users
     const session = await getSession({ req: req })
     if (!session) {
-      res.status(401).json({ message: "Not authenticated" })
+      res.status(401).json({ message: "error", errors: "Not authenticated" })
       return
     }
 
@@ -115,7 +115,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       client = await connectToDatabase()
     } catch (error) {
-      res.status(500).json({ message: "There was an error connecting to the data." })
+      res.status(500).json({ message: "errors", errors: "There was an error connecting to the data." })
       return
     }
 
@@ -126,7 +126,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(201).json({ message: "success" })
       }
     } catch (error) {
-      res.status(500).json({ message: "Deleting category failed." })
+      res.status(500).json({ message: "error", errors: "Deleting category failed." })
     }
 
     void client.close()
