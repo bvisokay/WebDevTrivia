@@ -1,8 +1,42 @@
 import { Question } from "./types"
 
+export function validateCategory(catName: string) {
+  const validationErrors: string[] = []
+  console.log("validate category ran on server")
+  console.log("catName passed in: ", catName)
+  console.log("typeof catName: ", typeof catName)
+
+  if (typeof catName !== "string") {
+    validationErrors.push("invalid category name")
+  }
+
+  if (catName === "") {
+    validationErrors.push("Category name must not be empty")
+  }
+
+  if (catName.length < 3) {
+    validationErrors.push("Category name must be at least 3 characters")
+  }
+
+  if (catName === "{}" || catName === "[]") {
+    validationErrors.push("Invalid category name")
+  }
+
+  if (validationErrors.length) {
+    return { message: "error", errors: validationErrors }
+  } else {
+    return { message: "success" }
+  }
+}
+
+// Being used server-side in pages/api/questions
+// This was the original and the logic uses this "pass" key which is a boolean.
+// Need to refactor to use the standard message key.
 export function validateNewQs(newQArray: Question[]) {
   for (let i = 0; i < newQArray.length; i++) {
     // need to make sure type exists
+
+    // need to set character-limit max
 
     // server-side validation to prevent empty fields
     if (newQArray[i].category == "" || newQArray[i].type == "" || newQArray[i].difficulty == "" || newQArray[i].question == "" || newQArray[i].correct_answer == "" || newQArray[i].incorrect_answers[0] == "" || newQArray[i].incorrect_answers[1] == "" || newQArray[i].incorrect_answers[2] == "") {
@@ -19,6 +53,7 @@ export function validateNewQs(newQArray: Question[]) {
   } // end for loop
 } // end validateNewQs
 
+// Also being used server-side pages/api/import-questions
 export function validateQuestionsArray(questionArray: Question[]) {
   const errors: string[] = []
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
@@ -58,6 +93,7 @@ export function validateQuestionsArray(questionArray: Question[]) {
   }
 } // end validateQuestionsArray
 
+// Being used client side in components/Import
 export function clientValidateQuestionsArray(questionArray: Question[]) {
   // const trimmedCategory = state.name.value.trim().replace(/ /g, "-")
   questionArray.map(question => {

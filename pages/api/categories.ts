@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/client"
 import { connectToDatabase, getCategories, addCategoryDocument, updateCategoryDocument, updateQsWithNewCategoryName, deleteCategoryDocument } from "../../lib/db"
+import { validateCategory } from "../../lib/util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -11,11 +12,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    // extract data
-    const categoryName = req.body as string
+    console.log("req.body:", req.body)
 
-    let client
+    const newCategoryBody = req.body as { newCategoryName: string }
+
+    /* if (!newCategoryBody.newCategoryName) {
+      return res.status(422).json({ message: "error", errors: "invalid request" })
+    } */
+    if (typeof newCategoryBody.newCategoryName === "undefined") {
+      return res.status(422).json({ message: "error", errors: "invalid request" })
+    }
+
+    // Trim and replace with dash, category ends up in url
+    //const trimmedCategory = state.name.value.trim().toLowerCase().replace(/ /g, "-")
+
+    // need server-side validation here
+    const result = validateCategory(newCategoryBody.newCategoryName)
+    if (result.message !== "success") {
+      console.log("Validation failed")
+      console.log(result.errors)
+      return res.status(422).json({ message: "error", errors: result.errors })
+    }
+
+    if (result.message === "success") {
+      console.log("Server-side validation passed")
+    }
+
     //error handling for connection to database
+    let client
     try {
       client = await connectToDatabase()
     } catch (error) {
@@ -23,10 +47,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
+    // need to pull current categories and see if it already exists
+    // will need to handle the formatting conversion issue
+
     //error handling for adding a new category
     try {
       await addCategoryDocument(client, {
-        name: categoryName
+        name: newCategoryBody.newCategoryName
       })
       res.status(201).json({ message: "success" })
     } catch (error) {
