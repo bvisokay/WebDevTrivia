@@ -30,8 +30,8 @@ const Container = styled.div`
 const Layout: React.FC = props => {
   return (
     <LayoutContainer>
-      <FlashMessages />
       <Header />
+      <FlashMessages />
       <Container>{props.children}</Container>
       <Footer />
     </LayoutContainer>

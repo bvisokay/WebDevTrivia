@@ -13,7 +13,7 @@ export const GlobalStateContext = createContext({
   flashMessages: [] as string[]
 })
 
-type GlobalActionTypes = { type: "gameReset" } | { type: "setSelectedCategory"; value: string } | { type: "setSelectedTotalQs"; value: number } | { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string }
+type GlobalActionTypes = { type: "gameReset" } | { type: "setSelectedCategory"; value: string } | { type: "setSelectedTotalQs"; value: number } | { type: "gameOver"; value: boolean } | { type: "login" } | { type: "logout" } | { type: "flashMessage"; value: string | string[] } | { type: "clearFlashMessages" } | { type: "removeFlashMessage"; value: string }
 
 export const GlobalContextProvider: React.FC = props => {
   const initialState = {
@@ -47,7 +47,20 @@ export const GlobalContextProvider: React.FC = props => {
         draft.loggedIn = false
         return
       case "flashMessage":
-        draft.flashMessages.push(action.value)
+        if (typeof action.value === "string") {
+          draft.flashMessages.push(action.value)
+        }
+        if (Array.isArray(action.value)) {
+          draft.flashMessages = [...draft.flashMessages, ...action.value]
+        }
+        return
+      case "clearFlashMessages":
+        draft.flashMessages = []
+        return
+      case "removeFlashMessage":
+        draft.flashMessages = draft.flashMessages.filter(item => {
+          if (item !== action.value) return item
+        })
         return
       default:
         throw new Error("Bad action")
