@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 import { useRouter } from "next/router"
+//import NewCategoryForm from "../NewCategoryForm/NewCategoryForm"
 
 // types
 import { Question, ResponseType } from "../../lib/types"
 
 // styles
 import { SectionTitle, FormControl, SectionNarrow, LiveValidateMessage } from "../../styles/GlobalComponents"
-import { BtnPrimary } from "../../styles/GlobalComponents/Button"
+import { BtnPrimary, BtnSmall } from "../../styles/GlobalComponents/Button"
 
 // Parent component is "pages/addQ"
 // The page guard is server side in parent component
@@ -104,9 +105,9 @@ function ourReducer(draft: InitialStateType, action: AddQuestionActionTypes) {
     case "questionImmediately":
       draft.question.hasErrors = false
       draft.question.value = action.value
-      if (draft.question.value.length > 140) {
+      if (draft.question.value.length > 250) {
         draft.question.hasErrors = true
-        draft.question.message = "Field cannot exceed 140 characters."
+        draft.question.message = "Field cannot exceed 250 characters."
       }
       // cannot exceeed blank characters
       return
@@ -202,6 +203,9 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
   // Receive categories as props from parent component via GSSP
   const [categories, setCategories] = useState<string[]>([])
 
+  // See if the user wants to add a new category
+  //const [showNewCatForm, setShowNewCatForm] = useState<boolean>(false)
+
   // component throws error if this not in useEffect - something about infinite loop
   useEffect(() => {
     setCategories(props.categories)
@@ -265,12 +269,28 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
     dispatch({ type: "submitForm" })
   }
 
+  function addCatHandler(e: React.FormEvent) {
+    e.preventDefault()
+    void router.push("/addCategory")
+    /*    if (showNewCatForm) {
+      setShowNewCatForm(false)
+    } else {
+      setShowNewCatForm(true)
+    } */
+  }
+
   return (
     <SectionNarrow>
       <SectionTitle>Add New Question</SectionTitle>
       <form onSubmit={newQuestionHandler}>
         <FormControl light={true}>
-          <label htmlFor="">Category</label>
+          <label className="split" htmlFor="">
+            Category
+            <BtnSmall onClick={addCatHandler} style={{ margin: "0 12px", fontSize: ".6rem" }}>
+              Add Category
+            </BtnSmall>
+          </label>
+          {/* {showNewCatForm && <NewCategoryForm />} */}
           <select
             autoFocus
             onChange={e => {
@@ -280,6 +300,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             id="category"
           >
             <option value="">Make a Selection</option>
+
             {categories.sort().map((category, index) => {
               return (
                 <option key={index} value={category}>
@@ -290,6 +311,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
           </select>
           {state.category.hasErrors && <LiveValidateMessage>{state.category.message}</LiveValidateMessage>}
         </FormControl>
+
         <FormControl light={true}>
           <label htmlFor="">Question</label>
           <textarea

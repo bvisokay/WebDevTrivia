@@ -42,7 +42,13 @@ function ourReducer(draft: OriginalStateTypes, action: NewCategoryActionTypes) {
     case "submitRequest":
       if (draft.name.value.trim() == "") {
         draft.name.hasErrors = true
-        draft.name.message = "You must provide a value."
+        draft.name.message = "You must provide a value"
+      } else if (draft.name.value.length < 3) {
+        draft.name.hasErrors = true
+        draft.name.message = "Please provide a longer value"
+      } else if (draft.name.value.length > 100) {
+        draft.name.hasErrors = true
+        draft.name.message = "Please provide a shorter value"
       }
       if (!draft.name.hasErrors) {
         draft.sendCount++
@@ -75,30 +81,43 @@ const NewCategoryForm: React.FC = () => {
           const response = await fetch("/api/categories", {
             signal: signal,
             method: "POST",
-            body: JSON.stringify(trimmedCategory),
+            body: JSON.stringify({ newCategoryName: trimmedCategory }),
             headers: {
               "Content-Type": "application/json"
             }
           })
           const data = (await response.json()) as ResponseType
           if (data.message !== "success") {
-            appDispatch({ type: "flashMessage", value: "Category could not be added" })
-            throw { message: "error", errors: "There was a problem" }
+            if (data.errors && Array.isArray(data.errors)) {
+              appDispatch({ type: "flashMessage", value: data.errors })
+            } else {
+              appDispatch({ type: "flashMessage", value: "Category could not be added" })
+            }
+            /*     if (data.errors && Array.isArray(data.errors)) {
+              data.errors.map((error: string) => {
+                appDispatch({ type: "flashMessage", value: error })
+              })
+            } else {
+              appDispatch({ type: "flashMessage", value: "Category could not be added" })
+            } */
+            //throw { message: "error", errors: "There was a problem" }
           }
           if (data.message === "success") {
-            dispatch({ type: "saveRequestFinished" })
+            //dispatch({ type: "saveRequestFinished" })
             appDispatch({ type: "flashMessage", value: "Category Added" })
-            void router.push("/manage")
+            //void router.push("/manage")
+            void router.back()
           }
         } catch (err) {
           console.log("err: ", err)
           appDispatch({ type: "flashMessage", value: "There was a problem or the request was cancelled" })
         }
+        dispatch({ type: "saveRequestFinished" })
       }
       void addCat(signal)
       return () => controller?.abort()
     } // close if state.sendCount
-  }, [state.sendCount, appDispatch, router, dispatch, state.name.value])
+  }, [state.sendCount])
 
   function newCategoryHandler(e: React.FormEvent) {
     e.preventDefault()
