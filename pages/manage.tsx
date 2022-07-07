@@ -17,7 +17,7 @@ import { QuestionOnClientTypes, CategoryObj } from "../lib/types"
 
 // styles
 import { Section, SectionNarrow, ListItem, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
-import { BtnSmall } from "../styles/GlobalComponents/Button"
+import { BtnSmall, IconContainer } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
@@ -241,22 +241,18 @@ const AdminPage = (props: AdminPageProps) => {
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
           <BtnContainer>
-            <button
-              style={{
-                backgroundColor: "transparent"
-              }}
-              onClick={() => {
-                setIsCatsMenuOpen(prev => !prev)
-              }}
-            >
-              {!isCatsMenuOpen ? <BsFillArrowDownCircleFill /> : <BsFillArrowUpCircleFill />}
-            </button>
-
             <Link href="/addCategory">
               <a>
                 <FiPlusSquare />
               </a>
             </Link>
+            <IconContainer
+              onClick={() => {
+                setIsCatsMenuOpen(prev => !prev)
+              }}
+            >
+              {!isCatsMenuOpen ? <BsFillArrowDownCircleFill /> : <BsFillArrowUpCircleFill />}
+            </IconContainer>
           </BtnContainer>
         </TitleArea>
         {isCatsMenuOpen && (
@@ -294,84 +290,90 @@ const AdminPage = (props: AdminPageProps) => {
 
       <br />
 
-      <TitleArea>
-        <SectionTitle2>
-          Questions{" "}
-          {!catFilter ? (
-            `(${allQuestions.length})`
-          ) : (
-            <>
-              <p>Filtering - {catFilter}</p>
-              <BtnSmall onClick={() => setCatFilter("")}>Remove Filter</BtnSmall>
-            </>
-          )}
-        </SectionTitle2>
+      <Section
+        style={{
+          backgroundColor: "var(--color-bg-tertiary)",
+          padding: "1rem"
+        }}
+      >
+        <TitleArea>
+          <SectionTitle2>
+            Questions{" "}
+            {!catFilter ? (
+              `(${allQuestions.length})`
+            ) : (
+              <>
+                <p>Filtering - {catFilter}</p>
+                <BtnSmall onClick={() => setCatFilter("")}>Remove Filter</BtnSmall>
+              </>
+            )}
+          </SectionTitle2>
 
-        <BtnContainer>
-          <Link href="/addQ">
-            <a>
-              <FiPlusSquare />
-            </a>
-          </Link>
+          <BtnContainer>
+            <Link href="/addQ">
+              <a>
+                <FiPlusSquare />
+              </a>
+            </Link>
 
-          <CSVLink className="CSVLink" {...csvExport}>
-            Export
-          </CSVLink>
+            <CSVLink className="CSVLink" {...csvExport}>
+              Export
+            </CSVLink>
 
-          <Link href="/import">
-            <a className="CSVLink">
-              Import
-              {/* <BtnSmall>Import</BtnSmall> */}
-              {/* <BiImport /> */}
-            </a>
-          </Link>
-        </BtnContainer>
-      </TitleArea>
+            <Link href="/import">
+              <a className="CSVLink">
+                Import
+                {/* <BtnSmall>Import</BtnSmall> */}
+                {/* <BiImport /> */}
+              </a>
+            </Link>
+          </BtnContainer>
+        </TitleArea>
 
-      <ul className="question">
-        {allQuestions
-          .filter(Q => {
-            if (!catFilter) {
-              return Q
-            }
-            if (catFilter && Q.category === catFilter) {
-              return Q
-            }
-          })
-          .sort((a, b) => {
-            if (a.createdDate < b.createdDate) {
-              return 1
-            } else {
-              return -1
-            }
-          })
-          .map((questionObj: QuestionOnClientTypes) => {
-            return (
-              <QuestionCardRow key={questionObj.id}>
-                <div>
+        <ul className="question">
+          {allQuestions
+            .filter(Q => {
+              if (!catFilter) {
+                return Q
+              }
+              if (catFilter && Q.category === catFilter) {
+                return Q
+              }
+            })
+            .sort((a, b) => {
+              if (a.createdDate < b.createdDate) {
+                return 1
+              } else {
+                return -1
+              }
+            })
+            .map((questionObj: QuestionOnClientTypes) => {
+              return (
+                <QuestionCardRow key={questionObj.id}>
                   <div>
-                    <p>
-                      <strong>Q: </strong>
-                      {questionObj.question}
-                    </p>
-                    <p>
-                      <strong>A: </strong>
-                      {questionObj.correct_answer}
-                    </p>
+                    <div>
+                      <p>
+                        <strong>Q: </strong>
+                        {questionObj.question}
+                      </p>
+                      <p>
+                        <strong>A: </strong>
+                        {questionObj.correct_answer}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <BtnContainer>
-                  <button onClick={EditQuestionHandler.bind(null, questionObj)}>
-                    <FiEdit />
-                  </button>
-                  <button onClick={DeleteQuestionHandler.bind(null, questionObj)}>
-                    <FiTrash2 />
-                  </button>
-                </BtnContainer>
-              </QuestionCardRow>
-            )
-          })}
-        {/*    {allQuestions.map((questionObj: any) => {
+                  <BtnContainer>
+                    <button onClick={EditQuestionHandler.bind(null, questionObj)}>
+                      <FiEdit />
+                    </button>
+                    <button onClick={DeleteQuestionHandler.bind(null, questionObj)}>
+                      <FiTrash2 />
+                    </button>
+                  </BtnContainer>
+                </QuestionCardRow>
+              )
+            })}
+          {/*    {allQuestions.map((questionObj: any) => {
           return (
             <QuestionCardRow key={questionObj.id}>
               <div>
@@ -389,7 +391,8 @@ const AdminPage = (props: AdminPageProps) => {
             </QuestionCardRow>
           )
         })} */}
-      </ul>
+        </ul>
+      </Section>
 
       {/* Backdrop and Modal Logic*/}
       {deleteCategoryModalIsOpen && (
