@@ -244,7 +244,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
           dispatch({ type: "saveRequestFinished" })
           if (data.message == "success") {
             appDispatch({ type: "flashMessage", value: "New Question Added" })
-            void router.push("/manage")
+            //void router.push("/manage")
           }
         } catch (err) {
           appDispatch({ type: "flashMessage", value: "New question could not be added" })
