@@ -21,6 +21,7 @@ import { BtnSmall } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
 import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
 
 const CategoryBtn = styled.button`
   border: none;
@@ -122,6 +123,7 @@ interface AdminPageProps {
 }
 
 const AdminPage = (props: AdminPageProps) => {
+  const [isCatsMenuOpen, setIsCatsMenuOpen] = useState(false)
   //categories state
   /* const [isLoading, setIsLoading] = useState(true)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
@@ -239,6 +241,17 @@ const AdminPage = (props: AdminPageProps) => {
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
           <BtnContainer>
+            <button
+              style={{
+                backgroundColor: "transparent"
+              }}
+              onClick={() => {
+                setIsCatsMenuOpen(prev => !prev)
+              }}
+            >
+              {!isCatsMenuOpen ? <BsFillArrowDownCircleFill /> : <BsFillArrowUpCircleFill />}
+            </button>
+
             <Link href="/addCategory">
               <a>
                 <FiPlusSquare />
@@ -246,36 +259,37 @@ const AdminPage = (props: AdminPageProps) => {
             </Link>
           </BtnContainer>
         </TitleArea>
-
-        <ul className="categoryList">
-          {categories
-            .sort((a, b) => {
-              if (a.name > b.name) {
-                return 1
-              } else {
-                return -1
-              }
-            })
-            .map(category => {
-              return (
-                <ListItem key={category.id}>
-                  <div>
-                    <CategoryBtn onClick={catFilterHandler.bind(null, category.name)}>
-                      {category.name} ({category.tally})
-                    </CategoryBtn>
-                  </div>
-                  <BtnContainer>
-                    <button onClick={EditCategoryHandler.bind(null, category)}>
-                      <FiEdit />
-                    </button>
-                    <button onClick={DeleteCategoryHandler.bind(null, category)}>
-                      <FiTrash2 />
-                    </button>
-                  </BtnContainer>
-                </ListItem>
-              )
-            })}
-        </ul>
+        {isCatsMenuOpen && (
+          <ul className="categoryList">
+            {categories
+              .sort((a, b) => {
+                if (a.name > b.name) {
+                  return 1
+                } else {
+                  return -1
+                }
+              })
+              .map(category => {
+                return (
+                  <ListItem key={category.id}>
+                    <div>
+                      <CategoryBtn onClick={catFilterHandler.bind(null, category.name)}>
+                        {category.name} ({category.tally})
+                      </CategoryBtn>
+                    </div>
+                    <BtnContainer>
+                      <button onClick={EditCategoryHandler.bind(null, category)}>
+                        <FiEdit />
+                      </button>
+                      <button onClick={DeleteCategoryHandler.bind(null, category)}>
+                        <FiTrash2 />
+                      </button>
+                    </BtnContainer>
+                  </ListItem>
+                )
+              })}
+          </ul>
+        )}
       </SectionNarrow>
 
       <br />
