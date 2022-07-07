@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import { useImmerReducer } from "use-immer"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 import { useRouter } from "next/router"
@@ -197,6 +197,7 @@ interface AddQuestionFormPropTypes {
 
 // Main Componemt Function
 const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
+  const CategoryInputRef = useRef<HTMLSelectElement>(null)
   const appDispatch = useContext(GlobalDispatchContext)
   const router = useRouter()
 
@@ -244,6 +245,10 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
           dispatch({ type: "saveRequestFinished" })
           if (data.message == "success") {
             appDispatch({ type: "flashMessage", value: "New Question Added" })
+            dispatch({ type: "clearFields" })
+            if (CategoryInputRef && CategoryInputRef.current) {
+              CategoryInputRef.current.focus()
+            }
             //void router.push("/manage")
           }
         } catch (err) {
@@ -254,7 +259,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
       void saveNewQ(newQ)
       // teardown function needed here
     }
-  }, [state.submitCount, dispatch, appDispatch, router, state.correctAnswer.value, state.incorrectAnswer1.value, state.incorrectAnswer2.value, state.incorrectAnswer3.value, state.question.value, state.category.value])
+  }, [state.submitCount])
 
   // none of these values need to be unique or checked after a delay
   // sanitize before saving to the database
@@ -298,6 +303,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
             }}
             name="category"
             id="category"
+            ref={CategoryInputRef}
           >
             <option value="">Make a Selection</option>
 
