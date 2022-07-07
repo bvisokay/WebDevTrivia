@@ -41,14 +41,9 @@ export const SettingsPanel = styled.div`
     width: 100%;
     padding: 10px 0;
     border: 2px solid var(--tertiary);
-    background: whitesmoke;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     margin-bottom: 1rem;
-  }
-
-  option {
-    text-align: center;
   }
 
   .btn-container {

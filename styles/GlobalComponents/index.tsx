@@ -63,6 +63,13 @@ export const FormControl = styled.div<FormControlProps>`
       outline: 2px solid var(--cuatro);
     }
   }
+
+  option {
+    text-align: center;
+    min-height: 2rem;
+    border: 2px solid aqua;
+    padding: 0.8rem 0;
+  }
 `
 
 export const ListItem = styled.div`
