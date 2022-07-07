@@ -8,7 +8,11 @@ const Support = () => {
   appDispatch({ type: "gameReset" })
   return (
     <div>
-      <SectionNarrow>
+      <SectionNarrow
+        style={{
+          backgroundColor: "transparent"
+        }}
+      >
         <SectionTitle>Support</SectionTitle>
         <SectionDivider />
         <SectionText>See an Error? Need Assistance?</SectionText>
@@ -25,7 +29,7 @@ const Support = () => {
         <SectionDivider />
         <SectionText style={{ textAlign: "center" }}>
           Free SVG Background by{" "}
-          <a target="_blank" rel="noreferrer" href="https://bgjar.com">
+          <a className="with-color" target="_blank" rel="noreferrer" href="https://bgjar.com">
             BGJar
           </a>
         </SectionText>

@@ -205,11 +205,11 @@ export const SectionText = styled.p`
 
 export const SectionDivider = styled.div`
   margin: 0.25rem auto 2rem auto;
-  width: 64px;
-  height: 6px;
-  border-radius: 10px;
+  width: 96px;
+  height: 3px;
+  border-radius: 1px;
   background-color: var(--color-text-primary);
-  background: linear-gradient(270deg, var(--primary) 0%, var(--primary) 100%);
+  background: linear-gradient(270deg, var(--primary) 0%, var(--green) 100%);
 `
 
 export const TitleArea = styled.div`
