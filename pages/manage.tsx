@@ -231,6 +231,7 @@ const AdminPage = (props: AdminPageProps) => {
 
   const catFilterHandler = (cat: string) => {
     setCatFilter(cat)
+    setIsCatsMenuOpen(false)
   }
 
   return (
