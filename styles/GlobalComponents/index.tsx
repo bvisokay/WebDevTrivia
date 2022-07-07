@@ -130,7 +130,10 @@ export const Modal = styled.div`
     left: calc(50% - 13rem);
   }
 
-  input, textarea, select, label {
+  input,
+  textarea,
+  select,
+  label {
     font-size: 0.6rem;
     @media ${breakpoints.xs} {
       font-size: 0.8rem;
@@ -138,6 +141,7 @@ export const Modal = styled.div`
     @media ${breakpoints.sm} {
       font-size: 0.9rem;
     }
+  }
 `
 
 export const Section = styled.section`
@@ -145,6 +149,7 @@ export const Section = styled.section`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width);
+  border-radius: 10px;
 `
 type SectionProps = { dark?: boolean }
 export const SectionNarrow = styled.section<SectionProps>`
@@ -216,6 +221,7 @@ export const TitleArea = styled.div`
   border-radius: 10px;
   margin: 0 0 0.75rem 0;
   font-size: 1rem;
+  box-shadow: var(--box-shadow);
 
   @media ${breakpoints.xs} {
     font-size: 1rem;
@@ -252,7 +258,7 @@ export const QuestionCardEl = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--box-shadow);
   border-radius: 10px;
   margin: 1rem 0;
   padding: 0.5rem;
@@ -265,7 +271,7 @@ export const QuestionCardRow = styled.div`
   flex-direction: column;
   //align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--box-shadow);
   border-radius: 10px;
   margin: 0.75rem 0;
   padding: 0.25rem 0.5rem 0.75rem 0.5rem;

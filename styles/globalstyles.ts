@@ -31,6 +31,7 @@ html {
   --font-size-xs: 0.7rem;
   --font-size-sm: .85rem;
   --font-size-md: 1rem;
+  --box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.125);
 }
 
   body[data-theme="light"] {

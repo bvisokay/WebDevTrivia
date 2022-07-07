@@ -83,3 +83,7 @@ export const ResetBtn = styled.button`
     outline: 3px solid var(--cuatro);
   }
 `
+
+export const IconContainer = styled.button`
+  background-color: transparent;
+`
