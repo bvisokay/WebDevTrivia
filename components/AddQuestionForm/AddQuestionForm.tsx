@@ -274,15 +274,10 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
     dispatch({ type: "submitForm" })
   }
 
-  function addCatHandler(e: React.FormEvent) {
+  /*   function addCatHandler(e: React.FormEvent) {
     e.preventDefault()
     void router.push("/addCategory")
-    /*    if (showNewCatForm) {
-      setShowNewCatForm(false)
-    } else {
-      setShowNewCatForm(true)
-    } */
-  }
+  } */
 
   return (
     <SectionNarrow>
@@ -291,7 +286,7 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
         <FormControl light={true}>
           <label className="split" htmlFor="">
             Category
-            <BtnSmall onClick={addCatHandler} style={{ margin: "0 12px", fontSize: ".6rem" }}>
+            <BtnSmall onClick={() => void router.push("/addCategory")} style={{ margin: "0 12px", fontSize: ".6rem" }}>
               Add Category
             </BtnSmall>
           </label>
