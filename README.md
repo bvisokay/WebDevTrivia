@@ -75,7 +75,3 @@
 **Specific amount of questions from specific category**
 
 [https://web-dev-trivia.vercel.app/api/questions?category=git](https://web-dev-trivia.vercel.app/api/questions?category=git&amount=6)
-
-[![web-dev-trivia](/images/posts/web-dev-trivia.PNG)](https://web-dev-trivia.vercel.app/)
-
-[![web-dev-trivia](/images/posts/web-dev-trivia-admin.PNG)](https://web-dev-trivia.vercel.app/)
