@@ -1,90 +1,81 @@
-## Project - Code Comprendo
+# Project - Web Dev Trivia
 
--cloned from private github repo star
-ter-next-ts-context
+:bulb: Users can test their knowledge by answering multiple-choice trivia questions across multiple categories
+
+## Tech Stack
+
+- NextJS
+- Typescript
+- Styled-Components
+- MongoDb
+- NextAuth.js
 
 ## Goals
 
--Database of trivia questions (coding related to start)
--Take quizzes with random questions to test knowledge
--Convert Anki export to
--Customize Quiz by category
--Share quiz/game and results with others
--See Team Leaderboard
--Api for others to get random question
+- Answer random questions to test knowledge
+- Ability to set questions by category
+- Ability to select the number of questions
+- Admin users able to import/export questions
+- Full CRUD access for admin users (categories and questions)
+- Open API endpoints to get question/question-set/categories etc.
+- Trivia questions stored in a database
+- Receive feedback if a question is incorrect
 
-## Reason
+## Supported Type of Questions
 
--I love notecards and trivia to a fault
--turn waste into gold
--continue learning difficult concepts
--demonstrate knowledge
-
-## 3 Types of Questions
-
--multiple choice
--fill in the blank
--true or false
+- :grey_question: Multiple choice
 
 ## Properties of a Question
 
--question
--all answers
--correct answer
--type
--difficulty
--category
--author
--created-date
--modified-date
--id
+- question
+- all answers
+- correct answer
+- type
+- difficulty
+- category
+- author
+- created-date
+- modified-date
+- id
 
-## Properties of a Quiz
+## Properties of a Question Set
 
--category
--difficulty
--type
--number of questions
--results
+- category
+- difficulty
+- type
+- number of questions
+- results
 
-## Users Can
+## API Endpoints :globe_with_meridians:
 
--Take quiz by category and question-type and how many
--Share results with others
--Invite others to also take quiz
--See quiz results?
--Create Read Edit Delete their own pool of questions
--Become a trivia director to submit/review/approve questions submitted by others
--Request a question is incorect
--See who created the question "Editorial Team" or other user
+**Random set of questions**
 
-## What This Is Not
+[https://web-dev-trivia.vercel.app/api/questions](https://web-dev-trivia.vercel.app/api/questions)
 
--An alternative to leet code
--This is not about writing code
--This is Q&A that could be on a playing card (verbal reasoning)
+---
 
-## Project Organization
+**Specific amount of questions**
 
-Production Branch (main)
-Development Branch (dev)
-Feature Branches
+[https://web-dev-trivia.vercel.app/api/questions?amount=6](https://web-dev-trivia.vercel.app/api/questions?amount=6)
 
-## Inspiration
+---
 
-The first video game I ever played https://youtu.be/lb5Im7lwc6g
+**See available categories**
 
-## Growth
+[https://web-dev-trivia.vercel.app/api/categories](https://web-dev-trivia.vercel.app/api/categories)
 
-Doesn't have to be a monolithic DB
-Could replicate this across fields
+---
 
-## Domain Name Ideas
+**Questions from specific category**
 
-codecomprendo.com
-codingdingding.com
-codivialpursuit.com
+[https://web-dev-trivia.vercel.app/api/questions?category=git](https://web-dev-trivia.vercel.app/api/questions?category=git&amount=6)
 
-## In Domain Name Search I Found These Comps
+---
 
-https://www.codingtrivia.com/
+**Specific amount of questions from specific category**
+
+[https://web-dev-trivia.vercel.app/api/questions?category=git](https://web-dev-trivia.vercel.app/api/questions?category=git&amount=6)
+
+[![web-dev-trivia](/images/posts/web-dev-trivia.PNG)](https://web-dev-trivia.vercel.app/)
+
+[![web-dev-trivia](/images/posts/web-dev-trivia-admin.PNG)](https://web-dev-trivia.vercel.app/)
