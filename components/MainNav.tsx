@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { useSession, signOut } from "next-auth/client"
+import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/router"
 //import { useContext } from "react"
 //import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 
@@ -73,11 +74,12 @@ const NavContainer = styled.nav`
 const MainNav = () => {
   //const appDispatch = useContext(GlobalDispatchContext)
   //const appState = useContext(GlobalStateContext)
-
-  const [session /* isLoading */] = useSession()
+  const router = useRouter()
+  const { status } = useSession()
 
   function logoutHandler() {
     void signOut()
+    void router.push("/")
   }
 
   return (
@@ -91,7 +93,7 @@ const MainNav = () => {
           </li>
         )} */}
 
-        {session && (
+        {status === "authenticated" && (
           <>
             {/* <li>
               <Link href="/addQ">
@@ -116,7 +118,7 @@ const MainNav = () => {
           </>
         )}
 
-        {session && (
+        {status === "authenticated" && (
           <li>
             <button className="main-nav__btn" onClick={logoutHandler}>
               Logout

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { getSession } from "next-auth/client"
+import { getSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
@@ -34,7 +34,7 @@ const Profile = () => {
       <SectionTitle>Hey There!</SectionTitle>
       <SectionText>
         Manage all question and categories{" "}
-        <Link href="/admin">
+        <Link href="/manage">
           <a className="textLink">here</a>
         </Link>
         .

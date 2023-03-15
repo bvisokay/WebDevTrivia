@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { getSession } from "next-auth/client"
+import { getSession } from "next-auth/react"
 import { connectToDatabase, getAllQuestions } from "../../lib/db"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

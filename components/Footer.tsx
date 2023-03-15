@@ -5,8 +5,6 @@ import styled from "styled-components"
 import { Wrapper } from "../styles/GlobalComponents"
 import { breakpoints } from "../styles/breakpoints"
 
-//import { useSession } from "next-auth/client"
-
 const FooterContainer = styled.div`
   background: var(--transparent-light);
   color: white;
@@ -18,7 +16,6 @@ const FooterContainer = styled.div`
   }
 
   li {
-    //border: 1px solid red;
     margin: 0 0.5rem;
     padding: 0.5rem;
 
@@ -46,7 +43,6 @@ const Help = styled.li`
 `
 
 const Footer = () => {
-  /* const [session, isLoading] = useSession() */
   const appState = useContext(GlobalStateContext)
 
   return (
@@ -60,20 +56,6 @@ const Footer = () => {
               </Link>
             </Help>
           )}
-
-          {/* <li>
-            <Link href="/about">
-              <a>About</a>
-            </Link>
-          </li> */}
-
-          {/*  {!session && !isLoading && (
-            <li>
-              <Link href="/auth">
-                <a>Login</a>
-              </Link>
-            </li>
-          )} */}
         </ul>
       </Wrapper>
     </FooterContainer>

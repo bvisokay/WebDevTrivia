@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { getSession } from "next-auth/client"
+import { getSession } from "next-auth/react"
 import { connectToDatabase, getCategories, addCategoryDocument, updateCategoryDocument, updateQsWithNewCategoryName, deleteCategoryDocument } from "../../lib/db"
 import { validateCategory } from "../../lib/util"
 

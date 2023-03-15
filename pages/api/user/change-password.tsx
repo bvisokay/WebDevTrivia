@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/client"
+import { getSession } from "next-auth/react"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { connectToDatabase } from "../../../lib/db"
 import { hashPassword, verifyPassword } from "../../../lib/auth"

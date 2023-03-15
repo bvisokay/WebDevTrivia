@@ -1,7 +1,7 @@
 // do not override a built in default route (see docs...)
 
 import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
+import CredentialsProvider from "next-auth/providers/credentials"
 import { connectToDatabase } from "../../../lib/db"
 import { verifyPassword } from "../../../lib/auth"
 
@@ -10,7 +10,7 @@ export default NextAuth({
     jwt: true
   },
   providers: [
-    Providers.Credentials({
+    CredentialsProvider({
       async authorize(credentials) {
         // error handling for connection to database
         try {
