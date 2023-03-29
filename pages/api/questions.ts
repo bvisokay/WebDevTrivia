@@ -73,6 +73,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       client = await connectToDatabase()
     } catch (error) {
+      console.warn("error connecting to the data")
       res.status(500).json({ message: "There was an error connecting to the data." })
       return
     }
@@ -86,7 +87,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ message: "There was an error retrieving the questions" })
     }
 
-    void client.close()
+    // if there is still a connection then close
+    if (client) {
+      console.log("there is still a connection")
+      try {
+        await client.close()
+        console.log("connection closed")
+      } catch (err) {
+        console.log("error closing connection")
+      }
+    }
   } // end GET request
 
   if (req.method === "PATCH") {
