@@ -72,6 +72,43 @@ export const FormControl = styled.div<FormControlProps>`
   }
 `
 
+export const CX_IconDiv = styled.button`
+  //border: 1px solid crimson;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 1.5rem;
+  //line-height: 2rem;
+  margin: 0;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  //vertical-align: middle;
+  white-space: nowrap;
+
+  @media ${breakpoints.sm} {
+    //border: 1px solid aqua;
+  }
+
+  @media ${breakpoints.md} {
+    //border: 1px solid hotpink;
+  }
+
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  &:hover {
+    box-shadow: 0 0 3px 1px var(--color-bg-toggle);
+  }
+`
+
 export const ListItem = styled.div`
   background-color: var(--color-bg-secondary);
   color: var(--color-text-secondary);
