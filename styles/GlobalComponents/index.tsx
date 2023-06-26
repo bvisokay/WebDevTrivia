@@ -6,7 +6,7 @@ type FormControlProps = {
 }
 
 export const FormControl = styled.div<FormControlProps>`
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   margin: 0.5rem auto;
   padding: 0.35rem 0.25rem;
   color: var(--color-text-primary);
@@ -40,8 +40,8 @@ export const FormControl = styled.div<FormControlProps>`
     width: 98%;
     position: relative;
     z-index: 2;
-    border-radius: 0.5rem;
-    border: 2px solid var(--primary);
+    border-radius: var(--roundness);
+    border: var(--border-width) solid var(--primary);
 
     @media ${breakpoints.xs} {
       margin-top: 0.3rem;
@@ -54,26 +54,25 @@ export const FormControl = styled.div<FormControlProps>`
 
     :hover {
       opacity: 0.9;
-      border: 2px solid var(--cuatro);
+      border: var(--border-width) solid var(--cuatro);
     }
 
     /* Focusing the button with a keyboard */
     :focus-visible {
       border: 0;
-      outline: 2px solid var(--cuatro);
+      outline: var(--border-width) solid var(--cuatro);
     }
   }
 
   option {
     text-align: center;
     min-height: 2rem;
-    border: 2px solid aqua;
+    border: var(--border-width) solid aqua;
     padding: 0.8rem 0;
   }
 `
 
 export const CX_IconDiv = styled.button`
-  //border: 1px solid crimson;
   border: none;
   display: flex;
   align-items: center;
@@ -105,7 +104,7 @@ export const CX_IconDiv = styled.button`
     outline: none;
   }
   &:hover {
-    box-shadow: 0 0 3px 1px var(--color-bg-toggle);
+    box-shadow: var(--box-shadow);
   }
 `
 
@@ -115,10 +114,10 @@ export const ListItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--box-shadow);
   margin: 0.5rem 0;
   padding: 0 0.5rem;
-  border-radius: 10px;
+  border-radius: var(--roundness);
   font-weight: 700;
   //border: 1px solid var(--primary);
 `
@@ -134,14 +133,13 @@ export const LiveValidateMessage = styled.div`
   padding-bottom: 5px;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: var(--roundness);
+  border-top-right-radius: var(--roundness);
+  border-bottom-left-radius: var(--roundness);
 `
 
 export const Modal = styled.div`
-  //box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  border-radius: var(--roundness);
   background-color: var(--color-bg-secondary);
   padding: 0.5rem;
   text-align: center;
@@ -186,7 +184,7 @@ export const Section = styled.section`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width);
-  border-radius: 10px;
+  border-radius: var(--roundness);
 `
 type SectionProps = { dark?: boolean }
 export const SectionNarrow = styled.section<SectionProps>`
@@ -194,7 +192,7 @@ export const SectionNarrow = styled.section<SectionProps>`
   margin: 0.5rem auto;
   width: 100%;
   max-width: var(--wrapper-width-narrow);
-  border-radius: 10px;
+  border-radius: var(--roundness);
   background-color: var(--color-bg-tertiary);
   //border: 2px solid var(--primary);
 `
@@ -244,7 +242,7 @@ export const SectionDivider = styled.div`
   margin: 0.25rem auto 2rem auto;
   width: 96px;
   height: 3px;
-  border-radius: 1px;
+  border-radius: var(--roundness);
   background-color: var(--color-text-primary);
   background: linear-gradient(270deg, var(--primary) 0%, var(--green) 100%);
 `
@@ -255,7 +253,7 @@ export const TitleArea = styled.div`
   justify-content: space-between;
   background-color: var(--color-bg-primary);
   padding: 0.75rem;
-  border-radius: 10px;
+  border-radius: var(--roundness);
   margin: 0 0 0.75rem 0;
   font-size: 1rem;
   box-shadow: var(--box-shadow);
@@ -282,7 +280,7 @@ export const TitleArea = styled.div`
 
     svg {
       //border: 1px solid hotpink;
-      border-radius: 6px;
+      border-radius: var(--roundness);
     }
   }
 `
@@ -296,7 +294,7 @@ export const QuestionCardEl = styled.div`
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--box-shadow);
-  border-radius: 10px;
+  border-radius: var(--roundness);
   margin: 1rem 0;
   padding: 0.5rem;
 `
@@ -309,7 +307,7 @@ export const QuestionCardRow = styled.div`
   //align-items: center;
   justify-content: space-between;
   box-shadow: var(--box-shadow);
-  border-radius: 10px;
+  border-radius: var(--roundness);
   margin: 0.75rem 0;
   padding: 0.25rem 0.5rem 0.75rem 0.5rem;
 

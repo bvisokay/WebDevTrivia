@@ -7,9 +7,9 @@ export const BtnPrimary = styled.button`
   color: white;
   cursor: pointer;
   background: linear-gradient(45deg, var(--primary), var(--primary));
-  border: 3px solid var(--primary);
-  border-radius: 0.4rem;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border: var(--border-width) solid var(--primary);
+  border-radius: var(--roundness);
+  box-shadow: var(--box-shadow);
   font-size: 0.8rem;
   letter-spacing: 0.8px;
   min-width: 75px;
@@ -32,12 +32,12 @@ export const BtnPrimary = styled.button`
 
   :hover {
     opacity: 0.9;
-    border: 3px solid var(--primary);
+    border: var(--border-width) solid var(--primary);
   }
 
   /* Focusing the button with a keyboard */
   :focus-visible {
-    outline: 3px solid var(--cuatro);
+    outline: var(--border-width) solid var(--cuatro);
   }
 `
 
@@ -49,7 +49,7 @@ export const BtnSmall = styled.button`
   cursor: pointer;
   background: var(--primary);
   border: none;
-  border-radius: 0.25rem;
+  border-radius: var(--roundness);
   font-size: 0.7rem;
 
   @media ${breakpoints.sm} {
@@ -66,7 +66,7 @@ export const ResetBtn = styled.button`
   cursor: pointer;
   background: var(--primary);
   border: 3px solid var(--primary);
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   font-size: 1rem;
 
   @media ${breakpoints.md} {

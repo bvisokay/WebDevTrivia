@@ -14,18 +14,18 @@ import { ImportedAndSetQuestionType, ResponseType } from "../lib/types"
 const ImportContainer = styled.div`
   color: var(--color-text-secondary);
   background-color: var(--color-bg-secondary);
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   margin: 3rem auto;
   padding: 1rem;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--box-shadow);
   width: var(--wrapper-width-narrow);
   border: 2px solid var(--primary);
 
   input {
     cursor: pointer;
     border: 2px solid var(--primary);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--roundness);
     font-size: 0.675rem;
     padding: 0.5rem;
     margin: 0.5rem 0.25rem 0.25rem 0.25rem;

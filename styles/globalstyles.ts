@@ -29,9 +29,11 @@ html {
   --font-primary: monospace, sans-serif;
   --font-secondary: 'Bebas Neue',  sans-serif;
   --font-size-xs: 0.7rem;
-  --font-size-sm: .85rem;
-  --font-size-md: 1rem;
-  --box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.125);
+  --font-size-sm: .8rem;
+  --font-size-md: .9rem;
+  --box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.175);
+  --border-width: 1px;
+  --roundness: .25rem;
 }
 
   body[data-theme="light"] {

@@ -2,14 +2,23 @@ import styled from "styled-components"
 import { breakpoints } from "../../styles/breakpoints"
 
 export const Wrapper = styled.div`
+  width: 80%;
   max-width: 450px;
   background-color: var(--color-bg-primary);
-  border-radius: 0.5rem;
-  border: 2px solid var(--primary);
+  border-radius: var(--roundness);
+  border: var(--border-width) solid var(--primary);
   padding: 20px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--box-shadow);
   text-align: center;
   margin: 1rem auto;
+
+  @media ${breakpoints.xs} {
+    min-width: 80%;
+  }
+
+  @media ${breakpoints.sm} {
+    min-width: 450px;
+  }
 `
 
 type ProgressBarProps = {
@@ -21,7 +30,7 @@ export const ProgressBar = styled.div<ProgressBarProps>`
   width: 100%;
   height: 12px;
   background: var(--tertiary);
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   transition: transform 0.3s ease-out;
   margin-bottom: 1rem;
 
@@ -34,7 +43,7 @@ export const ProgressBar = styled.div<ProgressBarProps>`
     top: 0;
     left: 0;
     background: linear-gradient(90deg, var(--primary), var(--primary));
-    border-radius: 0.5rem;
+    border-radius: var(--roundness);
   }
 `
 
@@ -66,12 +75,12 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     user-select: none;
     font-size: var(--font-size-xs);
     width: 100%;
-    padding: 0.4rem;
+    padding: 0.6rem;
     margin: 5px 0;
     background: ${({ correct, userClicked }) => (correct ? "linear-gradient(90deg, var(--green), var(--greenmuted))" : !correct && userClicked ? "linear-gradient(90deg, var(--red), var(--redmuted))" : "linear-gradient(90deg, var(--primary), var(--primary))")};
-    border: 3px solid #fff;
-    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border: var(--border-width) solid #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--roundness);
     color: #fff;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
 

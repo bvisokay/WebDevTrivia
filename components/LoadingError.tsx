@@ -10,9 +10,9 @@ export const LoadingErrorBox = styled.div`
   font-size: 1rem;
   margin: 5px 0;
   background: linear-gradient(90deg, #ff5656, crimson);
-  border: 3px solid #fff;
-  box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border: var(--border-width) solid #fff;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--roundness);
   color: #fff;
   text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
 

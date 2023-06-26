@@ -55,7 +55,7 @@ const BtnContainer = styled.div`
     background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 0.25rem;
+    border-radius: var(--roundness);
     margin: 0.1rem;
     padding: 0.2rem;
     display: flex;
@@ -107,7 +107,7 @@ const BtnContainer = styled.div`
     cursor: pointer;
     background: var(--primary);
     border: none;
-    border-radius: 0.25rem;
+    border-radius: var(--roundness);
     font-size: 0.7rem;
 
     @media ${breakpoints.sm} {

@@ -5,13 +5,13 @@ import { useContext } from "react"
 import { GlobalStateContext } from "../store/GlobalContext"
 
 const Wrapper = styled.div<Percentage>`
-  width: 100%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 450px;
   background-color: var(--color-bg-primary);
-  border-radius: 0.5rem;
-  border: 2px solid ${props => (props.percentage >= 70 ? "var(--green)" : "var(--red)")};
-  padding: 0.5rem;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: var(--roundness);
+  border: var(--border-width) solid ${props => (props.percentage >= 70 ? "var(--green)" : "var(--red)")};
+  padding: 20px;
+  box-shadow: var(--box-shadow);
   text-align: center;
   margin: 2rem auto;
 
@@ -47,10 +47,8 @@ const GifWrapper = styled.div`
     max-width: 140px;
     margin: 1rem auto;
     padding: -2px;
-    //border-radius: 50%;
-    //filter: hue-rotate(145deg);
-    border-radius: 0.5rem;
-    box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: var(--roundness);
+    box-shadow: var(--box-shadow);
   }
 `
 
@@ -69,7 +67,7 @@ const ResultsCard: React.FC<ResultsProps> = ({ score }) => {
   return (
     <Wrapper percentage={percentage}>
       <h2>
-        RESULTS:<span className="percentage">{percentage} &#37;</span>
+        RESULTS:<span className="percentage">{Math.round(percentage)}&#37;</span>
       </h2>
       <h3>
         ({score} out of {appState.selectedTotalQs})

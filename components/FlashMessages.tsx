@@ -6,7 +6,7 @@ import { breakpoints } from "../styles/breakpoints"
 
 const FlashMessageContainer = styled.div`
   //border: 2px solid salmon;
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   position: absolute;
   width: 100%;
   max-width: 96%;
@@ -23,16 +23,16 @@ const FlashMessageContainer = styled.div`
 `
 
 const FlashMessageBox = styled.div`
-  --animation-time: 3s;
+  --animation-time: 10s;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 999;
   background-color: #fff;
   border: 2px solid var(--primary);
-  border-radius: 0.5rem;
+  border-radius: var(--roundness);
   margin: 0.5rem 0;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   color: var(--primary);
   font-weight: bold;
 
@@ -43,7 +43,7 @@ const FlashMessageBox = styled.div`
     justify-content: center;
     align-items: center;
     border: 2px solid transparent;
-    border-radius: 2px;
+    border-radius: var(--roundness);
     background-color: var(--primary);
     color: white;
     font-size: 0.7rem;
@@ -58,7 +58,7 @@ const FlashMessageBox = styled.div`
     }
     :focus {
       outline: 2px solid black;
-      border-radius: 2px;
+      border-radius: var(--roundness);
     }
   }
 `
