@@ -3,6 +3,8 @@ import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/router"
 //import { useContext } from "react"
 //import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
+import { BiHelpCircle } from "react-icons/bi"
+import { CX_IconDiv } from "../styles/GlobalComponents"
 
 import dynamic from "next/dynamic"
 const ThemeToggle = dynamic(() => import("./ThemeToggle"), {
@@ -71,6 +73,10 @@ const NavContainer = styled.nav`
   }
 `
 
+const NavIconContainer = styled.div`
+  display: flex;
+`
+
 const MainNav = () => {
   //const appDispatch = useContext(GlobalDispatchContext)
   //const appState = useContext(GlobalStateContext)
@@ -125,7 +131,15 @@ const MainNav = () => {
             </button>
           </li>
         )}
-        <ThemeToggle />
+
+        <NavIconContainer>
+          <ThemeToggle />
+          <CX_IconDiv>
+            <Link href="/support">
+              <BiHelpCircle />
+            </Link>
+          </CX_IconDiv>
+        </NavIconContainer>
       </ul>
     </NavContainer>
   )

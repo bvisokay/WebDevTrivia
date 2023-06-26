@@ -1,12 +1,9 @@
-import { useContext } from "react"
-import { GlobalStateContext } from "../store/GlobalContext"
-import Link from "next/link"
 import styled from "styled-components"
-import { Wrapper } from "../styles/GlobalComponents"
 import { breakpoints } from "../styles/breakpoints"
+//import { Wrapper } from "../styles/GlobalComponents"
 
 const FooterContainer = styled.div`
-  background: var(--transparent-light);
+  //background: var(--transparent-light);
   color: white;
 
   ul {
@@ -36,30 +33,8 @@ const FooterContainer = styled.div`
   }
 `
 
-const Help = styled.li`
-  padding: 0.1rem;
-  background-color: var(--primary);
-  border-radius: 50%;
-`
-
 const Footer = () => {
-  const appState = useContext(GlobalStateContext)
-
-  return (
-    <FooterContainer>
-      <Wrapper>
-        <ul>
-          {appState.gameOver && (
-            <Help>
-              <Link href="/support">
-                <a>&#63;{/* Question Mark */}</a>
-              </Link>
-            </Help>
-          )}
-        </ul>
-      </Wrapper>
-    </FooterContainer>
-  )
+  return <FooterContainer>{/* <Wrapper>WebDev Trivia</Wrapper> */}</FooterContainer>
 }
 
 export default Footer
