@@ -1,6 +1,9 @@
 import Document, { DocumentContext, Html, Head, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
 
+import { GA_TRACKING_ID } from "../lib/analytics"
+const isProd = process.env.NODE_ENV === "production"
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
@@ -42,7 +45,25 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
-        <Head />
+        <Head>
+          {isProd && GA_TRACKING_ID && (
+            <>
+              <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `
+                }}
+              />
+            </>
+          )}
+        </Head>
         <body>
           <script dangerouslySetInnerHTML={{ __html: setInitialTheme }}></script>
           <Main />
