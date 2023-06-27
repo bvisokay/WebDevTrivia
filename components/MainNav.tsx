@@ -4,7 +4,6 @@ import { useRouter } from "next/router"
 //import { useContext } from "react"
 //import { GlobalDispatchContext, GlobalStateContext } from "../store/GlobalContext"
 import { BiHelpCircle } from "react-icons/bi"
-import { CX_IconDiv } from "../styles/GlobalComponents"
 
 import dynamic from "next/dynamic"
 const ThemeToggle = dynamic(() => import("./ThemeToggle"), {
@@ -69,12 +68,46 @@ const NavContainer = styled.nav`
     li > a,
     button.main-nav__btn {
       padding: 0.25rem 0.5rem;
+      color: var(--color-text-primary);
     }
   }
 `
 
 const NavIconContainer = styled.div`
   display: flex;
+
+  .link-icon {
+    padding: 2px;
+    //border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.6rem;
+    //line-height: 2rem;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @media ${breakpoints.sm} {
+      //border: 1px solid aqua;
+    }
+
+    @media ${breakpoints.md} {
+      //border: 1px solid hotpink;
+    }
+
+    &:focus {
+      outline-offset: 2px;
+    }
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+  }
 `
 
 const MainNav = () => {
@@ -134,11 +167,11 @@ const MainNav = () => {
 
         <NavIconContainer>
           <ThemeToggle />
-          <CX_IconDiv>
-            <Link href="/support">
+          <Link href="/support">
+            <a className="link-icon">
               <BiHelpCircle />
-            </Link>
-          </CX_IconDiv>
+            </a>
+          </Link>
         </NavIconContainer>
       </ul>
     </NavContainer>

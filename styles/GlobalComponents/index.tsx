@@ -70,6 +70,10 @@ export const FormControl = styled.div<FormControlProps>`
     border: var(--border-width) solid aqua;
     padding: 0.8rem 0;
   }
+
+  input:autofill {
+    background-color: hotpink;
+  }
 `
 
 export const CX_IconDiv = styled.button`
@@ -102,9 +106,6 @@ export const CX_IconDiv = styled.button`
   }
   &:focus:not(:focus-visible) {
     outline: none;
-  }
-  &:hover {
-    box-shadow: var(--box-shadow);
   }
 `
 

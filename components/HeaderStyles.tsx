@@ -4,6 +4,7 @@ import { breakpoints } from "../styles/breakpoints"
 export const HeaderContainer = styled.div`
   background: transparent;
   width: 100%;
+  background-color: var(--color-bg-header);
 `
 
 const Container = styled.div`

@@ -43,6 +43,7 @@ html {
     --color-bg-secondary: #fff;
     --color-bg-tertiary: whitesmoke;
     --color-bg-toggle: var(--primary);
+    --color-bg-header: rgba(255, 255, 255, .5);
   }
   
   body[data-theme="dark"] {
@@ -52,6 +53,7 @@ html {
     --color-bg-secondary: var(--secondary);
     --color-bg-tertiary: #243d4f;
     --color-bg-toggle: var(--tertiary);
+    --color-bg-header: transparent;
   }
   
   body {
