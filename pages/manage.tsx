@@ -16,7 +16,7 @@ import EditQuestionModal from "../components/EditQuestionModal/EditQuestionModal
 import { QuestionOnClientTypes, CategoryObj } from "../lib/types"
 
 // styles
-import { Section, SectionNarrow, ListItem, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
+import { Section, ListItem, SectionTitle2, QuestionCardRow, TitleArea } from "../styles/GlobalComponents"
 import { BtnSmall, IconContainer } from "../styles/GlobalComponents/Button"
 import styled from "styled-components"
 import { breakpoints } from "../styles/breakpoints"
@@ -238,7 +238,13 @@ const AdminPage = (props: AdminPageProps) => {
     <Section>
       {/* <SectionTitle style={{ textAlign: "center" }}>Manage All Categories and Questions</SectionTitle> */}
 
-      <SectionNarrow>
+      <Section
+        style={{
+          backgroundColor: "var(--color-bg-tertiary)",
+          padding: "1rem 1rem .5rem 1rem",
+          maxWidth: "600px"
+        }}
+      >
         <TitleArea>
           <SectionTitle2>Categories ({categories.length})</SectionTitle2>
           <BtnContainer>
@@ -287,14 +293,15 @@ const AdminPage = (props: AdminPageProps) => {
               })}
           </ul>
         )}
-      </SectionNarrow>
+      </Section>
 
       <br />
 
       <Section
         style={{
           backgroundColor: "var(--color-bg-tertiary)",
-          padding: "1rem"
+          padding: "1rem 1rem .5rem 1rem",
+          maxWidth: "600px"
         }}
       >
         <TitleArea>
