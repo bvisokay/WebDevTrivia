@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react"
 import { useImmerReducer } from "use-immer"
 import { GlobalDispatchContext } from "../../store/GlobalContext"
 import { useRouter } from "next/router"
+import Link from "next/link"
 //import NewCategoryForm from "../NewCategoryForm/NewCategoryForm"
 
 // types
@@ -280,112 +281,117 @@ const AddQuestionForm = (props: AddQuestionFormPropTypes) => {
   } */
 
   return (
-    <SectionNarrow>
-      <SectionTitle>Add New Question</SectionTitle>
-      <form onSubmit={newQuestionHandler}>
-        <FormControl light={true}>
-          <label className="split" htmlFor="">
-            Category
-            <BtnSmall onClick={() => void router.push("/addCategory")} style={{ margin: "0 12px", fontSize: ".6rem" }}>
-              Add Category
-            </BtnSmall>
-          </label>
-          {/* {showNewCatForm && <NewCategoryForm />} */}
-          <select
-            autoFocus
-            onChange={e => {
-              dispatch({ type: "categoryImmediately", value: e.target.value })
-            }}
-            name="category"
-            id="category"
-            ref={CategoryInputRef}
-          >
-            <option value="">Make a Selection</option>
+    <>
+      <div style={{ padding: "1rem 0" }}>
+        <Link href="/manage"> &#8592; Back to Manage</Link>
+      </div>
+      <SectionNarrow>
+        <SectionTitle>Add New Question</SectionTitle>
+        <form onSubmit={newQuestionHandler}>
+          <FormControl light={true}>
+            <label className="split" htmlFor="">
+              Category
+              <BtnSmall onClick={() => void router.push("/addCategory")} style={{ margin: "0 12px", fontSize: ".6rem" }}>
+                Add Category
+              </BtnSmall>
+            </label>
+            {/* {showNewCatForm && <NewCategoryForm />} */}
+            <select
+              autoFocus
+              onChange={e => {
+                dispatch({ type: "categoryImmediately", value: e.target.value })
+              }}
+              name="category"
+              id="category"
+              ref={CategoryInputRef}
+            >
+              <option value="">Make a Selection</option>
 
-            {categories.sort().map((category, index) => {
-              return (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              )
-            })}
-          </select>
-          {state.category.hasErrors && <LiveValidateMessage>{state.category.message}</LiveValidateMessage>}
-        </FormControl>
+              {categories.sort().map((category, index) => {
+                return (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                )
+              })}
+            </select>
+            {state.category.hasErrors && <LiveValidateMessage>{state.category.message}</LiveValidateMessage>}
+          </FormControl>
 
-        <FormControl light={true}>
-          <label htmlFor="">Question</label>
-          <textarea
-            value={state.question.value}
-            onChange={e => {
-              dispatch({ type: "questionImmediately", value: e.target.value })
-            }}
-            aria-label="Question"
-            name="question"
-            rows={3}
-            autoComplete="off"
-          />
-          {state.question.hasErrors && <LiveValidateMessage>{state.question.message}</LiveValidateMessage>}
-        </FormControl>
-        <FormControl light={true}>
-          <label htmlFor="correctAnswer">Correct Answer</label>
-          <input
-            value={state.correctAnswer.value}
-            onChange={e => {
-              dispatch({ type: "correctAnswerImmediately", value: e.target.value })
-            }}
-            aria-label="Correct Answer"
-            name="correctAnswer"
-            type="text"
-            autoComplete="off"
-          />
-          {state.correctAnswer.hasErrors && <LiveValidateMessage>{state.correctAnswer.message}</LiveValidateMessage>}
-        </FormControl>
-        <FormControl light={true}>
-          <label htmlFor="incorrectAnswer1">Incorrect Answer 1</label>
-          <input
-            value={state.incorrectAnswer1.value}
-            onChange={e => {
-              dispatch({ type: "incorrectAnswer1Immediately", value: e.target.value })
-            }}
-            aria-label="incorrectAnswer1"
-            name="incorrectAnswer1"
-            type="text"
-            autoComplete="off"
-          />
-          {state.incorrectAnswer1.hasErrors && <LiveValidateMessage>{state.incorrectAnswer1.message}</LiveValidateMessage>}
-        </FormControl>
-        <FormControl light={true}>
-          <label htmlFor="">Incorrect Answer 2</label>
-          <input
-            value={state.incorrectAnswer2.value}
-            onChange={e => {
-              dispatch({ type: "incorrectAnswer2Immediately", value: e.target.value })
-            }}
-            aria-label="incorrectAnswer2"
-            name="incorrectAnswer2"
-            type="text"
-            autoComplete="off"
-          />
-          {state.incorrectAnswer2.hasErrors && <LiveValidateMessage>{state.incorrectAnswer2.message}</LiveValidateMessage>}
-        </FormControl>
-        <FormControl light={true}>
-          <label htmlFor="">Incorrect Answer 3</label>
-          <input
-            value={state.incorrectAnswer3.value}
-            onChange={e => {
-              dispatch({ type: "incorrectAnswer3Immediately", value: e.target.value })
-            }}
-            aria-label="incorrectAnswer3"
-            name="incorrectAnswer3"
-            type="text"
-            autoComplete="off"
-          />
-          {state.incorrectAnswer3.hasErrors && <LiveValidateMessage>{state.incorrectAnswer3.message}</LiveValidateMessage>}
-        </FormControl>
-        <BtnPrimary disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Submit"}</BtnPrimary>
-      </form>
-    </SectionNarrow>
+          <FormControl light={true}>
+            <label htmlFor="">Question</label>
+            <textarea
+              value={state.question.value}
+              onChange={e => {
+                dispatch({ type: "questionImmediately", value: e.target.value })
+              }}
+              aria-label="Question"
+              name="question"
+              rows={3}
+              autoComplete="off"
+            />
+            {state.question.hasErrors && <LiveValidateMessage>{state.question.message}</LiveValidateMessage>}
+          </FormControl>
+          <FormControl light={true}>
+            <label htmlFor="correctAnswer">Correct Answer</label>
+            <input
+              value={state.correctAnswer.value}
+              onChange={e => {
+                dispatch({ type: "correctAnswerImmediately", value: e.target.value })
+              }}
+              aria-label="Correct Answer"
+              name="correctAnswer"
+              type="text"
+              autoComplete="off"
+            />
+            {state.correctAnswer.hasErrors && <LiveValidateMessage>{state.correctAnswer.message}</LiveValidateMessage>}
+          </FormControl>
+          <FormControl light={true}>
+            <label htmlFor="incorrectAnswer1">Incorrect Answer 1</label>
+            <input
+              value={state.incorrectAnswer1.value}
+              onChange={e => {
+                dispatch({ type: "incorrectAnswer1Immediately", value: e.target.value })
+              }}
+              aria-label="incorrectAnswer1"
+              name="incorrectAnswer1"
+              type="text"
+              autoComplete="off"
+            />
+            {state.incorrectAnswer1.hasErrors && <LiveValidateMessage>{state.incorrectAnswer1.message}</LiveValidateMessage>}
+          </FormControl>
+          <FormControl light={true}>
+            <label htmlFor="">Incorrect Answer 2</label>
+            <input
+              value={state.incorrectAnswer2.value}
+              onChange={e => {
+                dispatch({ type: "incorrectAnswer2Immediately", value: e.target.value })
+              }}
+              aria-label="incorrectAnswer2"
+              name="incorrectAnswer2"
+              type="text"
+              autoComplete="off"
+            />
+            {state.incorrectAnswer2.hasErrors && <LiveValidateMessage>{state.incorrectAnswer2.message}</LiveValidateMessage>}
+          </FormControl>
+          <FormControl light={true}>
+            <label htmlFor="">Incorrect Answer 3</label>
+            <input
+              value={state.incorrectAnswer3.value}
+              onChange={e => {
+                dispatch({ type: "incorrectAnswer3Immediately", value: e.target.value })
+              }}
+              aria-label="incorrectAnswer3"
+              name="incorrectAnswer3"
+              type="text"
+              autoComplete="off"
+            />
+            {state.incorrectAnswer3.hasErrors && <LiveValidateMessage>{state.incorrectAnswer3.message}</LiveValidateMessage>}
+          </FormControl>
+          <BtnPrimary disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Submit"}</BtnPrimary>
+        </form>
+      </SectionNarrow>
+    </>
   )
 }
 
