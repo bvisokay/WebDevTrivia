@@ -69,12 +69,19 @@ const NavContainer = styled.nav`
     button.main-nav__btn {
       padding: 0.25rem 0.5rem;
       color: var(--color-text-primary);
+      //border: 1px solid aqua;
     }
   }
 `
 
 const NavIconContainer = styled.div`
+  //border: 1px solid hotpink;
   display: flex;
+  padding: 0.5rem 0;
+
+  @media ${breakpoints.sm} {
+    padding: 0;
+  }
 
   .link-icon {
     padding: 2px;
