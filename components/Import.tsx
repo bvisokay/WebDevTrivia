@@ -13,32 +13,47 @@ import { ImportedAndSetQuestionType, ResponseType } from "../lib/types"
 
 const ImportContainer = styled.div`
   color: var(--color-text-secondary);
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-tertiary);
   border-radius: var(--roundness);
   margin: 3rem auto;
   padding: 1rem;
   box-shadow: var(--box-shadow);
   width: var(--wrapper-width-narrow);
-  border: 2px solid var(--primary);
+  border: var(--border-width) solid var(--primary);
+  font-size: var(--font-size-sm);
+
+  li {
+    margin-left: 2rem;
+    padding: 0.1rem;
+    list-style-type: circle;
+  }
+
+  li:first-child {
+    margin-top: 1rem;
+  }
 
   input {
     cursor: pointer;
-    border: 2px solid var(--primary);
+    border: var(--border-width) solid var(--primary);
     box-shadow: var(--box-shadow);
     border-radius: var(--roundness);
     font-size: 0.675rem;
     padding: 0.5rem;
-    margin: 0.5rem 0.25rem 0.25rem 0.25rem;
+    margin: 1rem 0.25rem 1rem 0.25rem;
 
     @media ${breakpoints.sm} {
       font-size: 0.9rem;
     }
   }
 
-  h2,
+  /*  h2,
   p {
     margin-left: 0.5rem;
   }
+
+  ul {
+    font-size: var(--font-size-sm);
+  } */
 `
 
 const Import = () => {
@@ -187,7 +202,15 @@ const Import = () => {
     <ImportContainer>
       <h2>Import Questions</h2>
       <p>Uploading Questions via a CSV file is suppported.</p>
-      <p>To ensure a successful import, please have the following column headings: category, question, correct_answer, incorrect_answer_1, incorrrect_answer_2, incorrect_answer_3</p>
+      <ul>
+        To ensure a successful import, please have the following column headings:
+        <li>category</li>
+        <li>question</li>
+        <li>correct_answer</li>
+        <li>incorrect_answer_1</li>
+        <li>incorrrect_answer_2</li>
+        <li>incorrect_answer_3</li>
+      </ul>
       <input disabled={uploading} type="file" ref={inputRef} onChange={e => e.target.value} />
       <BtnPrimary onClick={importCsvHandler} disabled={uploading}>
         {uploading ? "Importing..." : "Import"}
