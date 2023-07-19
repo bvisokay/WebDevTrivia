@@ -15,10 +15,14 @@ export const FormControl = styled.div<FormControlProps>`
   z-index: 2;
 
   label {
-    font-size: 1rem;
+    font-size: 0.85rem;
     padding: 0;
     display: flex;
     align-items: center;
+
+    @media ${breakpoints.xs} {
+      font-size: 1rem;
+    }
 
     &.split {
       justify-content: space-between;
@@ -62,6 +66,11 @@ export const FormControl = styled.div<FormControlProps>`
       border: 0;
       outline: var(--border-width) solid var(--cuatro);
     }
+  }
+
+  input {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
   }
 
   option {
