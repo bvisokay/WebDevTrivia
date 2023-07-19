@@ -32,8 +32,8 @@ html {
   --font-size-sm: .8rem;
   --font-size-md: .9rem;
   --box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.175);
-  --border-width: 1px;
-  --roundness: .25rem;
+  --border-width: 2px;
+  --roundness: .375rem;
 }
 
   body[data-theme="light"] {
@@ -44,6 +44,8 @@ html {
     --color-bg-tertiary: whitesmoke;
     --color-bg-toggle: var(--primary);
     --color-bg-header: rgba(255, 255, 255, .5);
+    --msg-color: white;
+    --msg-bg-color: #ff6700;
   }
   
   body[data-theme="dark"] {
@@ -54,6 +56,8 @@ html {
     --color-bg-tertiary: #243d4f;
     --color-bg-toggle: var(--tertiary);
     --color-bg-header: transparent;
+    --msg-color: white;
+    --msg-bg-color:  #ff6700;
   }
   
   body {

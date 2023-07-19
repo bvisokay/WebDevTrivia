@@ -1,39 +1,34 @@
 import React, { useContext, useEffect } from "react"
 import { GlobalStateContext, GlobalDispatchContext } from "../store/GlobalContext"
 import styled from "styled-components"
-//import { FaWindowClose } from "react-icons/fa"
-import { breakpoints } from "../styles/breakpoints"
+import { FaWindowClose } from "react-icons/fa"
 
 const FlashMessageContainer = styled.div`
-  //border: 2px solid salmon;
+  width: 80%;
+  max-width: 450px;
   border-radius: var(--roundness);
   position: absolute;
-  width: 100%;
-  max-width: 96%;
   display: block;
   margin: 0 auto;
   left: 50%;
   transform: translateX(-50%);
   top: 160px;
   z-index: 999;
-
-  @media ${breakpoints.sm} {
-    max-width: var(--wrapper-width-narrow);
-  }
 `
 
 const FlashMessageBox = styled.div`
   --animation-time: 10s;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 999;
-  background-color: #fff;
-  border: 2px solid var(--primary);
+  background-color: var(--msg-bg-color);
+  border: var(--border-width) solid var(--primary);
   border-radius: var(--roundness);
   margin: 0.5rem 0;
   padding: 1rem 1rem;
-  color: var(--primary);
+  color: var(--msg-color);
   font-weight: bold;
 
   button {
@@ -42,22 +37,22 @@ const FlashMessageBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid transparent;
+    border: var(--border-width) solid transparent;
     border-radius: var(--roundness);
-    background-color: var(--primary);
+    background-color: transparent;
     color: white;
     font-size: 0.7rem;
     padding: 0 0.15rem;
     font-weight: 700;
     svg {
-      font-size: 1.25rem;
-      fill: red;
+      font-size: 1.5rem;
+      fill: var(--msg-color);
     }
     :hover {
       cursor: pointer;
     }
     :focus {
-      outline: 2px solid black;
+      outline: var(--border-width) solid var(--msg-color);
       border-radius: var(--roundness);
     }
   }
@@ -69,22 +64,34 @@ const FlashMessages: React.FC = () => {
 
   const hideFlashMsgHandler = (e: React.MouseEvent) => {
     e.preventDefault()
-    console.log("triggered")
 
-    const msgToDelete = (e.target as HTMLElement).previousElementSibling?.textContent as string
+    // targeting the actual message content to close
+    let msgToDelete = (e.target as HTMLElement).previousElementSibling?.textContent as string
+
+    // if the button is clicked via keyboard the msg is the sibling
     if (typeof msgToDelete !== "undefined") {
-      console.log("msgToDelete")
-      console.log(msgToDelete)
+      appDispatch({ type: "removeFlashMessage", value: msgToDelete })
+    }
+
+    // but if the icon is clicked the msg is the sibling of the icons's parent
+    if (typeof msgToDelete === "undefined") {
+      msgToDelete = (e.target as HTMLElement).parentElement?.previousElementSibling?.textContent as string
+      appDispatch({ type: "removeFlashMessage", value: msgToDelete })
+    }
+
+    // but if this doesn't work it may be the path of the svg was clicked?!
+    if (typeof msgToDelete === "undefined") {
+      msgToDelete = (e.target as HTMLElement).parentElement?.parentElement?.previousElementSibling?.textContent as string
       appDispatch({ type: "removeFlashMessage", value: msgToDelete })
     }
   }
 
-  // pretty abrupt entry and exit so animate soon
+  // pretty abrupt entry and exit so animate
   useEffect(() => {
     if (appState.flashMessages) {
       const timer = setTimeout(() => {
         appDispatch({ type: "clearFlashMessages" })
-      }, 3000)
+      }, 4000)
 
       return () => {
         clearTimeout(timer)
@@ -98,7 +105,9 @@ const FlashMessages: React.FC = () => {
         return (
           <FlashMessageBox key={index}>
             <span>{msg}</span>
-            <button onClick={hideFlashMsgHandler}>X</button>
+            <button aria-label="close message" onClick={hideFlashMsgHandler}>
+              <FaWindowClose />
+            </button>
           </FlashMessageBox>
         )
       })}
