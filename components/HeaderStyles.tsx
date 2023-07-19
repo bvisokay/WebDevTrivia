@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: space-between;
   color: var(--color-text-primary);
   font-family: var(--font-secondary);
-  padding: 0.5rem;
+  padding: 0.5rem 1.5rem;
   max-width: var(--wrapper-width);
   margin: 0 auto;
 
