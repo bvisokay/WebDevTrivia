@@ -7,6 +7,7 @@ import { GlobalStateContext } from "../store/GlobalContext"
 const Wrapper = styled.div<Percentage>`
   width: 80%;
   max-width: 450px;
+  overflow: hidden;
   background-color: var(--color-bg-primary);
   border-radius: var(--roundness);
   border: var(--border-width) solid ${props => (props.percentage >= 70 ? "var(--green)" : "var(--red)")};
@@ -24,6 +25,7 @@ const Wrapper = styled.div<Percentage>`
     line-height: 1;
     color: var(--color-text-primary);
     font-size: 2rem;
+    text-align: center;
   }
 
   h3 {
