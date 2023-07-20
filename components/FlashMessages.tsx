@@ -91,7 +91,7 @@ const FlashMessages: React.FC = () => {
     if (appState.flashMessages) {
       const timer = setTimeout(() => {
         appDispatch({ type: "clearFlashMessages" })
-      }, 4000)
+      }, 5000)
 
       return () => {
         clearTimeout(timer)
