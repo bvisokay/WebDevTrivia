@@ -176,7 +176,7 @@ const SupportForm: React.FC = () => {
       }
     } catch (err) {
       appDispatch({ type: "flashMessage", value: "There was a problem" })
-      console.warn("Error: ", err)
+      console.warn("Error caught: ", err)
       throw { message: "error", errors: err }
     }
   }

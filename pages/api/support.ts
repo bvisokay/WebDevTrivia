@@ -98,13 +98,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //error handling for adding a new category
     try {
       await client.db().collection("support").insertOne(dataToStore)
-      void client.close()
-      res.status(201).json({ message: "success" })
+      if (client) {
+        void client.close()
+      }
+      return res.status(201).json({ message: "success" })
     } catch (error) {
-      void client.close()
-      res.status(422).json({ message: "error" })
+      if (client) {
+        void client.close()
+      }
+      return res.status(422).json({ message: "error" })
     }
-
-    if (client) void client.close()
   }
 } // end handler function
