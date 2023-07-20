@@ -31,22 +31,17 @@ const CategoryBtn = styled.button`
   padding: 0.75rem 0.5rem;
 
   :hover {
-    //border-bottom: 2px solid var(--primary);
     cursor: pointer;
   }
 `
 
 const BtnContainer = styled.div`
-  //border: 1px solid hotpink;
   display: flex;
   align-items: center;
   justify-content: center;
-  //min-width: 100px;
-  //margin: 0 auto;
   color: white;
 
   @media ${breakpoints.sm} {
-    //border: 1px solid crimson;
     margin: 0 0 0 0.5rem;
   }
 
@@ -124,9 +119,6 @@ interface AdminPageProps {
 
 const AdminPage = (props: AdminPageProps) => {
   const [isCatsMenuOpen, setIsCatsMenuOpen] = useState(false)
-  //categories state
-  /* const [isLoading, setIsLoading] = useState(true)
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true) */
   const [categories, setCategories] = useState<CategoryObj[]>(props.categoryData)
   const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false)
   const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] = useState(false)
@@ -381,24 +373,6 @@ const AdminPage = (props: AdminPageProps) => {
                 </QuestionCardRow>
               )
             })}
-          {/*    {allQuestions.map((questionObj: any) => {
-          return (
-            <QuestionCardRow key={questionObj.id}>
-              <div>
-                <div>
-                  <p>
-                    <strong>Q: </strong>
-                    {questionObj.question}
-                  </p>
-                </div>
-              </div>
-              <BtnContainer>
-                <BtnSmall onClick={EditQuestionHandler.bind(null, questionObj)}>Edit</BtnSmall>
-                <BtnSmall onClick={DeleteQuestionHandler.bind(null, questionObj)}>Delete</BtnSmall>
-              </BtnContainer>
-            </QuestionCardRow>
-          )
-        })} */}
         </ul>
       </Section>
 
