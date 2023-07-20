@@ -15,10 +15,10 @@ const ImportContainer = styled.div`
   color: var(--color-text-secondary);
   background-color: var(--color-bg-tertiary);
   border-radius: var(--roundness);
-  margin: 3rem auto;
+  margin: 3rem 1rem;
   padding: 1rem;
   box-shadow: var(--box-shadow);
-  width: var(--wrapper-width-narrow);
+  width: var(--wrapper-width--narrow);
   border: var(--border-width) solid var(--primary);
   font-size: var(--font-size-sm);
 
